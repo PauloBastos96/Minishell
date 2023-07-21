@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/07/21 13:23:02 by paulorod         ###   ########.fr       */
+/*   Created: 2023/07/21 13:09:54 by paulorod          #+#    #+#             */
+/*   Updated: 2023/07/21 13:57:46 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-# define PROMPT "minishell$ "
+//TODO This is working for simple text after the command
+//TODO but it still needs to handle content from variables/files
+/*Builtin echo command*/
+void	ft_echo(char *command)
+{
+	int	i;
 
-# include "Libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-
-void	ft_echo(char *command);
-
-#endif
+	i = 5;
+	while (command[i] == ' ')
+		i++;
+	while (command[i])
+	{
+		write(1, &command[i], 1);
+		i++;
+	}
+}
