@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   builtin_clear.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/21 15:23:21 by paulorod          #+#    #+#             */
-/*   Updated: 2023/07/21 16:22:30 by paulorod         ###   ########.fr       */
+/*   Created: 2023/07/21 16:18:31 by paulorod          #+#    #+#             */
+/*   Updated: 2023/07/21 16:22:16 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*Builtin pwd command*/
-void	ft_pwd(void)
+/*Builtin clear command*/
+void	ft_clear(void)
 {
-	char	*pwd;
-
-	pwd = getcwd(NULL, 0);
-	printf("%s\n", pwd);
-	free(pwd);
+	write(1, "\e[1;1H\e[2J", 11);
 }

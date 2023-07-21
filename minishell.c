@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/07/21 15:26:07 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/07/21 16:20:03 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,12 @@ void	handle_builtins(char *command)
 	add_history(command);
 	if (ft_strncmp(command, "echo ", 5) == 0)
 		ft_echo(command);
-	if (ft_strncmp(command, "pwd", ft_strlen(command)) == 0)
+	else if (ft_strncmp(command, "pwd", ft_strlen(command)) == 0)
 		ft_pwd();
+	else if (ft_strncmp(command, "cd ", 3) == 0)
+		ft_cd(command);
+	else if (ft_strncmp(command, "clear", ft_strlen(command)) == 0)
+		ft_clear();
 	else if (ft_strncmp(command, "exit", ft_strlen(command)) == 0)
 	{
 		free(command);

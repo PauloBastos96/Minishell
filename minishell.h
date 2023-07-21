@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/07/21 15:26:03 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/07/21 16:19:27 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,7 @@
 
 void	ft_echo(char *command);
 void	ft_pwd(void);
+void	ft_cd(char *path);
+void	ft_clear(void);
 
 #endif
