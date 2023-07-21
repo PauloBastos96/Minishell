@@ -6,17 +6,20 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/07/21 13:52:38 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/07/21 15:26:07 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*Handle builtin commands*/
 void	handle_builtins(char *command)
 {
 	add_history(command);
 	if (ft_strncmp(command, "echo ", 5) == 0)
 		ft_echo(command);
+	if (ft_strncmp(command, "pwd", ft_strlen(command)) == 0)
+		ft_pwd();
 	else if (ft_strncmp(command, "exit", ft_strlen(command)) == 0)
 	{
 		free(command);
