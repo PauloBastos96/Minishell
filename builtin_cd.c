@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 15:49:13 by paulorod          #+#    #+#             */
-/*   Updated: 2023/07/24 13:24:48 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:26:51 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,11 @@ static char	*get_home_path(char *path)
 void	ft_cd(char *command)
 {
 	char	*path;
-	bool	can_free;
 
-	can_free = true;
 	path = ft_strtrim(command, "cd ");
 	if (ft_strncmp(path, "~", 1) == 0)
 		path = get_home_path(path);
 	if (chdir(path) == -1)
 		perror(NULL);
-	if (can_free)
-		free(path);
+	free(path);
 }
