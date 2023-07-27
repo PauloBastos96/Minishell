@@ -6,14 +6,14 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/07/21 16:20:03 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/07/27 15:52:45 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*Handle builtin commands*/
-void	handle_builtins(char *command)
+void	handle_builtins(char *command, char **env)
 {
 	add_history(command);
 	if (ft_strncmp(command, "echo ", 5) == 0)
@@ -24,6 +24,8 @@ void	handle_builtins(char *command)
 		ft_cd(command);
 	else if (ft_strncmp(command, "clear", ft_strlen(command)) == 0)
 		ft_clear();
+	else if (ft_strncmp(command, "env", ft_strlen(command)) == 0)
+		ft_env(env);
 	else if (ft_strncmp(command, "exit", ft_strlen(command)) == 0)
 	{
 		free(command);
@@ -34,7 +36,7 @@ void	handle_builtins(char *command)
 
 //Start shell
 //!readline has memory leaks that don't have to be fixed
-int	main(void)
+int	main(int argc, char **argv, char **env)
 {
 	char	*command;
 
@@ -42,10 +44,12 @@ int	main(void)
 	{
 		command = readline(PROMPT);
 		if (ft_strlen(command) > 0)
-			handle_builtins(command);
+			handle_builtins(command, env);
 		free(command);
 	}
 	if (command)
 		free(command);
+	(void)argc;
+	(void)argv;
 	return (0);
 }
