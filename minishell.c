@@ -6,49 +6,59 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/07/27 15:52:45 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/07/28 16:00:24 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*Search PATH for command, or use direct path, and run it*/
+void	run_command(char *cmd, char **env)
+{
+	if (execve(cmd, (char *const *)"-l", env) == -1)
+		perror(NULL);
+}
+
 /*Handle builtin commands*/
-void	handle_builtins(char *command, char **env)
+void	handle_builtins(char *command, t_list **env_lst, char **env)
 {
 	add_history(command);
 	if (ft_strncmp(command, "echo ", 5) == 0)
 		ft_echo(command);
-	else if (ft_strncmp(command, "pwd", ft_strlen(command)) == 0)
+	else if (ft_strcmp(command, "pwd") == 0)
 		ft_pwd();
 	else if (ft_strncmp(command, "cd ", 3) == 0)
 		ft_cd(command);
-	else if (ft_strncmp(command, "clear", ft_strlen(command)) == 0)
+	else if (ft_strcmp(command, "clear") == 0)
 		ft_clear();
-	else if (ft_strncmp(command, "env", ft_strlen(command)) == 0)
-		ft_env(env);
-	else if (ft_strncmp(command, "exit", ft_strlen(command)) == 0)
+	else if (ft_strcmp(command, "env") == 0)
+		ft_env(env_lst);
+	else if (ft_strcmp(command, "exit") == 0)
 	{
 		free(command);
+		clear_env_list(env_lst);
 		rl_clear_history();
 		exit(0);
 	}
+	else
+		run_command(command, env);
 }
 
 //Start shell
 //!readline has memory leaks that don't have to be fixed
 int	main(int argc, char **argv, char **env)
 {
-	char	*command;
+	char			*command;
+	static t_list	**env_list;
 
+	env_list = new_env_list(env);
 	while (true)
 	{
 		command = readline(PROMPT);
 		if (ft_strlen(command) > 0)
-			handle_builtins(command, env);
+			handle_builtins(command, env_list, env);
 		free(command);
 	}
-	if (command)
-		free(command);
 	(void)argc;
 	(void)argv;
 	return (0);

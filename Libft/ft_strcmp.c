@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/07/28 14:44:03 by paulorod         ###   ########.fr       */
+/*   Created: 2023/07/28 15:38:13 by paulorod          #+#    #+#             */
+/*   Updated: 2023/07/28 15:39:05 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# define PROMPT "minishell$ "
+//Compare two strings
+//Return 0 if equal, positive if s1 > s2, negative if s1 < s2
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	unsigned char	*c1;
+	unsigned char	*c2;
+	unsigned int	i;
 
-# include "Libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-
-void	ft_echo(char *command);
-void	ft_pwd(void);
-void	ft_cd(char *path);
-void	ft_clear(void);
-void	ft_env(t_list **env_list);
-t_list	**new_env_list(char **env);
-void	clear_env_list(t_list **env_list);
-
-#endif
+	i = 0;
+	c1 = (unsigned char *) s1;
+	c2 = (unsigned char *) s2;
+	while (c1[i])
+	{
+		if (c1[i] == c2[i])
+			i++;
+		else
+			return (c1[i] - c2[i]);
+	}
+	return (c1[i] - c2[i]);
+}

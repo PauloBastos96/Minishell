@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:09:54 by paulorod          #+#    #+#             */
-/*   Updated: 2023/07/21 13:57:46 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/07/28 13:28:48 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,5 @@ void	ft_echo(char *command)
 		write(1, &command[i], 1);
 		i++;
 	}
+	write(1, "\n", 1);
 }
