@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vpacheco <vpacheco@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/21 15:23:21 by paulorod          #+#    #+#             */
-/*   Updated: 2023/07/21 16:22:30 by paulorod         ###   ########.fr       */
+/*   Created: 2023/07/22 19:55:45 by vpacheco          #+#    #+#             */
+/*   Updated: 2023/08/02 17:51:15 by vpacheco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef SHELL_H
+# define SHELL_H
 
-/*Builtin pwd command*/
-void	ft_pwd(void)
+# include "list.h"
+# include "builtins.h"
+
+typedef struct s_shell	t_shell;
+
+//list for env
+struct s_shell
 {
-	char	*pwd;
+	char		**env;
+	int			status;
+	t_cmd		*cmd;
+};
 
-	pwd = getcwd(NULL, 0);
-	printf("%s\n", pwd);
-	free(pwd);
-}
+#endif
