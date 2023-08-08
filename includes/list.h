@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   list.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/21 15:23:21 by paulorod          #+#    #+#             */
-/*   Updated: 2023/07/21 16:22:30 by paulorod         ###   ########.fr       */
+/*   Created: 2023/07/22 18:54:57 by vpacheco          #+#    #+#             */
+/*   Updated: 2023/08/08 12:59:57 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef LIST_H
+# define LIST_H
 
-/*Builtin pwd command*/
-void	ft_pwd(void)
+# include "builtins.h"
+# include "../Libft/libft.h"
+
+typedef struct s_cmd	t_cmd;
+
+//comand list
+struct s_cmd
 {
-	char	*pwd;
+	int		output;
+	int		input;
+	char	*path;
+	char	**cmd;
+	t_cmd	*next;
+};
 
-	pwd = getcwd(NULL, 0);
-	printf("%s\n", pwd);
-	free(pwd);
-}
+#endif
