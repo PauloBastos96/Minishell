@@ -6,28 +6,35 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:00:41 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/08 12:56:39 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/08 16:07:41 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/list.h"
+#include "../../includes/list.h"
+#include "../../minishell.h"
 
-//builtin_fd "feito por ti"
-int	ft_cd(t_cmd *cmd, char **env)
+//Builtin cd command
+int	ft_cd(t_cmd *cmd)
 {
 	char	*path;
 
-	path = ft_strtrim(cmd->cmd, "cd ");
+	path = cmd->cmd[1];
+	if (!path)
+		return (1);
 	if (ft_strncmp(path, "~", 1) == 0)
 		path = get_home_path(path);
 	if (chdir(path) == -1)
+	{
 		perror(NULL);
-	free(path);
+		return (1);
+	}
+	return (0);
 }
 
-//builtin env "eu vi o teu mas como já tinha
+//Builtin env command
+//"eu vi o teu mas como já tinha
 //este feito depois é só ver qual usamos"
-int	env(t_cmd *cmd, char **env, int output)
+int	ft_env(t_cmd *cmd, char **env, int output)
 {
 	int	i;
 
@@ -44,11 +51,13 @@ int	env(t_cmd *cmd, char **env, int output)
 	return (0);
 }
 
-//builtin echo
-int	echo(t_cmd *cmd, int output)
+/*Builtin echo command*/
+int	ft_echo(t_cmd *cmd, int output)
 {
 	int	i;
 
+	if (!cmd->cmd[1])
+		return (0);
 	i = 0 + (ft_strncmp("-n", cmd->cmd[1], 3) == 0);
 	while (cmd->cmd[++i])
 	{
@@ -61,7 +70,7 @@ int	echo(t_cmd *cmd, int output)
 	return (0);
 }
 
-//builtin pwd
+/*Builtin pwd command*/
 int	ft_pwd(int output)
 {
 	char	*pwd;
@@ -75,4 +84,10 @@ int	ft_pwd(int output)
 	print_fd(pwd, output, NULL);
 	free(pwd);
 	return (0);
+}
+
+/*Builtin clear command*/
+void	ft_clear(void)
+{
+	write(1, "\e[1;1H\e[2J", 11);
 }

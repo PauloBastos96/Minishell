@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpacheco <vpacheco@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:38:12 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/02 17:48:07 by vpacheco         ###   ########.fr       */
+/*   Updated: 2023/08/08 14:01:28 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/list.h"
+#include "../../includes/list.h"
 
-//função que fizeste
-static char	*get_home_path(char *path)
+//Get home home path
+char	*get_home_path(char *path)
 {
 	char	*home_path;
 	char	*tmp;
