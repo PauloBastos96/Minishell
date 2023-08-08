@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/08 16:09:58 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/08 16:27:48 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,13 @@ int	main(int argc, char **argv, char **env)
 	{
 		command = readline(PROMPT);
 		add_history(command);
-		if (ft_strlen(command) > 0)
-			cmd = command_parser(command);
-		handle_builtins(cmd, env);
-		free(command);
+		if (command && *command)
+		{
+			if (ft_strlen(command) > 0)
+				cmd = command_parser(command);
+			handle_builtins(cmd, env);
+			free(command);
+		}
 	}
 	(void)argc;
 	(void)argv;

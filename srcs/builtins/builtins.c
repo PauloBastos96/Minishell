@@ -6,11 +6,12 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:00:41 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/08 16:07:41 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/08 16:23:06 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/list.h"
+#include "../../includes/builtins.h"
 #include "../../minishell.h"
 
 //Builtin cd command
