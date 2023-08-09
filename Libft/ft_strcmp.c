@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/22 18:58:53 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/08 16:23:34 by paulorod         ###   ########.fr       */
+/*   Created: 2023/07/28 15:38:13 by paulorod          #+#    #+#             */
+/*   Updated: 2023/07/28 15:39:05 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "libft.h"
 
-# include "list.h"
-# include "../minishell.h"
-# include <readline/readline.h>
-# include <readline/history.h>
+//Compare two strings
+//Return 0 if equal, positive if s1 > s2, negative if s1 < s2
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	unsigned char	*c1;
+	unsigned char	*c2;
+	unsigned int	i;
 
-char	*get_home_path(char *path);
-int		ft_echo(t_cmd *cmd, int output);
-int		ft_pwd(int output);
-int		ft_cd(t_cmd *cmd);
-int		ft_env(t_cmd *cmd, char **env, int output);
-void	ft_clear(void);
-
-#endif
+	i = 0;
+	c1 = (unsigned char *) s1;
+	c2 = (unsigned char *) s2;
+	while (c1[i])
+	{
+		if (c1[i] == c2[i])
+			i++;
+		else
+			return (c1[i] - c2[i]);
+	}
+	return (c1[i] - c2[i]);
+}

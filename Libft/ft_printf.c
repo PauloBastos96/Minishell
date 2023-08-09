@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 15:36:32 by paulorod          #+#    #+#             */
-/*   Updated: 2023/05/25 14:07:07 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/08 15:58:58 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	ft_print_parse(int expected_args, char *fmt, va_list args)
 			{
 				if ((fmt[i - 1] != '%' && is_format_char(fmt[i]))
 					|| !is_format_char(fmt[i]))
-						w_bytes += ft_print_char(fmt[i]);
+					w_bytes += ft_print_char(fmt[i]);
 			}
 			ft_print_invalid_format(fmt, &w_bytes, &i);
 			w_bytes += ft_print_formats(fmt, i, args);

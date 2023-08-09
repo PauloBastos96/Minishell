@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/22 18:58:53 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/08 16:23:34 by paulorod         ###   ########.fr       */
+/*   Created: 2023/07/27 15:52:56 by paulorod          #+#    #+#             */
+/*   Updated: 2023/08/08 16:09:47 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "minishell.h"
 
-# include "list.h"
-# include "../minishell.h"
-# include <readline/readline.h>
-# include <readline/history.h>
+/*This function is not in use for now*/
+void	ft_env_not_in_use(t_list **env_list)
+{
+	t_list	*env;
 
-char	*get_home_path(char *path);
-int		ft_echo(t_cmd *cmd, int output);
-int		ft_pwd(int output);
-int		ft_cd(t_cmd *cmd);
-int		ft_env(t_cmd *cmd, char **env, int output);
-void	ft_clear(void);
-
-#endif
+	env = *env_list;
+	while (env)
+	{
+		printf("%s\n", (char *)env->content);
+		env = env->next;
+	}
+}

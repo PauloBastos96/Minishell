@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpacheco <vpacheco@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/02 17:59:45 by vpacheco         ###   ########.fr       */
+/*   Updated: 2023/08/09 13:45:08 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 # define MINISHELL_H
 
 # define PROMPT "minishell$ "
+# define _GNU_SOURCE
 
+# include <signal.h>
 # include "Libft/libft.h"
-#include "includes/list.h"
-# include <readline/readline.h>
-# include <readline/history.h>
+# include "includes/list.h"
+# include "includes/builtins.h"
 
-void	ft_echo(t_cmd *cmd, int output);
-void	ft_pwd(int output);
-void	ft_cd(t_cmd *cmd, char **env);
-void	ft_env(t_cmd *cmd, char **env, int output);
-void	ft_clear(void);
+t_list	**new_env_list(char **env);
+void	clear_env_list(t_list **env_list);
 int		print_fd(char *error, char fd, char *name);
+char	**alloc_cmd(char *command);
+int		register_signals(void);
 
 #endif
