@@ -1,8 +1,20 @@
-SRCS	=	
-			
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/08/09 15:23:17 by paulorod          #+#    #+#              #
+#    Updated: 2023/08/09 15:23:35 by paulorod         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+SRCS	=
+
 OBJS	= $(SRCS:.c=.o)
 
-NAME	= philo
+NAME	= minishell
 
 CC		= cc
 
@@ -12,14 +24,13 @@ RM		= rm -rf
 
 all: $(NAME)
 
-$(NAME): $(OBJS) 
+$(NAME): $(OBJS)
 		$(CC) $(CFLAGS) $^ -o $@
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $^ -o $@
 
-
-clean: 
+clean:
 	$(RM) $(OBJS)
 
 fclean: clean

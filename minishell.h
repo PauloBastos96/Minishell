@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/09 13:45:08 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/09 15:12:15 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # define _GNU_SOURCE
 
 # include <signal.h>
+# include <sys/wait.h>
+# include <sys/types.h>
 # include "Libft/libft.h"
 # include "includes/list.h"
 # include "includes/builtins.h"

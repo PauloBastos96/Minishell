@@ -6,17 +6,35 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/09 13:45:12 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/09 16:24:59 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*Search PATH for command, or use direct path, and run it*/
-void	run_command(char *cmd, char **env)
+void	run_command(t_cmd *cmd, char **env)
 {
-	if (execve(cmd, (char *const *)"-l", env) == -1)
-		perror(NULL);
+	char	*path;
+	int		status;
+	pid_t	pid;
+
+	if (ft_strchr(cmd->cmd[0], '/'))
+		path = cmd->cmd[0];
+	else
+		path = ft_strjoin("/usr/bin/", cmd->cmd[0]);
+	pid = fork();
+	if (pid == 0)
+	{
+		if (execve(path, (char *const *)cmd->cmd[1], env) == -1)
+			perror(NULL);
+	}
+	else
+	{
+		wait(&status);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+	}
 }
 
 /*Handle builtin commands*/
@@ -40,6 +58,8 @@ void	handle_builtins(t_cmd *cmd, char **env)
 		rl_clear_history();
 		exit(0);
 	}
+	else
+		run_command(cmd, env);
 }
 
 /*Create command struct*/
@@ -111,7 +131,6 @@ int	main(int argc, char **argv, char **env)
 	while (true)
 	{
 		command = readline(PROMPT);
-		add_history(command);
 		if (!command)
 		{
 			printf("exit\n");
@@ -119,6 +138,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		if (*command)
 		{
+			add_history(command);
 			if (ft_strlen(command) > 0)
 				cmd = command_parser(command);
 			handle_builtins(cmd, env);
