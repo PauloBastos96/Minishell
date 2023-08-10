@@ -6,35 +6,23 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/09 16:24:59 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/10 16:20:30 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+bool	g_using_sub_process = false;
+
 /*Search PATH for command, or use direct path, and run it*/
 void	run_command(t_cmd *cmd, char **env)
 {
-	char	*path;
-	int		status;
-	pid_t	pid;
-
 	if (ft_strchr(cmd->cmd[0], '/'))
-		path = cmd->cmd[0];
+		cmd->path = cmd->cmd[0];
 	else
-		path = ft_strjoin("/usr/bin/", cmd->cmd[0]);
-	pid = fork();
-	if (pid == 0)
-	{
-		if (execve(path, (char *const *)cmd->cmd[1], env) == -1)
-			perror(NULL);
-	}
-	else
-	{
-		wait(&status);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-	}
+		cmd->path = search_command_path(cmd->cmd[0]);
+	if (cmd->path)
+		create_command_process(cmd, env);
 }
 
 /*Handle builtin commands*/
@@ -126,8 +114,7 @@ int	main(int argc, char **argv, char **env)
 	char	*command;
 	t_cmd	*cmd;
 
-	if (register_signals() == 1)
-		return (1);
+	register_signals();
 	while (true)
 	{
 		command = readline(PROMPT);

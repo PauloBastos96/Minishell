@@ -1,46 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/22 19:59:38 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/10 16:17:41 by paulorod         ###   ########.fr       */
+/*   Created: 2023/08/10 15:15:57 by paulorod          #+#    #+#             */
+/*   Updated: 2023/08/10 15:43:06 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../includes/shell.h"
 #include "../../minishell.h"
 
-//Print error to fd
-int	print_fd(char *error, char fd, char *name)
+/*Handle SIGINT and SIGQUIT*/
+static void	signal_handler(int signum)
 {
-	if (name)
+	if (signum == SIGINT && !g_using_sub_process)
 	{
-		write(fd, name, ft_strlen(name));
-		write(fd, ": ", 2);
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
-	write(fd, error, ft_strlen(error));
-	write(fd, "\n", 1);
-	return (1);
 }
 
-/*Allocate memory for the command struct*/
-char	**alloc_cmd(char *command)
+/*Register signals with signal handler*/
+void	register_signals(void)
 {
-	char	**cmd;
-	int		size;
-	int		i;
-
-	size = 1;
-	i = 0;
-	while (command[i])
-	{
-		if (command[i] == ' ')
-			size++;
-		i++;
-	}
-	cmd = ft_calloc(sizeof(cmd), size + 1);
-	return (cmd);
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 }
