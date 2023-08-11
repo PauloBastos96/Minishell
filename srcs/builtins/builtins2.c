@@ -1,42 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/02 17:38:12 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/11 13:07:31 by paulorod         ###   ########.fr       */
+/*   Created: 2023/08/11 12:49:20 by paulorod          #+#    #+#             */
+/*   Updated: 2023/08/11 13:07:33 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/list.h"
+#include "../../includes/builtins.h"
+#include "../../minishell.h"
 
-//Get home home path
-char	*get_home_path(char *path)
+/*Builtin exit command*/
+void	ft_exit(t_cmd *cmd)
 {
-	char	*home_path;
-	char	*tmp;
+	int	exit_code;
 
-	home_path = getenv("HOME");
-	tmp = ft_strtrim(path, "~");
-	free(path);
-	path = ft_strjoin(home_path, tmp);
-	free(tmp);
-	return (path);
-}
-
-/*Check if the exit code argument is valid*/
-bool	is_exit_code_valid(char	*str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
+	exit_code = 0;
+	if (cmd->cmd[1])
 	{
-		if (!ft_isdigit(str[i]) && str[i] != '-' && str[i] != '+')
-			return (false);
-		i++;
+		if (is_exit_code_valid(cmd->cmd[1]))
+			exit_code = ft_atoi(cmd->cmd[1]);
+		else
+		{
+			printf("exit: %s: numeric argument required\n", cmd->cmd[1]);
+			return ;
+		}
 	}
-	return (true);
+	free(cmd->cmd);
+	rl_clear_history();
+	exit(exit_code);
 }

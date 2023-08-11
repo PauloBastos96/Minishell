@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:00:41 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/08 16:23:06 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/11 13:12:24 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,15 @@ int	ft_echo(t_cmd *cmd, int output)
 }
 
 /*Builtin pwd command*/
-int	ft_pwd(int output)
+int	ft_pwd(t_cmd *cmd, int output)
 {
 	char	*pwd;
 
+	if (cmd->cmd[1])
+	{
+		print_fd("too many arguments", 2, "pwd");
+		return (1);
+	}
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{

@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/10 16:20:30 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/11 13:13:35 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	handle_builtins(t_cmd *cmd, char **env)
 	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
 		ft_echo(cmd, 1);
 	else if (ft_strcmp(cmd->cmd[0], "pwd") == 0)
-		ft_pwd(1);
+		ft_pwd(cmd, 1);
 	else if (ft_strcmp(cmd->cmd[0], "cd") == 0)
 		ft_cd(cmd);
 	else if (ft_strcmp(cmd->cmd[0], "clear") == 0)
@@ -41,11 +41,7 @@ void	handle_builtins(t_cmd *cmd, char **env)
 	else if (ft_strcmp(cmd->cmd[0], "env") == 0)
 		ft_env(cmd, env, 1);
 	else if (ft_strcmp(cmd->cmd[0], "exit") == 0)
-	{
-		free(cmd->cmd);
-		rl_clear_history();
-		exit(0);
-	}
+		ft_exit(cmd);
 	else
 		run_command(cmd, env);
 }
