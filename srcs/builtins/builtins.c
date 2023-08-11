@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:00:41 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/11 13:12:24 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/11 15:02:59 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_cd(t_cmd *cmd)
 //Builtin env command
 //"eu vi o teu mas como já tinha
 //este feito depois é só ver qual usamos"
-int	ft_env(t_cmd *cmd, char **env, int output)
+int	ft_env(t_cmd *cmd, const char **env, int output)
 {
 	int	i;
 
@@ -48,7 +48,7 @@ int	ft_env(t_cmd *cmd, char **env, int output)
 	}
 	i = -1;
 	while (env[++i])
-		print_fd(env[i], output, NULL);
+		print_fd((char *)env[i], output, NULL);
 	return (0);
 }
 

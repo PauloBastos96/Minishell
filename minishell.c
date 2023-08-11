@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/11 13:13:35 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/11 15:07:04 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 bool	g_using_sub_process = false;
 
 /*Search PATH for command, or use direct path, and run it*/
-void	run_command(t_cmd *cmd, char **env)
+void	run_command(t_cmd *cmd, const char **env)
 {
 	if (ft_strchr(cmd->cmd[0], '/'))
 		cmd->path = cmd->cmd[0];
@@ -28,7 +28,7 @@ void	run_command(t_cmd *cmd, char **env)
 /*Handle builtin commands*/
 //TODO clear cmd struct on exit
 //TODO send echo, env and pwd to correct outputs
-void	handle_builtins(t_cmd *cmd, char **env)
+void	handle_builtins(t_cmd *cmd, const char **env)
 {
 	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
 		ft_echo(cmd, 1);
@@ -40,6 +40,8 @@ void	handle_builtins(t_cmd *cmd, char **env)
 		ft_clear();
 	else if (ft_strcmp(cmd->cmd[0], "env") == 0)
 		ft_env(cmd, env, 1);
+	else if (ft_strcmp(cmd->cmd[0], "export") == 0)
+		ft_export(cmd, env);
 	else if (ft_strcmp(cmd->cmd[0], "exit") == 0)
 		ft_exit(cmd);
 	else
@@ -105,7 +107,8 @@ t_cmd	*command_parser(char *cmd_line)
 
 //Start shell
 //!readline has memory leaks that don't have to be fixed
-int	main(int argc, char **argv, char **env)
+//!env should remain const because it should never be modified by us
+int	main(int argc, char **argv, const char **env)
 {
 	char	*command;
 	t_cmd	*cmd;

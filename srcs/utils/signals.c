@@ -6,10 +6,9 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 15:15:57 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/10 15:43:06 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/11 13:25:49 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/shell.h"
 #include "../../minishell.h"
