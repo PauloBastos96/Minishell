@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/11 15:07:04 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/11 16:03:49 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ void	handle_builtins(t_cmd *cmd, const char **env)
 		ft_pwd(cmd, 1);
 	else if (ft_strcmp(cmd->cmd[0], "cd") == 0)
 		ft_cd(cmd);
-	else if (ft_strcmp(cmd->cmd[0], "clear") == 0)
-		ft_clear();
 	else if (ft_strcmp(cmd->cmd[0], "env") == 0)
 		ft_env(cmd, env, 1);
 	else if (ft_strcmp(cmd->cmd[0], "export") == 0)

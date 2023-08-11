@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:00:41 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/11 15:02:59 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/11 16:04:45 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,23 @@ int	ft_pwd(t_cmd *cmd, int output)
 	return (0);
 }
 
-/*Builtin clear command*/
-void	ft_clear(void)
+/*Builtin exit command*/
+int	ft_exit(t_cmd *cmd)
 {
-	write(1, "\e[1;1H\e[2J", 11);
+	int	exit_code;
+
+	exit_code = 0;
+	if (cmd->cmd[1])
+	{
+		if (is_exit_code_valid(cmd->cmd[1]))
+			exit_code = ft_atoi(cmd->cmd[1]);
+		else
+		{
+			printf("exit: %s: numeric argument required\n", cmd->cmd[1]);
+			return (1);
+		}
+	}
+	free(cmd->cmd);
+	rl_clear_history();
+	exit(exit_code);
 }

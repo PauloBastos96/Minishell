@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:38:12 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/11 14:55:47 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/11 16:01:16 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ bool	is_exit_code_valid(char	*str)
 /*Sort enviroment variables by alphabetical order*/
 char	**sort_envs(char **envs)
 {
-	bool	sorted;
+	bool	is_sorted;
 	char	*temp;
 	int		i;
 
-	while (!sorted)
+	while (!is_sorted)
 	{
 		i = 0;
-		sorted = true;
+		is_sorted = true;
 		while (envs[i])
 		{
 			if (envs[i + 1])
@@ -61,7 +61,7 @@ char	**sort_envs(char **envs)
 					temp = envs[i];
 					envs[i] = envs[i + 1];
 					envs[i + 1] = temp;
-					sorted = false;
+					is_sorted = false;
 				}
 			}
 			i++;
