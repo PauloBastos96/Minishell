@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:59:38 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/10 16:17:41 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:56:25 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,38 @@ char	**alloc_cmd(char *command)
 	}
 	cmd = ft_calloc(sizeof(cmd), size + 1);
 	return (cmd);
+}
+
+/*Fill array with envs*/
+char	**fill_envs(const char **env)
+{
+	int		i;
+	char	**array;
+
+	i = 0;
+	while (env[i])
+		i++;
+	array = ft_calloc(sizeof(array), i + 1);
+	i = 0;
+	while (env[i])
+	{
+		array[i] = ft_strdup(env[i]);
+		i++;
+	}
+	return (array);
+}
+
+/*Free command struct*/
+void	free_cmd(t_cmd *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd->cmd[i])
+	{
+		free(cmd->cmd[i]);
+		i++;
+	}
+	free(cmd->cmd);
+	free(cmd);
 }

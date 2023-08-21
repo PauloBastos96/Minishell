@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:38:12 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/11 16:01:16 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/21 12:48:38 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,33 @@ char	**sort_envs(char **envs)
 		}
 	}
 	return (envs);
+}
+
+/*Add quotes after = sign*/
+char	*add_quotes(char *str)
+{
+	char	*new;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	new = ft_calloc(sizeof(char), ft_strlen(str) + 3);
+	while (str[i])
+	{
+		if (str[i] == '=')
+		{
+			new[j++] = str[i++];
+			new[j++] = '"';
+			while (str[i])
+				new[j++] = str[i++];
+			new[j++] = '"';
+			new[j] = '\0';
+			free(str);
+			return (new);
+		}
+		new[j++] = str[i++];
+	}
+	free(str);
+	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:00:41 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/11 16:04:45 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:57:19 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_cd(t_cmd *cmd)
 //Builtin env command
 //"eu vi o teu mas como já tinha
 //este feito depois é só ver qual usamos"
-int	ft_env(t_cmd *cmd, const char **env, int output)
+int	ft_env(t_cmd *cmd, char **env, int output)
 {
 	int	i;
 
@@ -108,7 +108,7 @@ int	ft_exit(t_cmd *cmd)
 			return (1);
 		}
 	}
-	free(cmd->cmd);
+	free_cmd(cmd);
 	rl_clear_history();
 	exit(exit_code);
 }

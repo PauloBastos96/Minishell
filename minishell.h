@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/11 15:02:29 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:56:39 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@ extern bool	g_using_sub_process;
 t_list	**new_env_list(char **env);
 void	clear_env_list(t_list **env_list);
 void	register_signals(void);
+void	free_cmd(t_cmd *cmd);
 int		print_fd(char *error, char fd, char *name);
-int		create_command_process(t_cmd *cmd, const char **env);
+int		create_command_process(t_cmd *cmd, char **env);
 char	**alloc_cmd(char *command);
+char	**fill_envs(const char **env);
 char	*search_command_path(char *command);
 
 #endif

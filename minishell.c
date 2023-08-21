@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/11 16:03:49 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:25:52 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,21 @@
 bool	g_using_sub_process = false;
 
 /*Search PATH for command, or use direct path, and run it*/
-void	run_command(t_cmd *cmd, const char **env)
+int	run_command(t_cmd *cmd, char **env)
 {
 	if (ft_strchr(cmd->cmd[0], '/'))
 		cmd->path = cmd->cmd[0];
 	else
 		cmd->path = search_command_path(cmd->cmd[0]);
 	if (cmd->path)
-		create_command_process(cmd, env);
+		return (create_command_process(cmd, env));
+	return (1);
 }
 
-/*Handle builtin commands*/
+/*Handle builtin and external commands*/
 //TODO clear cmd struct on exit
 //TODO send echo, env and pwd to correct outputs
-void	handle_builtins(t_cmd *cmd, const char **env)
+void	handle_commands(t_cmd *cmd, char **env)
 {
 	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
 		ft_echo(cmd, 1);
@@ -100,6 +101,8 @@ t_cmd	*command_parser(char *cmd_line)
 	}
 	command = ft_substr(cmd_line, last_i, i);
 	cmd_struct->cmd = create_cmd(command);
+	free(command);
+	free(cmd_line);
 	return (cmd_struct);
 }
 
@@ -109,9 +112,11 @@ t_cmd	*command_parser(char *cmd_line)
 int	main(int argc, char **argv, const char **env)
 {
 	char	*command;
+	char	**env_array;
 	t_cmd	*cmd;
 
 	register_signals();
+	env_array = fill_envs(env);
 	while (true)
 	{
 		command = readline(PROMPT);
@@ -125,8 +130,8 @@ int	main(int argc, char **argv, const char **env)
 			add_history(command);
 			if (ft_strlen(command) > 0)
 				cmd = command_parser(command);
-			handle_builtins(cmd, env);
-			free(command);
+			handle_commands(cmd, env_array);
+			free_cmd(cmd);
 		}
 	}
 	(void)argc;

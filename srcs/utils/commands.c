@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/11 15:04:58 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/21 13:28:50 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*search_command_path(char *command)
 }
 
 /*Create sub-process for command*/
-int	create_command_process(t_cmd *cmd, const char **env)
+int	create_command_process(t_cmd *cmd, char **env)
 {
 	pid_t	pid;
 	int		status;
