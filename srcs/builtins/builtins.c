@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:00:41 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/08 16:23:06 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:57:19 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_env(t_cmd *cmd, char **env, int output)
 	}
 	i = -1;
 	while (env[++i])
-		print_fd(env[i], output, NULL);
+		print_fd((char *)env[i], output, NULL);
 	return (0);
 }
 
@@ -72,10 +72,15 @@ int	ft_echo(t_cmd *cmd, int output)
 }
 
 /*Builtin pwd command*/
-int	ft_pwd(int output)
+int	ft_pwd(t_cmd *cmd, int output)
 {
 	char	*pwd;
 
+	if (cmd->cmd[1])
+	{
+		print_fd("too many arguments", 2, "pwd");
+		return (1);
+	}
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{
@@ -87,8 +92,23 @@ int	ft_pwd(int output)
 	return (0);
 }
 
-/*Builtin clear command*/
-void	ft_clear(void)
+/*Builtin exit command*/
+int	ft_exit(t_cmd *cmd)
 {
-	write(1, "\e[1;1H\e[2J", 11);
+	int	exit_code;
+
+	exit_code = 0;
+	if (cmd->cmd[1])
+	{
+		if (is_exit_code_valid(cmd->cmd[1]))
+			exit_code = ft_atoi(cmd->cmd[1]);
+		else
+		{
+			printf("exit: %s: numeric argument required\n", cmd->cmd[1]);
+			return (1);
+		}
+	}
+	free_cmd(cmd);
+	rl_clear_history();
+	exit(exit_code);
 }

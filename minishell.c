@@ -6,40 +6,47 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/09 13:45:12 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/22 16:03:10 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+bool	g_using_sub_process = false;
+
 /*Search PATH for command, or use direct path, and run it*/
-void	run_command(char *cmd, char **env)
+int	run_command(t_cmd *cmd, char **env)
 {
-	if (execve(cmd, (char *const *)"-l", env) == -1)
-		perror(NULL);
+	if (ft_strchr(cmd->cmd[0], '/'))
+		cmd->path = cmd->cmd[0];
+	else
+		cmd->path = search_command_path(cmd->cmd[0]);
+	if (cmd->path)
+		return (create_command_process(cmd, env));
+	return (1);
 }
 
-/*Handle builtin commands*/
+/*Handle builtin and external commands*/
 //TODO clear cmd struct on exit
 //TODO send echo, env and pwd to correct outputs
-void	handle_builtins(t_cmd *cmd, char **env)
+void	handle_commands(t_cmd *cmd, char ***env)
 {
 	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
 		ft_echo(cmd, 1);
 	else if (ft_strcmp(cmd->cmd[0], "pwd") == 0)
-		ft_pwd(1);
+		ft_pwd(cmd, 1);
 	else if (ft_strcmp(cmd->cmd[0], "cd") == 0)
 		ft_cd(cmd);
-	else if (ft_strcmp(cmd->cmd[0], "clear") == 0)
-		ft_clear();
 	else if (ft_strcmp(cmd->cmd[0], "env") == 0)
-		ft_env(cmd, env, 1);
+		ft_env(cmd, *env, 1);
+	else if (ft_strcmp(cmd->cmd[0], "export") == 0)
+		ft_export(cmd, env);
+	else if (ft_strcmp(cmd->cmd[0], "unset") == 0)
+		ft_unset(env, cmd);
 	else if (ft_strcmp(cmd->cmd[0], "exit") == 0)
-	{
-		free(cmd->cmd);
-		rl_clear_history();
-		exit(0);
-	}
+		ft_exit(cmd);
+	else
+		run_command(cmd, *env);
 }
 
 /*Create command struct*/
@@ -96,22 +103,25 @@ t_cmd	*command_parser(char *cmd_line)
 	}
 	command = ft_substr(cmd_line, last_i, i);
 	cmd_struct->cmd = create_cmd(command);
+	free(command);
+	free(cmd_line);
 	return (cmd_struct);
 }
 
 //Start shell
 //!readline has memory leaks that don't have to be fixed
-int	main(int argc, char **argv, char **env)
+//!env should remain const because it should never be modified by us
+int	main(int argc, char **argv, const char **env)
 {
 	char	*command;
+	char	**env_array;
 	t_cmd	*cmd;
 
-	if (register_signals() == 1)
-		return (1);
+	register_signals();
+	env_array = fill_envs(env);
 	while (true)
 	{
 		command = readline(PROMPT);
-		add_history(command);
 		if (!command)
 		{
 			printf("exit\n");
@@ -119,10 +129,11 @@ int	main(int argc, char **argv, char **env)
 		}
 		if (*command)
 		{
+			add_history(command);
 			if (ft_strlen(command) > 0)
 				cmd = command_parser(command);
-			handle_builtins(cmd, env);
-			free(command);
+			handle_commands(cmd, &env_array);
+			free_cmd(cmd);
 		}
 	}
 	(void)argc;

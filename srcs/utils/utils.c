@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:59:38 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/09 13:56:28 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:56:25 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,31 +45,36 @@ char	**alloc_cmd(char *command)
 	return (cmd);
 }
 
-/*Handle SIGINT and SIGQUIT*/
-static void	signal_handler(int signum, siginfo_t *info, void *context)
+/*Fill array with envs*/
+char	**fill_envs(const char **env)
 {
-	if (signum == SIGINT)
+	int		i;
+	char	**array;
+
+	i = 0;
+	while (env[i])
+		i++;
+	array = ft_calloc(sizeof(array), i + 1);
+	i = 0;
+	while (env[i])
 	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		array[i] = ft_strdup(env[i]);
+		i++;
 	}
-	(void)info;
-	(void)context;
+	return (array);
 }
 
-/*Register signals with signal handler*/
-int	register_signals(void)
+/*Free command struct*/
+void	free_cmd(t_cmd *cmd)
 {
-	struct sigaction	sa;
+	int	i;
 
-	sa.sa_sigaction = signal_handler;
-	sa.sa_flags = 0;
-	sigemptyset(&sa.sa_mask);
-	sigaddset(&sa.sa_mask, SIGINT);
-	signal(SIGQUIT, SIG_IGN);
-	if (sigaction(SIGINT, &sa, NULL) == -1)
-		return (print_fd("Couldn't register signal handler", 2, NULL));
-	return (0);
+	i = 0;
+	while (cmd->cmd[i])
+	{
+		free(cmd->cmd[i]);
+		i++;
+	}
+	free(cmd->cmd);
+	free(cmd);
 }
