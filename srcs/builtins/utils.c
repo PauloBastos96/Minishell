@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:38:12 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/21 12:48:38 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/22 15:25:31 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,23 @@ char	*add_quotes(char *str)
 	}
 	free(str);
 	return (new);
+}
+
+/*Check if enviroment already contains inputed variable*/
+bool	is_duplicate(char **env, char *new)
+{
+	int	i;
+	int	length;
+
+	i = 0;
+	while (env[i])
+	{
+		length = 0;
+		while (new[length] && new[length] != '=')
+			length++;
+		if (!ft_strncmp(env[i], new, length))
+			return (true);
+		i++;
+	}
+	return (false);
 }

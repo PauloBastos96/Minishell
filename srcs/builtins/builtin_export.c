@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 12:49:20 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/22 13:55:15 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/22 15:46:02 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "../../minishell.h"
 
 /*Copy env and sort it to new array*/
-char	**copy_and_sort_env(char **env)
+static char	**copy_and_sort_env(char **env)
 {
 	int		i;
 	char	**new;
@@ -37,7 +37,7 @@ char	**copy_and_sort_env(char **env)
 }
 
 /*Export command with no arguments*/
-int	export_noarg(char **env)
+static int	export_noarg(char **env)
 {
 	int		i;
 	char	**sorted;
@@ -60,24 +60,30 @@ int	export_noarg(char **env)
 	return (0);
 }
 
-/*Check if enviroment already contains inputed variable*/
-bool	is_duplicate(char **env, char *new)
+/*Add or update variable if it already exists*/
+static char	*add_or_update_var(char *env, char **cmd)
 {
 	int	i;
+	int	length;
 
-	i = 0;
-	while (env[i])
+	i = 1;
+	while (cmd[i])
 	{
-		if (!ft_strcmp(env[i], new))
-			return (true);
+		if (ft_strchr(cmd[i], '='))
+		{
+			length = 0;
+			while (cmd[i][length] != '=')
+				length++;
+			if (!ft_strncmp(env, cmd[i], length))
+				return (ft_strdup(cmd[i]));
+		}
 		i++;
 	}
-	return (false);
+	return (ft_strdup(env));
 }
 
 /*Export command with arguments*/
-//TODO Add abbility to update existing variables
-char	**export_witharg(char **new, char **env, t_cmd *cmd)
+static char	**export_witharg(char **new, char **env, t_cmd *cmd)
 {
 	int	i;
 	int	j;
@@ -85,7 +91,7 @@ char	**export_witharg(char **new, char **env, t_cmd *cmd)
 	i = 0;
 	while (env[i])
 	{
-		new[i] = ft_strdup(env[i]);
+		new[i] = add_or_update_var(env[i], cmd->cmd);
 		i++;
 	}
 	j = 1;
