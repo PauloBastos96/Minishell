@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/22 13:33:19 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/22 16:03:10 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	handle_commands(t_cmd *cmd, char ***env)
 		ft_env(cmd, *env, 1);
 	else if (ft_strcmp(cmd->cmd[0], "export") == 0)
 		ft_export(cmd, env);
+	else if (ft_strcmp(cmd->cmd[0], "unset") == 0)
+		ft_unset(env, cmd);
 	else if (ft_strcmp(cmd->cmd[0], "exit") == 0)
 		ft_exit(cmd);
 	else
