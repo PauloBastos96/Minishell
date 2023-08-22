@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins2.c                                        :+:      :+:    :+:   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 12:49:20 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/21 16:25:44 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/22 13:55:15 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ char	**copy_and_sort_env(char **env)
 	while (env[i])
 		i++;
 	new = ft_calloc(sizeof(new), i + 1);
+	if (!new)
+		return (NULL);
 	i = 0;
 	while (env[i])
 	{
@@ -41,6 +43,8 @@ int	export_noarg(char **env)
 	char	**sorted;
 
 	sorted = copy_and_sort_env(env);
+	if (!sorted)
+		return (1);
 	i = 0;
 	while (sorted[i])
 	{
@@ -56,7 +60,23 @@ int	export_noarg(char **env)
 	return (0);
 }
 
+/*Check if enviroment already contains inputed variable*/
+bool	is_duplicate(char **env, char *new)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		if (!ft_strcmp(env[i], new))
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
 /*Export command with arguments*/
+//TODO Add abbility to update existing variables
 char	**export_witharg(char **new, char **env, t_cmd *cmd)
 {
 	int	i;
@@ -71,29 +91,36 @@ char	**export_witharg(char **new, char **env, t_cmd *cmd)
 	j = 1;
 	while (cmd->cmd[j])
 	{
-		new[i] = ft_strdup(cmd->cmd[j]);
+		if (!is_duplicate(env, cmd->cmd[j]))
+			new[i] = ft_strdup(cmd->cmd[j]);
 		j++;
 		i++;
 	}
+	new[i] = 0;
 	return (new);
 }
 
 /*Builtin export command*/
-int	ft_export(t_cmd *cmd, char **env)
+int	ft_export(t_cmd *cmd, char ***env)
 {
 	int		i;
 	int		j;
 	char	**array;
+	char	**_env;
 
 	if (!cmd->cmd[1])
-		return (export_noarg(env));
+		return (export_noarg(*env));
 	i = 0;
 	j = 0;
-	while (env[i])
+	_env = *env;
+	while (_env[i])
 		i++;
 	while (cmd->cmd[j])
 		j++;
-	array = ft_calloc(sizeof(array), i + j + 1);
-	env = export_witharg(array, env, cmd);
+	array = ft_calloc(sizeof(array), i + j);
+	if (!array)
+		return (1);
+	array = export_witharg(array, *env, cmd);
+	*env = array;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/21 16:25:52 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/22 13:33:19 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	run_command(t_cmd *cmd, char **env)
 /*Handle builtin and external commands*/
 //TODO clear cmd struct on exit
 //TODO send echo, env and pwd to correct outputs
-void	handle_commands(t_cmd *cmd, char **env)
+void	handle_commands(t_cmd *cmd, char ***env)
 {
 	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
 		ft_echo(cmd, 1);
@@ -38,13 +38,13 @@ void	handle_commands(t_cmd *cmd, char **env)
 	else if (ft_strcmp(cmd->cmd[0], "cd") == 0)
 		ft_cd(cmd);
 	else if (ft_strcmp(cmd->cmd[0], "env") == 0)
-		ft_env(cmd, env, 1);
+		ft_env(cmd, *env, 1);
 	else if (ft_strcmp(cmd->cmd[0], "export") == 0)
 		ft_export(cmd, env);
 	else if (ft_strcmp(cmd->cmd[0], "exit") == 0)
 		ft_exit(cmd);
 	else
-		run_command(cmd, env);
+		run_command(cmd, *env);
 }
 
 /*Create command struct*/
@@ -130,7 +130,7 @@ int	main(int argc, char **argv, const char **env)
 			add_history(command);
 			if (ft_strlen(command) > 0)
 				cmd = command_parser(command);
-			handle_commands(cmd, env_array);
+			handle_commands(cmd, &env_array);
 			free_cmd(cmd);
 		}
 	}
