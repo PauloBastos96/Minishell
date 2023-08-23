@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/21 13:28:50 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/23 12:42:13 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ char	*search_command_path(char *command)
 	path_var = getenv("PATH");
 	if (path_var)
 		paths = ft_split(path_var, ':');
+	else
+		return (NULL);
 	if (paths)
 	{
 		cmd_path = ft_strjoin("/", command);

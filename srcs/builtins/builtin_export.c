@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 12:49:20 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/22 15:46:02 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/23 12:56:00 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ static char	**export_witharg(char **new, char **env, t_cmd *cmd)
 	while (env[i])
 	{
 		new[i] = add_or_update_var(env[i], cmd->cmd);
+		free(env[i]);
 		i++;
 	}
 	j = 1;
@@ -103,6 +104,7 @@ static char	**export_witharg(char **new, char **env, t_cmd *cmd)
 		i++;
 	}
 	new[i] = 0;
+	free(env);
 	return (new);
 }
 

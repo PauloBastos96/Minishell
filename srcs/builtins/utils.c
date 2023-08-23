@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:38:12 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/22 15:25:31 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/23 12:40:37 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ char	**sort_envs(char **envs)
 	char	*temp;
 	int		i;
 
+	is_sorted = false;
 	while (!is_sorted)
 	{
 		i = 0;
