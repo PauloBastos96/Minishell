@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:55:18 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/22 16:07:01 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/23 13:06:12 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,11 @@ char	**remove_env(char **env, int pos)
 		if (i != pos)
 		{
 			new_env[j] = ft_strdup(env[i]);
+			free(env[i]);
 			j++;
 		}
+		else
+			free(env[i]);
 		i++;
 	}
 	return (new_env);
