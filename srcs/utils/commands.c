@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/23 12:42:13 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/23 13:19:31 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,34 @@ int	create_command_process(t_cmd *cmd, char **env)
 	}
 	free(cmd->path);
 	return (status);
+}
+
+/*Create command struct*/
+char	**create_cmd(char *command)
+{
+	char			**cmd;
+	int				pos;
+	size_t			i;
+	unsigned int	j;
+
+	cmd = alloc_cmd(command);
+	i = 0;
+	j = 0;
+	pos = 0;
+	while (command[i])
+	{
+		if (command[i] == ' ')
+		{
+			cmd[pos] = ft_substr(command, j, i - j);
+			pos++;
+			j = i + 1;
+		}
+		else if (!command[i + 1])
+		{
+			cmd[pos] = ft_substr(command, j, i + 1 - j);
+			j = i + 1;
+		}
+		i++;
+	}
+	return (cmd);
 }

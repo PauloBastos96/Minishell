@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:00:41 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/21 15:57:19 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/23 13:24:17 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../../includes/builtins.h"
 #include "../../minishell.h"
 
-//Builtin cd command
+/*Builtin cd command*/
 int	ft_cd(t_cmd *cmd)
 {
 	char	*path;
@@ -32,9 +32,7 @@ int	ft_cd(t_cmd *cmd)
 	return (0);
 }
 
-//Builtin env command
-//"eu vi o teu mas como já tinha
-//este feito depois é só ver qual usamos"
+/*Builtin env command*/
 int	ft_env(t_cmd *cmd, char **env, int output)
 {
 	int	i;

@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/22 16:03:10 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/23 13:24:40 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,16 @@ int	run_command(t_cmd *cmd, char **env)
 }
 
 /*Handle builtin and external commands*/
-//TODO clear cmd struct on exit
-//TODO send echo, env and pwd to correct outputs
 void	handle_commands(t_cmd *cmd, char ***env)
 {
 	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
-		ft_echo(cmd, 1);
+		ft_echo(cmd, cmd->output);
 	else if (ft_strcmp(cmd->cmd[0], "pwd") == 0)
-		ft_pwd(cmd, 1);
+		ft_pwd(cmd, cmd->output);
 	else if (ft_strcmp(cmd->cmd[0], "cd") == 0)
 		ft_cd(cmd);
 	else if (ft_strcmp(cmd->cmd[0], "env") == 0)
-		ft_env(cmd, *env, 1);
+		ft_env(cmd, *env, cmd->output);
 	else if (ft_strcmp(cmd->cmd[0], "export") == 0)
 		ft_export(cmd, env);
 	else if (ft_strcmp(cmd->cmd[0], "unset") == 0)
@@ -47,36 +45,6 @@ void	handle_commands(t_cmd *cmd, char ***env)
 		ft_exit(cmd);
 	else
 		run_command(cmd, *env);
-}
-
-/*Create command struct*/
-char	**create_cmd(char *command)
-{
-	char			**cmd;
-	int				pos;
-	size_t			i;
-	unsigned int	j;
-
-	cmd = alloc_cmd(command);
-	i = 0;
-	j = 0;
-	pos = 0;
-	while (command[i])
-	{
-		if (command[i] == ' ')
-		{
-			cmd[pos] = ft_substr(command, j, i - j);
-			pos++;
-			j = i + 1;
-		}
-		else if (!command[i + 1])
-		{
-			cmd[pos] = ft_substr(command, j, i + 1 - j);
-			j = i + 1;
-		}
-		i++;
-	}
-	return (cmd);
 }
 
 /*Parse command into a t_cmd struct*/
@@ -103,22 +71,19 @@ t_cmd	*command_parser(char *cmd_line)
 	}
 	command = ft_substr(cmd_line, last_i, i);
 	cmd_struct->cmd = create_cmd(command);
+	cmd_struct->output = 1;
 	free(command);
 	free(cmd_line);
 	return (cmd_struct);
 }
 
-//Start shell
+//Main shell loop
 //!readline has memory leaks that don't have to be fixed
-//!env should remain const because it should never be modified by us
-int	main(int argc, char **argv, const char **env)
+void	shell_loop(char **env_array)
 {
 	char	*command;
-	char	**env_array;
 	t_cmd	*cmd;
 
-	register_signals();
-	env_array = fill_envs(env);
 	while (true)
 	{
 		command = readline(PROMPT);
@@ -136,6 +101,17 @@ int	main(int argc, char **argv, const char **env)
 			free_cmd(cmd);
 		}
 	}
+}
+
+//Start shell
+//!env should remain const because it should never be modified by us
+int	main(int argc, char **argv, const char **env)
+{
+	char	**env_array;
+
+	register_signals();
+	env_array = fill_envs(env);
+	shell_loop(env_array);
 	(void)argc;
 	(void)argv;
 	return (0);
