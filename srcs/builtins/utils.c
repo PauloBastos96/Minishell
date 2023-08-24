@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:38:12 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/23 12:40:37 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/24 13:57:34 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,36 +41,6 @@ bool	is_exit_code_valid(char	*str)
 	return (true);
 }
 
-/*Sort enviroment variables by alphabetical order*/
-char	**sort_envs(char **envs)
-{
-	bool	is_sorted;
-	char	*temp;
-	int		i;
-
-	is_sorted = false;
-	while (!is_sorted)
-	{
-		i = 0;
-		is_sorted = true;
-		while (envs[i])
-		{
-			if (envs[i + 1])
-			{
-				if (ft_strcmp(envs[i], envs[i + 1]) > 0)
-				{
-					temp = envs[i];
-					envs[i] = envs[i + 1];
-					envs[i + 1] = temp;
-					is_sorted = false;
-				}
-			}
-			i++;
-		}
-	}
-	return (envs);
-}
-
 /*Add quotes after = sign*/
 char	*add_quotes(char *str)
 {
@@ -98,23 +68,4 @@ char	*add_quotes(char *str)
 	}
 	free(str);
 	return (new);
-}
-
-/*Check if enviroment already contains inputed variable*/
-bool	is_duplicate(char **env, char *new)
-{
-	int	i;
-	int	length;
-
-	i = 0;
-	while (env[i])
-	{
-		length = 0;
-		while (new[length] && new[length] != '=')
-			length++;
-		if (!ft_strncmp(env[i], new, length))
-			return (true);
-		i++;
-	}
-	return (false);
 }

@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/23 13:19:31 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/24 15:24:23 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,26 @@ static char	*get_full_path(char **paths, char *command)
 		full_path = ft_strjoin(paths[i], command);
 		if (!access(full_path, F_OK))
 		{
-			free(paths);
 			free(command);
 			return (full_path);
 		}
+		free(full_path);
 		i++;
 	}
 	return (NULL);
+}
+
+void	clear_paths(char **paths)
+{
+	int	i;
+
+	i = 0;
+	while (paths[i])
+	{
+		free(paths[i]);
+		i++;
+	}
+	free(paths);
 }
 
 /*Get command executable path*/
@@ -54,6 +67,7 @@ char	*search_command_path(char *command)
 		full_path = get_full_path(paths, cmd_path);
 		if (!full_path)
 			print_fd("Command not found", 2, command);
+		clear_paths(paths);
 		return (full_path);
 	}
 	return (NULL);
@@ -80,12 +94,41 @@ int	create_command_process(t_cmd *cmd, char **env)
 		rl_replace_line("", 0);
 		g_using_sub_process = false;
 	}
-	free(cmd->path);
 	return (status);
 }
 
+/*Replace environment variables with their value*/
+char	*handle_env_vars(char *command, char ***env)
+{
+	char	*env_var;
+	char	*env_value;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (command[i])
+	{
+		if (command[i] == '$')
+		{
+			j = i + 1;
+			while (command[i] && command[i] != ' ')
+				i++;
+			env_var = ft_substr(command, j, i - j);
+			env_value = ft_getenv(env_var, env);
+			free(command);
+			free(env_var);
+			if (env_value)
+				return (ft_strdup(env_value));
+			return (NULL);
+		}
+		i++;
+	}
+	return (command);
+}
+
 /*Create command struct*/
-char	**create_cmd(char *command)
+char	**create_cmd(char *command, char ***env)
 {
 	char			**cmd;
 	int				pos;
@@ -100,13 +143,13 @@ char	**create_cmd(char *command)
 	{
 		if (command[i] == ' ')
 		{
-			cmd[pos] = ft_substr(command, j, i - j);
+			cmd[pos] = handle_env_vars(ft_substr(command, j, i - j), env);
 			pos++;
 			j = i + 1;
 		}
 		else if (!command[i + 1])
 		{
-			cmd[pos] = ft_substr(command, j, i + 1 - j);
+			cmd[pos] = handle_env_vars(ft_substr(command, j, i + 1 - j), env);
 			j = i + 1;
 		}
 		i++;

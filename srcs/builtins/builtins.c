@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:00:41 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/23 13:24:17 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/24 13:58:53 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "../../minishell.h"
 
 /*Builtin cd command*/
-int	ft_cd(t_cmd *cmd)
+int	ft_cd(t_cmd *cmd, char ***env)
 {
 	char	*path;
 
@@ -29,6 +29,7 @@ int	ft_cd(t_cmd *cmd)
 		perror(NULL);
 		return (1);
 	}
+	update_pwd(env);
 	return (0);
 }
 

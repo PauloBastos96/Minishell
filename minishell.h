@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/23 13:19:29 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/24 14:12:53 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int		create_command_process(t_cmd *cmd, char **env);
 char	**alloc_cmd(char *command);
 char	**fill_envs(const char **env);
 char	*search_command_path(char *command);
-char	**create_cmd(char *command);
+char	**create_cmd(char *command, char ***env);
+char	*ft_getenv(const char *name, char ***_env);
 
 #endif
