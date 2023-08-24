@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:59:38 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/21 15:56:25 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/24 15:55:47 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,26 @@ void	free_cmd(t_cmd *cmd)
 	}
 	free(cmd->cmd);
 	free(cmd);
+}
+
+void	insert_end(t_cmd **head)
+{
+	t_cmd	*new_node;
+	t_cmd	*temp;
+
+	temp = *head;
+	new_node = malloc(sizeof(t_cmd));
+	if (new_node == NULL)
+		return ;
+	new_node->next = NULL;
+	if ((*head) == NULL)
+	{
+		new_node->prev = NULL;
+		*head = new_node;
+		return ;
+	}
+	while (temp->next != NULL)
+		temp = temp->next;
+	temp->next = new_node;
+	new_node->prev = temp;
 }

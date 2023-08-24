@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/22 16:03:10 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/24 15:53:14 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,33 +79,19 @@ char	**create_cmd(char *command)
 	return (cmd);
 }
 
-/*Parse command into a t_cmd struct*/
-//TODO create multiple structs when there are pipes
-t_cmd	*command_parser(char *cmd_line)
+void	command_parser(t_cmd **cmd_struct, char *cmd_line)
 {
-	t_cmd	*cmd_struct;
 	char	*command;
 	int		i;
 	int		last_i;
 
 	i = 0;
 	last_i = 0;
-	cmd_struct = ft_calloc(sizeof(t_cmd), 1);
-	while (cmd_line[i])
-	{
-		if (cmd_line[i] == '|')
-		{
-			command = ft_substr(cmd_line, last_i, i - 1);
-			cmd_struct->cmd = create_cmd(command);
-			last_i = i + 1;
-		}
-		i++;
-	}
-	command = ft_substr(cmd_line, last_i, i);
-	cmd_struct->cmd = create_cmd(command);
+	insert_end(cmd_struct);
+	command = ft_substr(cmd_line, last_i, ft_strlen(cmd_line));
+	(*cmd_struct)->cmd = create_cmd(command);
 	free(command);
 	free(cmd_line);
-	return (cmd_struct);
 }
 
 //Start shell
@@ -117,6 +103,7 @@ int	main(int argc, char **argv, const char **env)
 	char	**env_array;
 	t_cmd	*cmd;
 
+	cmd = NULL;
 	register_signals();
 	env_array = fill_envs(env);
 	while (true)
@@ -131,9 +118,16 @@ int	main(int argc, char **argv, const char **env)
 		{
 			add_history(command);
 			if (ft_strlen(command) > 0)
-				cmd = command_parser(command);
-			handle_commands(cmd, &env_array);
-			free_cmd(cmd);
+			{
+				if (check_pipes(command) == 1)
+					handle_pipe_cmds(&cmd, command, env_array);
+				else
+				{
+					command_parser(&cmd, command);
+					handle_commands(cmd, &env_array);
+				}
+			}
+			//free_cmd(cmd);
 		}
 	}
 	(void)argc;

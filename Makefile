@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+         #
+#    By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/09 15:23:17 by paulorod          #+#    #+#              #
-#    Updated: 2023/08/23 13:06:49 by paulorod         ###   ########.fr        #
+#    Updated: 2023/08/24 10:37:59 by ffilipe-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,9 @@ SRCS	= minishell.c \
 	srcs/builtins/utils.c \
 	srcs/utils/commands.c \
 	srcs/utils/signals.c \
-	srcs/utils/utils.c
+	srcs/utils/utils.c \
+	srcs/utils/pipes_utils.c \
+	srcs/pipes/handle_pipes.c
 
 OBJS	= $(SRCS:.c=.o)
 
