@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/24 15:02:16 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/25 13:12:20 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ bool	g_using_sub_process = false;
 int	run_command(t_cmd *cmd, char **env)
 {
 	if (ft_strchr(cmd->cmd[0], '/'))
-		cmd->path = cmd->cmd[0];
+		cmd->path = ft_strdup(cmd->cmd[0]);
 	else
 		cmd->path = search_command_path(cmd->cmd[0]);
 	if (cmd->path)
@@ -64,11 +64,7 @@ t_cmd	*command_parser(char *cmd_line, char ***env)
 	while (cmd_line[i])
 	{
 		if (cmd_line[i] == '|')
-		{
-			command = ft_substr(cmd_line, last_i, i - 1);
-			cmd_struct->cmd = create_cmd(command, env);
-			last_i = i + 1;
-		}
+			break ;
 		i++;
 	}
 	command = ft_substr(cmd_line, last_i, i);

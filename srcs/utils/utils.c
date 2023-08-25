@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:59:38 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/24 15:44:11 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/25 13:13:13 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,14 @@ void	free_cmd(t_cmd *cmd)
 	i = 0;
 	while (cmd->cmd[i])
 	{
-		if (*cmd->cmd[i])
+		if (*(cmd->cmd[i]))
 		{
 			free(cmd->cmd[i]);
 			cmd->cmd[i] = NULL;
 		}
 		i++;
 	}
-	if (*cmd->path)
+	if (cmd->path)
 		free(cmd->path);
 	free(cmd->cmd);
 	free(cmd);
