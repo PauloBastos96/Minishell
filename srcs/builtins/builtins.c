@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:00:41 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/24 13:58:53 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/28 12:54:00 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 #include "../../minishell.h"
 
 /*Builtin cd command*/
-int	ft_cd(t_cmd *cmd, char ***env)
+int	ft_cd(t_shell *shell)
 {
 	char	*path;
 
-	path = cmd->cmd[1];
+	path = shell->cmd->cmd[1];
 	if (!path)
 		return (1);
 	if (ft_strncmp(path, "~", 1) == 0)
@@ -29,52 +29,58 @@ int	ft_cd(t_cmd *cmd, char ***env)
 		perror(NULL);
 		return (1);
 	}
-	update_pwd(env);
+	update_pwd(&shell->env);
 	return (0);
 }
 
 /*Builtin env command*/
-int	ft_env(t_cmd *cmd, char **env, int output)
+int	ft_env(t_shell *shell)
 {
-	int	i;
+	int		i;
+	t_cmd	*cmd;
 
+	cmd = shell->cmd;
 	if (cmd->cmd[1])
 		return (1);
-	if (!env)
+	if (!shell->env)
 	{
 		print_fd("Env doesn't exist", 2, NULL);
 		return (1);
 	}
 	i = -1;
-	while (env[++i])
-		print_fd((char *)env[i], output, NULL);
+	while (shell->env[++i])
+		print_fd(shell->env[i], cmd->output, NULL);
 	return (0);
 }
 
 /*Builtin echo command*/
-int	ft_echo(t_cmd *cmd, int output)
+int	ft_echo(t_shell *shell)
 {
-	int	i;
+	int		i;
+	t_cmd	*cmd;
 
+	cmd = shell->cmd;
 	if (!cmd->cmd[1])
 		return (0);
 	i = 0 + (ft_strncmp("-n", cmd->cmd[1], 3) == 0);
 	while (cmd->cmd[++i])
 	{
-		write(output, cmd->cmd[i], ft_strlen(cmd->cmd[i]));
+		write(cmd->output, cmd->cmd[i], ft_strlen(cmd->cmd[i]));
 		if (cmd->cmd[i + 1])
-			write(output, " ", 1);
+			write(cmd->output, " ", 1);
 	}
 	if (ft_strncmp("-n", cmd->cmd[1], 3))
-		write(output, "\n", 1);
+		write(cmd->output, "\n", 1);
 	return (0);
 }
 
 /*Builtin pwd command*/
-int	ft_pwd(t_cmd *cmd, int output)
+int	ft_pwd(t_shell *shell)
 {
 	char	*pwd;
+	t_cmd	*cmd;
 
+	cmd = shell->cmd;
 	if (cmd->cmd[1])
 	{
 		print_fd("too many arguments", 2, "pwd");
@@ -86,7 +92,7 @@ int	ft_pwd(t_cmd *cmd, int output)
 		perror("Pwd error");
 		return (1);
 	}
-	print_fd(pwd, output, NULL);
+	print_fd(pwd, cmd->output, NULL);
 	free(pwd);
 	return (0);
 }

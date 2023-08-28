@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:56:57 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/24 14:21:07 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/25 13:53:33 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,17 @@ bool	is_duplicate(char **env, char *new)
 	return (false);
 }
 
+/*Free old PWD and OLDPWD and update them with the new values*/
+static	void	update_var(char	**env, char *var, char *value)
+{
+	char	*temp;
+
+	free(*env);
+	temp = ft_strdup(value);
+	*env = ft_strjoin(var, temp);
+	free(temp);
+}
+
 /*Update PWD and OLDPWD environment variables*/
 void	update_pwd(char ***_env)
 {
@@ -76,9 +87,9 @@ void	update_pwd(char ***_env)
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], "PWD", 3) == 0)
-			env[i] = ft_strjoin("PWD=", ft_strdup(pwd));
+			update_var(&env[i], "PWD=", pwd);
 		if (ft_strncmp(env[i], "OLDPWD", 6) == 0)
-			env[i] = ft_strjoin("OLDPWD=", ft_strdup(oldpwd));
+			update_var(&env[i], "OLDPWD=", oldpwd);
 		i++;
 	}
 	free(pwd);
