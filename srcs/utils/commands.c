@@ -6,11 +6,12 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/25 13:12:04 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:37:16 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
+#include "../../includes/commands.h"
 #include "../../minishell.h"
 
 /*Create sub-process for command*/
@@ -38,58 +39,44 @@ int	create_command_process(t_cmd *cmd, char **env)
 }
 
 /*Replace environment variables with their value*/
-char	*handle_env_vars(char *command, char ***env)
+static char	*handle_envs(char *command, t_shell *shell)
 {
-	char	*env_var;
 	char	*env_value;
-	int		i;
-	int		j;
 
-	i = 0;
-	j = 0;
-	while (command[i])
+	env_value = parse_command(command, shell);
+	if (env_value && *env_value)
 	{
-		if (command[i] == '$')
-		{
-			j = i + 1;
-			while (command[i] && command[i] != ' ')
-				i++;
-			env_var = ft_substr(command, j, i - j);
-			env_value = ft_getenv(env_var, env);
-			free(command);
-			free(env_var);
-			if (env_value)
-				return (ft_strdup(env_value));
-			return (NULL);
-		}
-		i++;
+		free(command);
+		return (env_value);
 	}
+	else if (env_value)
+		free(env_value);
 	return (command);
 }
 
 /*Create command struct*/
-char	**create_cmd(char *command, char ***env)
+char	**create_cmd(char *_cmd, t_shell *shell)
 {
 	char			**cmd;
 	int				pos;
 	size_t			i;
 	unsigned int	j;
 
-	cmd = alloc_cmd(command);
+	cmd = alloc_cmd(_cmd);
 	i = 0;
 	j = 0;
 	pos = 0;
-	while (command[i])
+	while (_cmd[i])
 	{
-		if (command[i] == ' ')
+		if (_cmd[i] == ' ')
 		{
-			cmd[pos] = handle_env_vars(ft_substr(command, j, i - j), env);
+			cmd[pos] = handle_envs(ft_substr(_cmd, j, i - j), shell);
 			pos++;
 			j = i + 1;
 		}
-		else if (!command[i + 1])
+		else if (!_cmd[i + 1])
 		{
-			cmd[pos] = handle_env_vars(ft_substr(command, j, i + 1 - j), env);
+			cmd[pos] = handle_envs(ft_substr(_cmd, j, i + 1 - j), shell);
 			j = i + 1;
 		}
 		i++;

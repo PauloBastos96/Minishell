@@ -6,7 +6,7 @@
 #    By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/09 15:23:17 by paulorod          #+#    #+#              #
-#    Updated: 2023/08/25 13:37:31 by paulorod         ###   ########.fr        #
+#    Updated: 2023/08/28 15:38:44 by paulorod         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ SRCS	= minishell.c \
 	srcs/builtins/builtins.c \
 	srcs/builtins/env_utils.c \
 	srcs/builtins/utils.c \
+	srcs/utils/command_utils.c \
 	srcs/utils/commands.c \
 	srcs/utils/paths.c \
 	srcs/utils/signals.c \

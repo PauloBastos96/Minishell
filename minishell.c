@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/28 13:04:09 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/28 13:39:16 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,26 +33,26 @@ void	handle_commands(t_shell *shell)
 	if (!shell->cmd->cmd[0])
 		return ;
 	if (ft_strcmp(shell->cmd->cmd[0], "echo") == 0)
-		ft_echo(shell);
+		shell->status = ft_echo(shell);
 	else if (ft_strcmp(shell->cmd->cmd[0], "pwd") == 0)
-		ft_pwd(shell);
+		shell->status = ft_pwd(shell);
 	else if (ft_strcmp(shell->cmd->cmd[0], "cd") == 0)
-		ft_cd(shell);
+		shell->status = ft_cd(shell);
 	else if (ft_strcmp(shell->cmd->cmd[0], "env") == 0)
-		ft_env(shell);
+		shell->status = ft_env(shell);
 	else if (ft_strcmp(shell->cmd->cmd[0], "export") == 0)
-		ft_export(shell);
+		shell->status = ft_export(shell);
 	else if (ft_strcmp(shell->cmd->cmd[0], "unset") == 0)
-		ft_unset(shell);
+		shell->status = ft_unset(shell);
 	else if (ft_strcmp(shell->cmd->cmd[0], "exit") == 0)
-		ft_exit(shell->cmd);
+		shell->status = ft_exit(shell->cmd);
 	else
-		run_command(shell);
+		shell->status = run_command(shell);
 }
 
 /*Parse command into a t_cmd struct*/
 //TODO create multiple structs when there are pipes
-t_cmd	*command_parser(char *cmd_line, char ***env)
+t_cmd	*command_parser(char *cmd_line, t_shell *shell)
 {
 	t_cmd	*cmd_struct;
 	char	*command;
@@ -69,7 +69,7 @@ t_cmd	*command_parser(char *cmd_line, char ***env)
 		i++;
 	}
 	command = ft_substr(cmd_line, last_i, i);
-	cmd_struct->cmd = create_cmd(command, env);
+	cmd_struct->cmd = create_cmd(command, shell);
 	cmd_struct->output = 1;
 	free(command);
 	free(cmd_line);
@@ -94,7 +94,7 @@ void	shell_loop(t_shell *shell)
 		{
 			add_history(command);
 			if (ft_strlen(command) > 0)
-				shell->cmd = command_parser(command, &shell->env);
+				shell->cmd = command_parser(command, shell);
 			handle_commands(shell);
 			free_cmd(shell->cmd);
 		}
@@ -108,6 +108,7 @@ int	main(int argc, char **argv, const char **env)
 	t_shell	*shell;
 
 	shell = ft_calloc(sizeof(t_shell), 1);
+	shell->status = 0;
 	register_signals();
 	shell->env = fill_envs(env);
 	shell_loop(shell);
