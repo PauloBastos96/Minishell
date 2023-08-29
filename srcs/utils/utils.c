@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:59:38 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/24 15:55:47 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:12:42 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,24 +79,16 @@ void	free_cmd(t_cmd *cmd)
 	free(cmd);
 }
 
-void	insert_end(t_cmd **head)
+void	free_list(t_cmd *head)
 {
-	t_cmd	*new_node;
-	t_cmd	*temp;
+	t_cmd	*current;
+	t_cmd	*next;
 
-	temp = *head;
-	new_node = malloc(sizeof(t_cmd));
-	if (new_node == NULL)
-		return ;
-	new_node->next = NULL;
-	if ((*head) == NULL)
+	current = head;
+	while (current != NULL)
 	{
-		new_node->prev = NULL;
-		*head = new_node;
-		return ;
+		next = current->next;
+		free_cmd(current);
+		current = next;
 	}
-	while (temp->next != NULL)
-		temp = temp->next;
-	temp->next = new_node;
-	new_node->prev = temp;
 }

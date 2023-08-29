@@ -6,7 +6,7 @@
 #    By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/09 15:23:17 by paulorod          #+#    #+#              #
-#    Updated: 2023/08/24 10:37:59 by ffilipe-         ###   ########.fr        #
+#    Updated: 2023/08/28 14:33:06 by ffilipe-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ SRCS	= minishell.c \
 	srcs/utils/signals.c \
 	srcs/utils/utils.c \
 	srcs/utils/pipes_utils.c \
-	srcs/pipes/handle_pipes.c
+	srcs/pipes/handle_pipes.c \
+	srcs/utils/node_utils.c
 
 OBJS	= $(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/24 15:53:14 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:11:38 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,16 +81,13 @@ char	**create_cmd(char *command)
 
 void	command_parser(t_cmd **cmd_struct, char *cmd_line)
 {
-	char	*command;
-	int		i;
-	int		last_i;
+	int	i;
 
 	i = 0;
-	last_i = 0;
-	insert_end(cmd_struct);
-	command = ft_substr(cmd_line, last_i, ft_strlen(cmd_line));
-	(*cmd_struct)->cmd = create_cmd(command);
-	free(command);
+	if (!cmd_struct)
+		insert_front(cmd_struct, cmd_line);
+	else
+		insert_end(cmd_struct, cmd_line);
 	free(cmd_line);
 }
 
@@ -103,11 +100,11 @@ int	main(int argc, char **argv, const char **env)
 	char	**env_array;
 	t_cmd	*cmd;
 
-	cmd = NULL;
 	register_signals();
 	env_array = fill_envs(env);
 	while (true)
 	{
+		cmd = NULL;
 		command = readline(PROMPT);
 		if (!command)
 		{
@@ -120,14 +117,17 @@ int	main(int argc, char **argv, const char **env)
 			if (ft_strlen(command) > 0)
 			{
 				if (check_pipes(command) == 1)
+				{
 					handle_pipe_cmds(&cmd, command, env_array);
+					free_list(cmd);
+				}
 				else
 				{
 					command_parser(&cmd, command);
 					handle_commands(cmd, &env_array);
+					free_cmd(cmd);
 				}
 			}
-			//free_cmd(cmd);
 		}
 	}
 	(void)argc;

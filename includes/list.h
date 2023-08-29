@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:54:57 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/24 15:01:17 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/08/29 11:26:28 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ typedef struct s_cmd	t_cmd;
 //comand list
 struct					s_cmd
 {
+	pid_t				pid;
 	int					fd[2];
 	int					dup_fd[2];
 	char				*path;
