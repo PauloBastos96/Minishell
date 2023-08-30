@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/28 13:39:16 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/30 13:37:38 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,24 +55,11 @@ void	handle_commands(t_shell *shell)
 t_cmd	*command_parser(char *cmd_line, t_shell *shell)
 {
 	t_cmd	*cmd_struct;
-	char	*command;
-	int		i;
-	int		last_i;
 
-	i = 0;
-	last_i = 0;
 	cmd_struct = ft_calloc(sizeof(t_cmd), 1);
-	while (cmd_line[i])
-	{
-		if (cmd_line[i] == '|')
-			break ;
-		i++;
-	}
-	command = ft_substr(cmd_line, last_i, i);
-	cmd_struct->cmd = create_cmd(command, shell);
-	cmd_struct->output = 1;
-	free(command);
-	free(cmd_line);
+	cmd_struct->cmd = create_cmd_tokens(cmd_line, shell);
+	cmd_struct->fd[1] = 1;
+	//free(cmd_line);
 	return (cmd_struct);
 }
 

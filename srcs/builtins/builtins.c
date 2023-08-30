@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:00:41 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/28 12:54:00 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/30 13:38:12 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_env(t_shell *shell)
 	}
 	i = -1;
 	while (shell->env[++i])
-		print_fd(shell->env[i], cmd->output, NULL);
+		print_fd(shell->env[i], cmd->fd[0], NULL);
 	return (0);
 }
 
@@ -65,12 +65,12 @@ int	ft_echo(t_shell *shell)
 	i = 0 + (ft_strncmp("-n", cmd->cmd[1], 3) == 0);
 	while (cmd->cmd[++i])
 	{
-		write(cmd->output, cmd->cmd[i], ft_strlen(cmd->cmd[i]));
+		write(cmd->fd[0], cmd->cmd[i], ft_strlen(cmd->cmd[i]));
 		if (cmd->cmd[i + 1])
-			write(cmd->output, " ", 1);
+			write(cmd->fd[0], " ", 1);
 	}
 	if (ft_strncmp("-n", cmd->cmd[1], 3))
-		write(cmd->output, "\n", 1);
+		write(cmd->fd[0], "\n", 1);
 	return (0);
 }
 
@@ -92,7 +92,7 @@ int	ft_pwd(t_shell *shell)
 		perror("Pwd error");
 		return (1);
 	}
-	print_fd(pwd, cmd->output, NULL);
+	print_fd(pwd, cmd->fd[0], NULL);
 	free(pwd);
 	return (0);
 }

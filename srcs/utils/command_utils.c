@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:32:32 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/28 15:41:35 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/29 13:14:12 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*get_var_value(char *key, t_shell *shell)
 	return (NULL);
 }
 
-/*Join multiple env variables*/
+/*Join multiple strings and free old ones*/
 char	*join_values(char *v1, char *v2)
 {
 	char	*value;
