@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:32:32 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/29 13:14:12 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/30 16:22:00 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,41 @@ char	*parse_command(char *command, t_shell *shell)
 		i++;
 	}
 	return (env_value);
+}
+
+/*Check if position "i" in string is a special character*/
+bool	is_special_char(char *str, int i, int *end)
+{
+	if (str[i] == '|')
+		return (true);
+	if (str[i] == '<' && str[i + 1] != '<' && str[i - 1] != '<')
+		return (true);
+	if (str[i] == '>' && str[i + 1] != '>' && str[i - 1] != '>')
+		return (true);
+	if (str[i] == '<' && str[i + 1] == '<')
+	{
+		if (end)
+			*end = i + 1;
+		return (true);
+	}
+	if (str[i] == '>' && str[i + 1] == '>')
+	{
+		if (end)
+			*end = i + 1;
+		return (true);
+	}
+	return (false);
+}
+
+/*Check if character is between quotes*/
+bool	in_quotes(char c)
+{
+	static bool	d_quote = false;
+	static bool	s_quote = false;
+
+	if (c == '"' && !s_quote)
+		d_quote = !d_quote;
+	if (c == '\'' && !d_quote)
+		s_quote = !s_quote;
+	return (d_quote || s_quote);
 }

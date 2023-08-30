@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/30 13:37:38 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/30 16:07:06 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,11 @@ void	handle_commands(t_shell *shell)
 t_cmd	*command_parser(char *cmd_line, t_shell *shell)
 {
 	t_cmd	*cmd_struct;
+	char	**tokens;
 
 	cmd_struct = ft_calloc(sizeof(t_cmd), 1);
-	cmd_struct->cmd = create_cmd_tokens(cmd_line, shell);
+	tokens = create_cmd_tokens(cmd_line, shell);
+	cmd_struct = create_cmd_list(tokens, shell);
 	cmd_struct->fd[1] = 1;
 	//free(cmd_line);
 	return (cmd_struct);
@@ -83,7 +85,7 @@ void	shell_loop(t_shell *shell)
 			if (ft_strlen(command) > 0)
 				shell->cmd = command_parser(command, shell);
 			handle_commands(shell);
-			free_cmd(shell->cmd);
+			//free_cmd(shell->cmd);
 		}
 	}
 }
