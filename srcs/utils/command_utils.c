@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:32:32 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/30 16:22:00 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:39:25 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,13 @@ char	*get_var_value(char *key, t_shell *shell)
 {
 	char	*value;
 
-	value = ft_getenv(key, &shell->env);
-	free(key);
-	if (value)
-		return (ft_strdup(value));
+	if (ft_strlen(key) > 1)
+	{
+		value = ft_getenv(key, &shell->env);
+		free(key);
+		if (value)
+			return (ft_strdup(value));
+	}
 	return (NULL);
 }
 
@@ -49,29 +52,90 @@ char	*parse_command(char *command, t_shell *shell)
 {
 	int		i;
 	int		j;
+	int		start;
 	char	*env_var;
 	char	*env_value;
+	char	*final_value;
 	char	*temp;
+	bool	quote;
 
 	i = 0;
 	j = 0;
+	start = 0;
 	env_value = ft_strdup("");
+	final_value = ft_strdup("");
+	quote = false;
 	while (command[i])
 	{
-		if (command[i] == '$')
+		//Increment lenght of the start of the string until it finds a variable
+		start++;
+		//Check if the variable is in quotes and should be ignored
+		if (command[i] == '\'')
+			quote = !quote;
+		if (command[i] == '$' && !quote)
 		{
+			//Define start of the variable name
 			j = i + 1;
-			while (command[i] && command[i] != ' ' && command[i + 1] != '$')
+			i++;
+			//Find lenght of the variable name
+			while (command[i] && (ft_isalnum(command[i]) || command[i] == '_'))
 				i++;
+			//Get the name of the variable
 			env_var = ft_substr(command, j, i - j);
+			//Get value of the variable
 			temp = get_var_value(env_var, shell);
-			env_value = join_values(env_value, temp);
+			//Join value of the variable into the rest
+			if (temp)
+				env_value = ft_strdup(temp);
+			temp = malloc(sizeof(char) * start + 1);
+			//Copy start of the command until it finds a variable
+			ft_strlcpy(temp, command, start);
+			//Add the start of the command, the value of the variable
+			//and the rest of the command together
+			if (env_value)
+				final_value = ft_strjoin(final_value, env_value);
+			else
+				return (ft_strjoin(temp, &command[i]));
 		}
-		if (!command[i])
+		if (!command[i] || !ft_strchr(command, '$'))
 			break ;
 		i++;
 	}
-	return (env_value);
+	return (final_value);
+}
+
+char	*get_var_name(char *token)
+{
+	int		i;
+	char	name;
+
+	i = 0;
+	while (token[i] && (ft_isalnum(token[i]) || token[i] == '_'))
+		i++;
+	name = ft_calloc(sizeof(char), i);
+}
+
+char	*extend_env_vars(char *token, t_shell *shell)
+{
+	int		i;
+	bool	quote;
+	char	*new_token;
+
+	i = 0;
+	new_token = ft_calloc(sizeof(char), ft_strlen(token));
+	while (token[i])
+	{
+		if (token[i] == '\'')
+			quote = !quote;
+		if (token[i] != '$')
+			new_token[i] = token[i];
+		else if (token[i] == '$' && !quote)
+		{
+			while (token[i] && (ft_isalnum(token[i]) || token[i] == '_'))
+				i++;
+		}
+		i++;
+	}
 }
 
 /*Check if position "i" in string is a special character*/

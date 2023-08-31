@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/30 16:22:56 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/31 13:59:43 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,19 @@ int	create_command_process(t_cmd *cmd, char **env)
 }
 
 /*Replace environment variables with their value*/
-static char	*handle_envs(char *command, t_shell *shell)
+char	*handle_envs(char *token, t_shell *shell)
 {
 	char	*env_value;
 
-	env_value = parse_command(command, shell);
+	env_value = parse_command(token, shell);
 	if (env_value && *env_value)
 	{
-		free(command);
+		free(token);
 		return (env_value);
 	}
 	else if (env_value)
 		free(env_value);
-	return (command);
+	return (token);
 }
 
 /* OLD CODE
@@ -133,7 +133,7 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 		if (!is_special_char(tokens[i], 0, NULL))
 		{
 			command->indentifier = _command;
-			command->cmd[j++] = handle_envs(tokens[i], shell);
+			command->cmd[j++] = tokens[i];
 		}
 		else
 		{

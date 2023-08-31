@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/30 16:03:33 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/31 13:58:32 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ char	**create_cmd_tokens(char *command, t_shell *shell);
 char	*ft_getenv(const char *name, char ***_env);
 
 t_cmd	*create_cmd_list(char **tokens, t_shell *shell);
+char	*handle_envs(char *token, t_shell *shell);
 
 #endif
