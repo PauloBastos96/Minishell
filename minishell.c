@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/28 15:11:38 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/08/31 14:16:43 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,11 @@ int	main(int argc, char **argv, const char **env)
 				}
 				else
 				{
+					// here_doc(command);
 					command_parser(&cmd, command);
-					handle_commands(cmd, &env_array);
-					free_cmd(cmd);
+					handle_redirs(cmd, env_array);
+					// handle_commands(cmd, &env_array);
+					// free_cmd(cmd);
 				}
 			}
 		}

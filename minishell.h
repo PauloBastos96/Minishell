@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/29 11:50:54 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/08/31 14:05:49 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "Libft/libft.h"
 # include "includes/builtins.h"
 # include "includes/list.h"
+# include <fcntl.h>
 # include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -43,4 +44,8 @@ void		insert_front(t_cmd **head, char *cmd);
 void		free_list(t_cmd *head);
 int			start_exec(t_cmd **cmd_struct, char **env);
 int			run_command(t_cmd *cmd, char **env);
+int			handle_redir_in(t_cmd *cmd, char *file, char **env);
+void		handle_redirs(t_cmd *cmd, char **env);
+int			here_doc(char *command);
+
 #endif
