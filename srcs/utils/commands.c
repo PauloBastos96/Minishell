@@ -6,12 +6,12 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/31 15:39:01 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:37:40 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/shell.h"
 #include "../../includes/commands.h"
+#include "../../includes/shell.h"
 #include "../../minishell.h"
 
 /*Create sub-process for command*/
@@ -84,7 +84,6 @@ char	**old_create_cmd(char *_cmd, t_shell *shell)
 	}
 	return (cmd);
 }*/
-
 /*Get command type indentifier*/
 enum e_identifiers	get_cmd_type(char *token)
 {
@@ -137,8 +136,13 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 		}
 		else
 		{
+			j = 0;
 			command->next = create_token_cmd(tokens[i]);
-			command->next->next = create_cmd_list(&tokens[i + 1], shell);
+			if (command->next)
+			{
+				command = command->next;
+				command->cmd = ft_calloc(sizeof(char *), 1);
+			}
 		}
 		i++;
 	}

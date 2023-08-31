@@ -6,41 +6,21 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 09:56:07 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/08/30 13:29:02 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:29:50 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	handle_pipe_cmds(t_cmd **cmd, char *command, char **env)
-{
-	t_cmd	*tmp;
-	char	**cmd_args;
-	int		i;
-
-	i = 0;
-	tmp = *cmd;
-	if (check_valid_pipe(command) == 1)
-	{
-		cmd_args = ft_split(command, '|');
-		while (cmd_args[i])
-		{
-			command_parser(cmd, cmd_args[i]);
-			i++;
-		}
-	}
-	else
-		print_fd("No such file or directory", 2, command);
-	start_exec(cmd, env);
-	return ;
-}
-
-int	start_exec(t_cmd **cmd_struct, char **env)
+int	start_exec(t_shell *shell)
 {
 	int	fd[2];
 	int	pid1;
 	int	pid2;
 
+	printf("%s\n", shell->cmd->cmd[0]);
+	printf("%s\n", shell->cmd->cmd[1]);
+	printf("%s\n", shell->cmd->cmd[2]);
 	if (pipe(fd) == -1)
 		return (1);
 	pid1 = fork();
@@ -49,16 +29,16 @@ int	start_exec(t_cmd **cmd_struct, char **env)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[0]);
 		close(fd[1]);
-		run_command((*cmd_struct), env);
+		shell->cmd->path = search_command_path(shell->cmd->cmd[0]);
 	}
-	(*cmd_struct) = (*cmd_struct)->next;
 	pid2 = fork();
+	shell->cmd = shell->cmd->next;
 	if (pid2 == 0)
 	{
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
 		close(fd[1]);
-		run_command((*cmd_struct), env);
+		run_command(shell);
 	}
 	close(fd[0]);
 	close(fd[1]);

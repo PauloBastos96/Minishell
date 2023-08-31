@@ -6,7 +6,7 @@
 #    By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/09 15:23:17 by paulorod          #+#    #+#              #
-#    Updated: 2023/08/31 15:38:49 by ffilipe-         ###   ########.fr        #
+#    Updated: 2023/08/31 15:56:11 by ffilipe-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRCS	= minishell.c \
 	srcs/builtins/utils.c \
 	srcs/utils/command_utils.c \
 	srcs/utils/commands.c \
+	srcs/utils/command_parser.c \
 	srcs/utils/paths.c \
 	srcs/utils/signals.c \
 	srcs/utils/utils.c \
@@ -33,7 +34,7 @@ NAME	= minishell
 
 CC		= cc
 
-CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS	= -Wall -Wextra -Werror -g
 
 RM		= rm -rf
 
