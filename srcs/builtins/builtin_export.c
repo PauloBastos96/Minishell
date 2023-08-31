@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 12:49:20 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/23 12:56:00 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/28 12:58:20 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,26 +109,24 @@ static char	**export_witharg(char **new, char **env, t_cmd *cmd)
 }
 
 /*Builtin export command*/
-int	ft_export(t_cmd *cmd, char ***env)
+int	ft_export(t_shell *shell)
 {
 	int		i;
 	int		j;
 	char	**array;
-	char	**_env;
 
-	if (!cmd->cmd[1])
-		return (export_noarg(*env));
+	if (!shell->cmd->cmd[1])
+		return (export_noarg(shell->env));
 	i = 0;
 	j = 0;
-	_env = *env;
-	while (_env[i])
+	while (shell->env[i])
 		i++;
-	while (cmd->cmd[j])
+	while (shell->cmd->cmd[j])
 		j++;
 	array = ft_calloc(sizeof(array), i + j);
 	if (!array)
 		return (1);
-	array = export_witharg(array, *env, cmd);
-	*env = array;
+	array = export_witharg(array, shell->env, shell->cmd);
+	shell->env = array;
 	return (0);
 }

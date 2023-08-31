@@ -1,35 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list.h                                             :+:      :+:    :+:   */
+/*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/22 18:54:57 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/30 14:53:27 by paulorod         ###   ########.fr       */
+/*   Created: 2023/08/28 15:35:52 by paulorod          #+#    #+#             */
+/*   Updated: 2023/08/30 16:23:30 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIST_H
-# define LIST_H
+#ifndef COMMANDS_H
+# define COMMANDS_H
 
-# include "../Libft/libft.h"
+# include "list.h"
+# include "shell.h"
 
-typedef struct s_cmd	t_cmd;
-
-enum	e_identifiers {_command, _pipe, greater, lesser, output, input};
-
-//comand list
-struct					s_cmd
-{
-	pid_t				pid;
-	enum e_identifiers	indentifier;
-	int					fd[2];
-	int					dup_fd[2];
-	char				*path;
-	char				**cmd;
-	t_cmd				*next;
-	t_cmd				*prev;
-};
+char	*get_var_value(char *key, t_shell *shell);
+char	*join_values(char *v1, char *v2);
+char	*parse_command(char *command, t_shell *shell);
+bool	is_special_char(char *str, int i, int *end);
+bool	in_quotes(char c);
 
 #endif

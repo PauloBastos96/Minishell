@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:59:38 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/21 15:56:25 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/30 13:45:08 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,36 @@ void	free_cmd(t_cmd *cmd)
 	i = 0;
 	while (cmd->cmd[i])
 	{
-		free(cmd->cmd[i]);
+		if (*(cmd->cmd[i]))
+		{
+			//free(cmd->cmd[i]);
+			cmd->cmd[i] = NULL;
+		}
 		i++;
 	}
+	if (cmd->path)
+		free(cmd->path);
 	free(cmd->cmd);
 	free(cmd);
+}
+
+/*Custom getenv fucntion that searches our environment variable list*/
+char	*ft_getenv(const char *name, char ***_env)
+{
+	int		i;
+	char	*value;
+	char	**env;
+
+	i = 0;
+	env = *_env;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], name, ft_strlen(name)) == 0)
+		{
+			value = ft_strchr(env[i], '=');
+			return (value + 1);
+		}
+		i++;
+	}
+	return (NULL);
 }
