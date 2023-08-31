@@ -6,105 +6,73 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/31 14:16:43 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/08/31 15:40:26 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "includes/shell.h"
 #include "minishell.h"
 
 bool	g_using_sub_process = false;
 
 /*Search PATH for command, or use direct path, and run it*/
-int	run_command(t_cmd *cmd, char **env)
+int	run_command(t_shell *shell)
 {
-	if (ft_strchr(cmd->cmd[0], '/'))
-		cmd->path = cmd->cmd[0];
+	if (ft_strchr(shell->cmd->cmd[0], '/'))
+		shell->cmd->path = ft_strdup(shell->cmd->cmd[0]);
 	else
-		cmd->path = search_command_path(cmd->cmd[0]);
-	if (cmd->path)
-		return (create_command_process(cmd, env));
+		shell->cmd->path = search_command_path(shell->cmd->cmd[0]);
+	if (shell->cmd->path)
+		return (create_command_process(shell->cmd, shell->env));
 	return (1);
 }
 
 /*Handle builtin and external commands*/
-//TODO clear cmd struct on exit
-//TODO send echo, env and pwd to correct outputs
-void	handle_commands(t_cmd *cmd, char ***env)
+void	handle_commands(t_shell *shell)
 {
-	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
-		ft_echo(cmd, 1);
-	else if (ft_strcmp(cmd->cmd[0], "pwd") == 0)
-		ft_pwd(cmd, 1);
-	else if (ft_strcmp(cmd->cmd[0], "cd") == 0)
-		ft_cd(cmd);
-	else if (ft_strcmp(cmd->cmd[0], "env") == 0)
-		ft_env(cmd, *env, 1);
-	else if (ft_strcmp(cmd->cmd[0], "export") == 0)
-		ft_export(cmd, env);
-	else if (ft_strcmp(cmd->cmd[0], "unset") == 0)
-		ft_unset(env, cmd);
-	else if (ft_strcmp(cmd->cmd[0], "exit") == 0)
-		ft_exit(cmd);
+	if (!shell->cmd->cmd[0])
+		return ;
+	if (ft_strcmp(shell->cmd->cmd[0], "echo") == 0)
+		shell->status = ft_echo(shell);
+	else if (ft_strcmp(shell->cmd->cmd[0], "pwd") == 0)
+		shell->status = ft_pwd(shell);
+	else if (ft_strcmp(shell->cmd->cmd[0], "cd") == 0)
+		shell->status = ft_cd(shell);
+	else if (ft_strcmp(shell->cmd->cmd[0], "env") == 0)
+		shell->status = ft_env(shell);
+	else if (ft_strcmp(shell->cmd->cmd[0], "export") == 0)
+		shell->status = ft_export(shell);
+	else if (ft_strcmp(shell->cmd->cmd[0], "unset") == 0)
+		shell->status = ft_unset(shell);
+	else if (ft_strcmp(shell->cmd->cmd[0], "exit") == 0)
+		shell->status = ft_exit(shell->cmd);
 	else
-		run_command(cmd, *env);
+		shell->status = run_command(shell);
 }
 
-/*Create command struct*/
-char	**create_cmd(char *command)
+/*Parse command into a t_cmd struct*/
+//TODO create multiple structs when there are pipes
+t_cmd	*command_parser(char *cmd_line, t_shell *shell)
 {
-	char			**cmd;
-	int				pos;
-	size_t			i;
-	unsigned int	j;
+	t_cmd	*cmd_struct;
+	char	**tokens;
 
-	cmd = alloc_cmd(command);
-	i = 0;
-	j = 0;
-	pos = 0;
-	while (command[i])
-	{
-		if (command[i] == ' ')
-		{
-			cmd[pos] = ft_substr(command, j, i - j);
-			pos++;
-			j = i + 1;
-		}
-		else if (!command[i + 1])
-		{
-			cmd[pos] = ft_substr(command, j, i + 1 - j);
-			j = i + 1;
-		}
-		i++;
-	}
-	return (cmd);
+	cmd_struct = ft_calloc(sizeof(t_cmd), 1);
+	tokens = create_cmd_tokens(cmd_line, shell);
+	cmd_struct = create_cmd_list(tokens, shell);
+	cmd_struct->fd[1] = 1;
+	//free(cmd_line);
+	return (cmd_struct);
 }
 
-void	command_parser(t_cmd **cmd_struct, char *cmd_line)
-{
-	int	i;
-
-	i = 0;
-	if (!cmd_struct)
-		insert_front(cmd_struct, cmd_line);
-	else
-		insert_end(cmd_struct, cmd_line);
-	free(cmd_line);
-}
-
-//Start shell
+//Main shell loop
 //!readline has memory leaks that don't have to be fixed
-//!env should remain const because it should never be modified by us
-int	main(int argc, char **argv, const char **env)
+void	shell_loop(t_shell *shell)
 {
 	char	*command;
-	char	**env_array;
-	t_cmd	*cmd;
 
-	register_signals();
-	env_array = fill_envs(env);
 	while (true)
 	{
-		cmd = NULL;
 		command = readline(PROMPT);
 		if (!command)
 		{
@@ -115,23 +83,24 @@ int	main(int argc, char **argv, const char **env)
 		{
 			add_history(command);
 			if (ft_strlen(command) > 0)
-			{
-				if (check_pipes(command) == 1)
-				{
-					handle_pipe_cmds(&cmd, command, env_array);
-					free_list(cmd);
-				}
-				else
-				{
-					// here_doc(command);
-					command_parser(&cmd, command);
-					handle_redirs(cmd, env_array);
-					// handle_commands(cmd, &env_array);
-					// free_cmd(cmd);
-				}
-			}
+				shell->cmd = command_parser(command, shell);
+			handle_commands(shell);
+			//free_cmd(shell->cmd);
 		}
 	}
+}
+
+//Start shell
+//!env should remain const because it should never be modified by us
+int	main(int argc, char **argv, const char **env)
+{
+	t_shell	*shell;
+
+	shell = ft_calloc(sizeof(t_shell), 1);
+	shell->status = 0;
+	register_signals();
+	shell->env = fill_envs(env);
+	shell_loop(shell);
 	(void)argc;
 	(void)argv;
 	return (0);

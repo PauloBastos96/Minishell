@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell.h                                            :+:      :+:    :+:   */
+/*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/22 19:55:45 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/28 12:45:01 by paulorod         ###   ########.fr       */
+/*   Created: 2023/08/28 15:35:52 by paulorod          #+#    #+#             */
+/*   Updated: 2023/08/30 16:23:30 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHELL_H
-# define SHELL_H
+#ifndef COMMANDS_H
+# define COMMANDS_H
 
 # include "list.h"
+# include "shell.h"
 
-typedef struct s_shell	t_shell;
-
-//Shell data struct
-struct s_shell
-{
-	char		**env;
-	int			status;
-	t_cmd		*cmd;
-};
+char	*get_var_value(char *key, t_shell *shell);
+char	*join_values(char *v1, char *v2);
+char	*parse_command(char *command, t_shell *shell);
+bool	is_special_char(char *str, int i, int *end);
+bool	in_quotes(char c);
 
 #endif

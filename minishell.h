@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/31 14:05:49 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/08/31 15:39:24 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,27 +25,22 @@
 # include <sys/wait.h>
 
 extern bool	g_using_sub_process;
-t_list		**new_env_list(char **env);
-void		clear_env_list(t_list **env_list);
-void		register_signals(void);
-void		free_cmd(t_cmd *cmd);
-int			print_fd(char *error, char fd, char *name);
-int			create_command_process(t_cmd *cmd, char **env);
-char		**create_cmd(char *command);
-char		**alloc_cmd(char *command);
-char		**fill_envs(const char **env);
-char		*search_command_path(char *command);
-void		handle_pipe_cmds(t_cmd **cmd, char *command, char **env);
-int			check_pipes(char *cmd_str);
-int			check_valid_pipe(char *cmd_str);
-void		command_parser(t_cmd **cmd_struct, char *cmd_line);
-void		insert_end(t_cmd **head, char *cmd);
-void		insert_front(t_cmd **head, char *cmd);
-void		free_list(t_cmd *head);
-int			start_exec(t_cmd **cmd_struct, char **env);
-int			run_command(t_cmd *cmd, char **env);
-int			handle_redir_in(t_cmd *cmd, char *file, char **env);
-void		handle_redirs(t_cmd *cmd, char **env);
-int			here_doc(char *command);
+t_list	**new_env_list(char **env);
+void	clear_env_list(t_list **env_list);
+void	register_signals(void);
+void	free_cmd(t_cmd *cmd);
+void	clear_paths(char **paths);
+void	insert_end(t_cmd **head, char *cmd);
+void	insert_front(t_cmd **head, char *cmd);
+int		print_fd(char *error, char fd, char *name);
+int		create_command_process(t_cmd *cmd, char **env);
+char	**alloc_cmd(char *command);
+char	**fill_envs(const char **env);
+char	*get_full_path(char **paths, char *command);
+char	*search_command_path(char *command);
+char	**create_cmd_tokens(char *command, t_shell *shell);
+char	*ft_getenv(const char *name, char ***_env);
+
+t_cmd	*create_cmd_list(char **tokens, t_shell *shell);
 
 #endif

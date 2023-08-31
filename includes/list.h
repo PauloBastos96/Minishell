@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:54:57 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/29 11:26:28 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/08/31 15:38:30 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@
 
 typedef struct s_cmd	t_cmd;
 
+enum	e_identifiers {_command, _pipe, greater, lesser, output, input};
+
 //comand list
 struct					s_cmd
 {
 	pid_t				pid;
+	enum e_identifiers	indentifier;
 	int					fd[2];
 	int					dup_fd[2];
 	char				*path;
