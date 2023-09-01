@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:54:57 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/30 14:53:27 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:07:46 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 typedef struct s_cmd	t_cmd;
 
-enum	e_identifiers {_command, _pipe, greater, lesser, output, input};
+enum	e_identifiers {_command, _pipe, input, output, heredoc, append};
 
 //comand list
 struct					s_cmd

@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/31 13:59:43 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/01 15:33:06 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*handle_envs(char *token, t_shell *shell)
 {
 	char	*env_value;
 
-	env_value = parse_command(token, shell);
+	env_value = extend_env_vars(token, shell, false);
 	if (env_value && *env_value)
 	{
 		free(token);
@@ -51,7 +51,7 @@ char	*handle_envs(char *token, t_shell *shell)
 	}
 	else if (env_value)
 		free(env_value);
-	return (token);
+	return ("");
 }
 
 /* OLD CODE
@@ -93,16 +93,16 @@ enum e_identifiers	get_cmd_type(char *token)
 		if (*token == '|')
 			return (_pipe);
 		if (*token == '>')
-			return (greater);
+			return (output);
 		if (*token == '<')
-			return (lesser);
+			return (input);
 	}
 	else
 	{
 		if (*token == '>')
-			return (output);
+			return (append);
 		if (*token == '<')
-			return (input);
+			return (heredoc);
 	}
 	return (_command);
 }
@@ -133,12 +133,15 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 		if (!is_special_char(tokens[i], 0, NULL))
 		{
 			command->indentifier = _command;
-			command->cmd[j++] = tokens[i];
+			command->cmd[j++] = ft_strdup(tokens[i]);
 		}
 		else
 		{
+			j = 0;
 			command->next = create_token_cmd(tokens[i]);
 			command->next->next = create_cmd_list(&tokens[i + 1], shell);
+			command = command->next;
+			command->cmd = ft_calloc(sizeof(char *), 1);
 		}
 		i++;
 	}
