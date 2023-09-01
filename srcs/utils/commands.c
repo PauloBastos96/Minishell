@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/31 16:37:40 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:27:01 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ enum e_identifiers	get_cmd_type(char *token)
 		if (*token == '<')
 			return (input);
 	}
-	return (_command);
+	return (_pipe);
 }
 
 /*Create empty command struct for pipes and redirections*/
@@ -122,6 +122,7 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 	int		i;
 	int		j;
 	t_cmd	*command;
+	t_cmd	*tmp_cmd;
 
 	i = 0;
 	j = 0;
@@ -130,22 +131,24 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 	while (tokens[i])
 	{
 		if (!is_special_char(tokens[i], 0, NULL))
-		{
-			command->indentifier = _command;
 			command->cmd[j++] = handle_envs(tokens[i], shell);
-		}
 		else
 		{
 			j = 0;
+			command->indentifier = (enum e_identifiers)get_cmd_type(tokens[i]);
 			command->next = create_token_cmd(tokens[i]);
 			if (command->next)
 			{
+				tmp_cmd = command;
 				command = command->next;
+				command->prev = tmp_cmd;
 				command->cmd = ft_calloc(sizeof(char *), 1);
 			}
 		}
 		i++;
 	}
 	command->cmd[j] = NULL;
+	while (command->prev)
+		command = command->prev;
 	return (command);
 }
