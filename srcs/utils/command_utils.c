@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:32:32 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/01 15:32:43 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/01 15:43:12 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,12 @@ char	*extend_env_vars(char *token, t_shell *shell, bool ignore_quotes)
 					if (new_token)
 						new_token = extend_env_vars(ft_strjoin(new_token, &token[i]), shell, true);
 					break ;
+				}
+				else
+				{
+					new_token = ft_strjoin(new_token, ft_itoa(shell->status));
+					while (new_token[j])
+						j++;
 				}
 			}
 			else if (quote)

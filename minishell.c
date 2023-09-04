@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/01 13:27:51 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/01 16:29:45 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	run_command(t_shell *shell)
 		shell->cmd->path = search_command_path(shell->cmd->cmd[0]);
 	if (shell->cmd->path)
 		return (create_command_process(shell->cmd, shell->env));
-	return (1);
+	return (127);
 }
 
 /*Handle builtin and external commands*/

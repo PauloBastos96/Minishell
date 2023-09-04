@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/01 15:33:06 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/04 12:31:54 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,21 @@ int	create_command_process(t_cmd *cmd, char **env)
 
 	g_using_sub_process = true;
 	pid = fork();
+	status = 0;
 	if (pid == 0)
 	{
-		if (execve(cmd->path, cmd->cmd, (char **)env) == -1)
+		if (execve(cmd->path, cmd->cmd, env) == -1)
 			perror(NULL);
-		exit(0);
+		exit(127);
 	}
 	else
 	{
-		wait(&status);
+		waitpid(pid, &status, 0);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		g_using_sub_process = false;
 	}
-	return (status);
+	return (WEXITSTATUS(status));
 }
 
 /*Replace environment variables with their value*/
