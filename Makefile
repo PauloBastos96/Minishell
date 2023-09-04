@@ -6,7 +6,7 @@
 #    By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/09 15:23:17 by paulorod          #+#    #+#              #
-#    Updated: 2023/08/28 15:38:44 by paulorod         ###   ########.fr        #
+#    Updated: 2023/09/04 16:17:49 by paulorod         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,10 @@ SRCS	= minishell.c \
 	srcs/builtins/builtins.c \
 	srcs/builtins/env_utils.c \
 	srcs/builtins/utils.c \
-	srcs/utils/command_utils.c \
-	srcs/utils/commands.c \
+	srcs/commands/command_parser.c \
+	srcs/commands/command_utils.c \
+	srcs/commands/command_var_extension.c \
+	srcs/commands/commands.c \
 	srcs/utils/paths.c \
 	srcs/utils/signals.c \
 	srcs/utils/utils.c
@@ -54,5 +56,7 @@ fclean: clean
 		make -C $(LIBFT_PATH) fclean
 
 re: fclean all
+
+debug: all clean
 
 .PHONY: all clean fclean re

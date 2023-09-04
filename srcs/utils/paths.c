@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 12:30:32 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/25 12:32:53 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/04 15:03:01 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ char	*get_full_path(char **paths, char *command)
 	{
 		full_path = ft_strjoin(paths[i], command);
 		if (!access(full_path, F_OK))
-		{
-			free(command);
 			return (full_path);
-		}
 		free(full_path);
 		i++;
 	}
@@ -54,6 +51,7 @@ char	*search_command_path(char *command)
 		full_path = get_full_path(paths, cmd_path);
 		if (!full_path)
 			print_fd("Command not found", 2, command);
+		free(cmd_path);
 		clear_paths(paths);
 		return (full_path);
 	}
