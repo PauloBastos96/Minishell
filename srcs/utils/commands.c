@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/01 14:27:01 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/04 14:54:36 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,27 @@
 /*Create sub-process for command*/
 int	create_command_process(t_cmd *cmd, char **env)
 {
-	pid_t	pid;
-	int		status;
+	int	i;
 
-	g_using_sub_process = true;
-	pid = fork();
-	if (pid == 0)
-	{
-		if (execve(cmd->path, cmd->cmd, (char **)env) == -1)
-			perror(NULL);
-		exit(0);
-	}
-	else
-	{
-		wait(&status);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		g_using_sub_process = false;
-	}
-	return (status);
+	i = 0;
+	//pid_t	pid;
+	//int		status;
+	//g_using_sub_process = true;
+	// pid = fork();
+	// if (pid == 0)
+	// {
+	i = 0;
+	if (execve(cmd->path, cmd->cmd, (char **)env) == -1)
+		perror("execve");
+	// }
+	// else
+	// {
+	// 	wait(&status);
+	// 	rl_on_new_line();
+	// 	rl_replace_line("", 0);
+	// 	g_using_sub_process = false;
+	// }
+	return (0);
 }
 
 /*Replace environment variables with their value*/
@@ -134,20 +136,20 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 			command->cmd[j++] = handle_envs(tokens[i], shell);
 		else
 		{
-			j = 0;
 			command->indentifier = (enum e_identifiers)get_cmd_type(tokens[i]);
 			command->next = create_token_cmd(tokens[i]);
 			if (command->next)
 			{
+				command->cmd[j] = (char *)0;
 				tmp_cmd = command;
 				command = command->next;
 				command->prev = tmp_cmd;
+				j = 0;
 				command->cmd = ft_calloc(sizeof(char *), 1);
 			}
 		}
 		i++;
 	}
-	command->cmd[j] = NULL;
 	while (command->prev)
 		command = command->prev;
 	return (command);
