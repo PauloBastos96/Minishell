@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/04 14:54:36 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/05 12:48:18 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,8 @@ int	create_command_process(t_cmd *cmd, char **env)
 	int	i;
 
 	i = 0;
-	//pid_t	pid;
-	//int		status;
-	//g_using_sub_process = true;
-	// pid = fork();
-	// if (pid == 0)
-	// {
-	i = 0;
 	if (execve(cmd->path, cmd->cmd, (char **)env) == -1)
 		perror("execve");
-	// }
-	// else
-	// {
-	// 	wait(&status);
-	// 	rl_on_new_line();
-	// 	rl_replace_line("", 0);
-	// 	g_using_sub_process = false;
-	// }
 	return (0);
 }
 
@@ -56,36 +41,6 @@ static char	*handle_envs(char *command, t_shell *shell)
 	return (command);
 }
 
-/* OLD CODE
-Create command struct
-char	**old_create_cmd(char *_cmd, t_shell *shell)
-{
-	char			**cmd;
-	int				pos;
-	size_t			i;
-	unsigned int	j;
-
-	cmd = alloc_cmd(_cmd);
-	i = 0;
-	j = 0;
-	pos = 0;
-	while (_cmd[i])
-	{
-		if (_cmd[i] == ' ')
-		{
-			cmd[pos] = handle_envs(ft_substr(_cmd, j, i - j), shell);
-			pos++;
-			j = i + 1;
-		}
-		else if (!_cmd[i + 1])
-		{
-			cmd[pos] = handle_envs(ft_substr(_cmd, j, i + 1 - j), shell);
-			j = i + 1;
-		}
-		i++;
-	}
-	return (cmd);
-}*/
 /*Get command type indentifier*/
 enum e_identifiers	get_cmd_type(char *token)
 {
@@ -140,7 +95,7 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 			command->next = create_token_cmd(tokens[i]);
 			if (command->next)
 			{
-				command->cmd[j] = (char *)0;
+				command->cmd[j] = NULL;
 				tmp_cmd = command;
 				command = command->next;
 				command->prev = tmp_cmd;
