@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:32:32 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/04 15:46:50 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/05 13:55:39 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,20 +73,19 @@ bool	is_special_char(char *str, int i, int *end)
 /*Replace environment variables with their value*/
 char	*extend_env_vars(char *token, t_shell *shell, bool ignore_quotes)
 {
-	char	*new_token;
-	char	*trim;
+	t_var_ext	var_ext;
 
-	trim = ft_strtrim(token, "\"");
+	var_ext.token = ft_strtrim(token, "\"");
 	free(token);
-	token = trim;
-	if (ft_strchr(token, '$'))
+	if (ft_strchr(var_ext.token, '$'))
 	{
-		new_token = ft_calloc(sizeof(char), ft_strlen(token));
-		new_token = process_vars(token, new_token, ignore_quotes, shell);
-		free(token);
-		return (new_token);
+		var_ext.new_token = ft_calloc(sizeof(char),
+				ft_strlen(var_ext.token) + 1);
+		var_ext.new_token = process_vars(&var_ext, ignore_quotes, shell);
+		free(var_ext.token);
+		return (var_ext.new_token);
 	}
-	return (token);
+	return (var_ext.token);
 }
 
 /*Replace environment variables with their value*/
