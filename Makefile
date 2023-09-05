@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+         #
+#    By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/09 15:23:17 by paulorod          #+#    #+#              #
-#    Updated: 2023/08/28 15:38:44 by paulorod         ###   ########.fr        #
+#    Updated: 2023/09/05 13:09:20 by ffilipe-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,16 @@ SRCS	= minishell.c \
 	srcs/builtins/utils.c \
 	srcs/utils/command_utils.c \
 	srcs/utils/commands.c \
+	srcs/utils/command_parser.c \
 	srcs/utils/paths.c \
 	srcs/utils/signals.c \
-	srcs/utils/utils.c
+	srcs/utils/utils.c \
+	srcs/utils/pipes_utils.c \
+	srcs/pipes/handle_pipes.c \
+	srcs/utils/node_utils.c \
+	srcs/redirections/handle_redirections.c \
+	srcs/redirections/heredoc.c \
+	srcs/execution/exec.c
 
 OBJS	= $(SRCS:.c=.o)
 
@@ -28,7 +35,7 @@ NAME	= minishell
 
 CC		= cc
 
-CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS	= -Wall -Wextra -Werror -g
 
 RM		= rm -rf
 

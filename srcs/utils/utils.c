@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:59:38 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/30 13:45:08 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/08/31 15:40:02 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,4 +104,18 @@ char	*ft_getenv(const char *name, char ***_env)
 		i++;
 	}
 	return (NULL);
+}
+
+void	free_list(t_cmd *head)
+{
+	t_cmd	*current;
+	t_cmd	*next;
+
+	current = head;
+	while (current != NULL)
+	{
+		next = current->next;
+		free_cmd(current);
+		current = next;
+	}
 }

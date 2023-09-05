@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/30 16:07:06 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/05 12:46:02 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "includes/shell.h"
+#include "minishell.h"
 
 bool	g_using_sub_process = false;
 
@@ -63,31 +63,6 @@ t_cmd	*command_parser(char *cmd_line, t_shell *shell)
 	cmd_struct->fd[1] = 1;
 	//free(cmd_line);
 	return (cmd_struct);
-}
-
-//Main shell loop
-//!readline has memory leaks that don't have to be fixed
-void	shell_loop(t_shell *shell)
-{
-	char	*command;
-
-	while (true)
-	{
-		command = readline(PROMPT);
-		if (!command)
-		{
-			printf("exit\n");
-			exit(0);
-		}
-		if (*command)
-		{
-			add_history(command);
-			if (ft_strlen(command) > 0)
-				shell->cmd = command_parser(command, shell);
-			handle_commands(shell);
-			//free_cmd(shell->cmd);
-		}
-	}
 }
 
 //Start shell

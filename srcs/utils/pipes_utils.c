@@ -1,36 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list.h                                             :+:      :+:    :+:   */
+/*   pipes_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/22 18:54:57 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/04 12:15:58 by ffilipe-         ###   ########.fr       */
+/*   Created: 2023/08/24 10:22:57 by ffilipe-          #+#    #+#             */
+/*   Updated: 2023/08/24 14:01:11 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIST_H
-# define LIST_H
+#include "../../minishell.h"
 
-# include "../Libft/libft.h"
-
-typedef struct s_cmd	t_cmd;
-
-enum	e_identifiers {_pipe, greater, lesser, output, input};
-
-//comand list
-struct					s_cmd
+int	check_pipes(char *cmd_str)
 {
-	pid_t				pid;
-	enum e_identifiers	indentifier;
-	int					fd[2];
-	int					dup_fd[2];
-	char				*path;
-	char				**cmd;
-	int					status;
-	t_cmd				*next;
-	t_cmd				*prev;
-};
+	if (ft_strnstr(cmd_str, "|", ft_strlen(cmd_str)))
+		return (1);
+	return (0);
+}
 
-#endif
+int	check_valid_pipe(char *cmd_str)
+{
+	int	i;
+
+	i = 0;
+	while (cmd_str[i])
+	{
+		if (cmd_str[i] == '|')
+		{
+			if (cmd_str[i - 1] != ' ')
+				return (0);
+			if (cmd_str[i + 1] != ' ')
+				return (0);
+		}
+		i++;
+	}
+	return (1);
+}

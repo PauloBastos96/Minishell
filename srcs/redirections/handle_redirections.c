@@ -1,36 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list.h                                             :+:      :+:    :+:   */
+/*   handle_redirections.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/22 18:54:57 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/04 12:15:58 by ffilipe-         ###   ########.fr       */
+/*   Created: 2023/08/30 13:55:29 by ffilipe-          #+#    #+#             */
+/*   Updated: 2023/09/05 13:08:48 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIST_H
-# define LIST_H
+#include "../../minishell.h"
 
-# include "../Libft/libft.h"
-
-typedef struct s_cmd	t_cmd;
-
-enum	e_identifiers {_pipe, greater, lesser, output, input};
-
-//comand list
-struct					s_cmd
+int	handle_redir_out(t_cmd *cmd)
 {
-	pid_t				pid;
-	enum e_identifiers	indentifier;
-	int					fd[2];
-	int					dup_fd[2];
-	char				*path;
-	char				**cmd;
-	int					status;
-	t_cmd				*next;
-	t_cmd				*prev;
-};
+    (void)cmd;
+    return(1);
+}
 
-#endif
+int	handle_redir_in(t_cmd *cmd)
+{
+    (void)cmd;
+    return(1);
+}
+
+void	handle_redir_in_hdoc(void)
+{
+	printf("Redir In HDOC\n");
+}
+
+void	handle_redir_out_hdoc(void)
+{
+	printf("Redir Out HDOC\n");
+}
