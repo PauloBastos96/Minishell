@@ -23,6 +23,8 @@
                 "srcs/commands/command_var_extension.c",
                 "srcs/commands/command_var_utils.c",
                 "srcs/commands/commands.c",
+                "srcs/execution/exec.c",
+                "srcs/pipes/handle_pipes.c",
                 "srcs/utils/paths.c",
                 "srcs/utils/signals.c",
                 "srcs/utils/utils.c",

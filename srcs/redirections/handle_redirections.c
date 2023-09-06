@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell.h                                            :+:      :+:    :+:   */
+/*   handle_redirections.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/22 19:55:45 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/01 10:57:38 by ffilipe-         ###   ########.fr       */
+/*   Created: 2023/08/30 13:55:29 by ffilipe-          #+#    #+#             */
+/*   Updated: 2023/09/05 13:08:48 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHELL_H
-# define SHELL_H
+#include "../../minishell.h"
 
-# include "list.h"
-
-typedef struct s_shell	t_shell;
-
-//Shell data struct
-struct s_shell
+int	handle_redir_out(t_cmd *cmd)
 {
-	char		**env;
-	int			status;
-	t_cmd		*cmd;
-};
+    (void)cmd;
+    return(1);
+}
 
-#endif
+int	handle_redir_in(t_cmd *cmd)
+{
+    (void)cmd;
+    return(1);
+}
+
+void	handle_redir_in_hdoc(void)
+{
+	printf("Redir In HDOC\n");
+}
+
+void	handle_redir_out_hdoc(void)
+{
+	printf("Redir Out HDOC\n");
+}

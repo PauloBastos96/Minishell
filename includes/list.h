@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:54:57 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/05 13:02:40 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:31:18 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 typedef struct s_cmd	t_cmd;
 
-enum	e_identifiers {_command, _pipe, input, output, heredoc, append};
+enum	e_identifiers {_pipe, input, output, heredoc, append};
 
 //comand list
 struct					s_cmd
@@ -28,6 +28,7 @@ struct					s_cmd
 	int					dup_fd[2];
 	char				*path;
 	char				**cmd;
+	int					status;
 	t_cmd				*next;
 	t_cmd				*prev;
 };

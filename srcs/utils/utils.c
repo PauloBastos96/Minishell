@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:59:38 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/04 13:38:02 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:23:40 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,18 @@ char	*ft_getenv(const char *name, char ***_env)
 		i++;
 	}
 	return (NULL);
+}
+
+void	free_list(t_cmd *head)
+{
+	t_cmd	*current;
+	t_cmd	*next;
+
+	current = head;
+	while (current != NULL)
+	{
+		next = current->next;
+		free_cmd(current);
+		current = next;
+	}
 }

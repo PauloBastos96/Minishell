@@ -1,28 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell.h                                            :+:      :+:    :+:   */
+/*   pipes_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/22 19:55:45 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/01 10:57:38 by ffilipe-         ###   ########.fr       */
+/*   Created: 2023/08/24 10:22:57 by ffilipe-          #+#    #+#             */
+/*   Updated: 2023/08/24 14:01:11 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHELL_H
-# define SHELL_H
+#include "../../minishell.h"
 
-# include "list.h"
-
-typedef struct s_shell	t_shell;
-
-//Shell data struct
-struct s_shell
+int	check_pipes(char *cmd_str)
 {
-	char		**env;
-	int			status;
-	t_cmd		*cmd;
-};
+	if (ft_strnstr(cmd_str, "|", ft_strlen(cmd_str)))
+		return (1);
+	return (0);
+}
 
-#endif
+int	check_valid_pipe(char *cmd_str)
+{
+	int	i;
+
+	i = 0;
+	while (cmd_str[i])
+	{
+		if (cmd_str[i] == '|')
+		{
+			if (cmd_str[i - 1] != ' ')
+				return (0);
+			if (cmd_str[i + 1] != ' ')
+				return (0);
+		}
+		i++;
+	}
+	return (1);
+}

@@ -8,6 +8,7 @@
 		"wait.h": "c",
 		"builtins.h": "c",
 		"fcntl.h": "c",
-		"shell.h": "c"
+		"shell.h": "c",
+		"commands.h": "c"
 	}
 }
