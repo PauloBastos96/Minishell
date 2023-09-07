@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:00:41 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/06 15:52:27 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/07 16:03:05 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_env(t_shell *shell)
 	}
 	i = -1;
 	while (shell->env[++i])
-		print_fd(shell->env[i], cmd->fd[1], NULL);
+		print_fd(shell->env[i], 1, NULL);
 	return (0);
 }
 
@@ -65,12 +65,12 @@ int	ft_echo(t_shell *shell)
 	i = 0 + (ft_strncmp("-n", cmd->cmd[1], 3) == 0);
 	while (cmd->cmd[++i])
 	{
-		write(cmd->dup_fd[1], cmd->cmd[i], ft_strlen(cmd->cmd[i]));
+		write(1, cmd->cmd[i], ft_strlen(cmd->cmd[i]));
 		if (cmd->cmd[i + 1])
-			write(cmd->dup_fd[1], " ", 1);
+			write(1, " ", 1);
 	}
 	if (ft_strncmp("-n", cmd->cmd[1], 3))
-		write(cmd->dup_fd[1], "\n", 1);
+		write(1, "\n", 1);
 	return (0);
 }
 

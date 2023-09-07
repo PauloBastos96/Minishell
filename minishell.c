@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/06 14:33:37 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/07 16:14:36 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,46 +56,14 @@ t_cmd	*command_parser(char *cmd_line, t_shell *shell)
 {
 	t_cmd	*cmd_struct;
 	char	**tokens;
-	//int		i;
 
 	tokens = create_cmd_tokens(cmd_line, shell);
 	cmd_struct = create_cmd_list(tokens, shell);
 	cmd_struct->fd[1] = 1;
 	free(cmd_line);
-	//i = 0;
-	/*while (tokens[i])
-	{
-		free(tokens[i]);
-		i++;
-	}*/
 	free(tokens);
 	return (cmd_struct);
 }
-
-//Main shell loop
-//!readline has memory leaks that don't have to be fixed
-/*void	shell_loop(t_shell *shell)
-{
-	char	*command;
-
-	while (true)
-	{
-		command = readline(PROMPT);
-		if (!command)
-		{
-			printf("exit\n");
-			exit(0);
-		}
-		if (*command)
-		{
-			add_history(command);
-			if (ft_strlen(command) > 0)
-				shell->cmd = command_parser(command, shell);
-			handle_commands(shell);
-			free_cmd(shell->cmd);
-		}
-	}
-}*/
 
 //Start shell
 //!env should remain const because it should never be modified by us

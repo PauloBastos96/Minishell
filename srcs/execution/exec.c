@@ -6,38 +6,67 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 12:45:36 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/05 15:47:49 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/07 16:06:02 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/*void start_exec(t_shell *shell)
+bool	is_builtin(t_cmd *cmd)
 {
-    t_cmd *cmd;
-    t_cmd *start;
+	if (!cmd->cmd[0])
+		return (false);
+	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
+		return (true);
+	else if (ft_strcmp(cmd->cmd[0], "pwd") == 0)
+		return (true);
+	else if (ft_strcmp(cmd->cmd[0], "cd") == 0)
+		return (true);
+	else if (ft_strcmp(cmd->cmd[0], "env") == 0)
+		return (true);
+	else if (ft_strcmp(cmd->cmd[0], "export") == 0)
+		return (true);
+	else if (ft_strcmp(cmd->cmd[0], "unset") == 0)
+		return (true);
+	else if (ft_strcmp(cmd->cmd[0], "exit") == 0)
+		return (true);
+	return (false);
+}
 
-    start = shell->cmd;
-    while(shell->cmd)
-    {
-        cmd = shell->cmd;
-        if(cmd->indentifier == 0)
-            exec_pipes(shell);
-        if(cmd->indentifier == 1)
-            handle_redir_out(cmd);
-        shell->cmd = shell->cmd->next;
-    }
-    while (shell->cmd)
+void	start_exec(t_shell *shell)
+{
+	t_cmd	*cmd;
+	t_cmd	*start;
+
+	start = shell->cmd;
+	if (!shell->cmd->next && is_builtin(shell->cmd))
 	{
-		waitpid(shell->cmd->pid, &shell->cmd->status, 0);
-		if (WIFEXITED(shell->cmd->status))
-			shell->cmd->status = WEXITSTATUS(shell->cmd->status);
+		handle_commands(shell);
+		return ;
+	}
+	while (shell->cmd)
+	{
+		cmd = shell->cmd;
+		exec_pipes(shell);
+		if (cmd->prev)
+			close_safe(&cmd->prev->fd[0]);
+		close_safe(&cmd->fd[1]);
+		if (!cmd->next)
+			close_safe(&cmd->fd[0]);
 		shell->cmd = shell->cmd->next;
 	}
-}*/
+	shell->cmd = start;
+	while (shell->cmd)
+	{
+		waitpid(shell->cmd->pid, &shell->status, 0);
+		if (WIFEXITED(shell->cmd->status))
+			shell->status = WEXITSTATUS(shell->status);
+		shell->cmd = shell->cmd->next;
+	}
+}
 
-//Main shell loop
-//!readline has memory leaks that don't have to be fixed
+// Main shell loop
+//! readline has memory leaks that don't have to be fixed
 void	shell_loop(t_shell *shell)
 {
 	char	*command;
@@ -56,12 +85,11 @@ void	shell_loop(t_shell *shell)
 			if (ft_strlen(command) > 0)
 			{
 				shell->cmd = command_parser(command, shell);
-				exec_pipes(shell);
-                //start_exec(shell);
+				// exec_pipes(shell);
+				start_exec(shell);
 			}
-			//break ;
-			//handle_commands(shell);
-			//free_cmd(shell->cmd);
+			// handle_commands(shell);
+			// free_cmd(shell->cmd);
 		}
 	}
 }

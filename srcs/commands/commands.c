@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/06 16:10:44 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/07 15:49:18 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,10 @@
 /*Create sub-process for command*/
 int	create_command_process(t_cmd *cmd, char **env)
 {
-	int	status;
-
-	cmd->pid = fork();
-	if (cmd->pid == 0)
-	{
-		if (execve(cmd->path, cmd->cmd, env) == -1)
-			perror("execve");
-		//exit (127);
-	}
-	waitpid(cmd->pid, &status, 0);
-	if (WIFEXITED(status))
-		status = WEXITSTATUS(status);
-	return (status);
+	if (execve(cmd->path, cmd->cmd, env) == -1)
+		perror("execve");
+	// exit (127);
+	return (1);
 }
 
 /*Get command type indentifier*/
@@ -40,18 +31,18 @@ enum e_identifiers	get_cmd_type(char *token)
 		if (*token == '|')
 			return (_pipe);
 		if (*token == '>')
-			return (output);
+			return (greater);
 		if (*token == '<')
-			return (input);
+			return (lesser);
 	}
 	else
 	{
 		if (*token == '>')
-			return (append);
+			return (output);
 		if (*token == '<')
-			return (heredoc);
+			return (input);
 	}
-	return (_pipe);
+	return (single);
 }
 
 /*Create empty command struct for pipes and redirections*/
@@ -59,10 +50,9 @@ t_cmd	*create_token_cmd(char *token)
 {
 	t_cmd	*command;
 
+	(void)token;
 	command = ft_calloc(sizeof(t_cmd), 1);
-	command->fd[0] = STDIN_FILENO;
-	command->fd[1] = STDOUT_FILENO;
-	command->indentifier = (enum e_identifiers)get_cmd_type(token);
+	command->indentifier = unknown;
 	return (command);
 }
 
@@ -96,15 +86,18 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 	i = 0;
 	j = 0;
 	command = ft_calloc(sizeof(t_cmd), 1);
-	command->fd[0] = STDIN_FILENO;
-	command->fd[1] = STDOUT_FILENO;
-	command->cmd = ft_calloc(sizeof(char *), get_cmd_size(tokens));
+	command->cmd = ft_calloc(sizeof(char *), 100);
 	while (tokens[i])
 	{
 		if (!is_special_char(tokens[i], 0, NULL))
+		{
+			command->indentifier = (enum e_identifiers)get_cmd_type(tokens[i]);
 			command->cmd[j++] = handle_envs(tokens[i], shell);
+		}
 		else
 		{
+			//if (set_redirs(tokens, &i, shell, command))
+			//	continue ;
 			command->indentifier = (enum e_identifiers)get_cmd_type(tokens[i]);
 			command->next = create_token_cmd(tokens[i]);
 			if (command->next)
@@ -114,7 +107,7 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 				command = command->next;
 				command->prev = tmp_cmd;
 				j = 0;
-				command->cmd = ft_calloc(sizeof(char *), 1);
+				command->cmd = ft_calloc(sizeof(char *), 100);
 			}
 		}
 		i++;
