@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:32:32 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/30 16:22:00 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/07 13:46:41 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,9 @@ bool	is_special_char(char *str, int i, int *end)
 {
 	if (str[i] == '|')
 		return (true);
-	if (str[i] == '<' && str[i + 1] != '<' && str[i - 1] != '<')
+	if (str[i] == '<' && str[i + 1] != '<' && (i == 0 || str[i - 1] != '<'))
 		return (true);
-	if (str[i] == '>' && str[i + 1] != '>' && str[i - 1] != '>')
+	if (str[i] == '>' && str[i + 1] != '>' &&  (i == 0 || str[i - 1] != '>'))
 		return (true);
 	if (str[i] == '<' && str[i + 1] == '<')
 	{
