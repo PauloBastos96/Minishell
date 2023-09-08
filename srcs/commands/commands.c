@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/07 15:49:18 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/08 13:43:26 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 
 	i = 0;
 	j = 0;
+	(void)shell;
 	command = ft_calloc(sizeof(t_cmd), 1);
 	command->cmd = ft_calloc(sizeof(char *), 100);
 	while (tokens[i])
@@ -92,7 +93,7 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 		if (!is_special_char(tokens[i], 0, NULL))
 		{
 			command->indentifier = (enum e_identifiers)get_cmd_type(tokens[i]);
-			command->cmd[j++] = handle_envs(tokens[i], shell);
+			command->cmd[j++] = tokens[i];
 		}
 		else
 		{

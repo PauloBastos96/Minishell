@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:32:32 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/07 15:50:25 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/08 13:25:49 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,30 @@ bool	is_special_char(char *str, int i, int *end)
 	return (false);
 }
 
+/*Trim quotes from token*/
+char	*trim_quotes(char *token)
+{
+	char	*trimmed;
+	int		i;
+
+	i = 0;
+	while (token[i] && token[i] == ' ')
+		i++;
+	if (token[i] == '"')
+		trimmed = ft_strtrim(token, "\"");
+	else if (token[i] == '\'')
+		trimmed = ft_strtrim(token, "'");
+	else
+		trimmed = ft_strdup(token);
+	return (trimmed);
+}
+
 /*Replace environment variables with their value*/
 char	*extend_env_vars(char *token, t_shell *shell, bool ignore_quotes)
 {
 	t_var_ext	var_ext;
 
-	var_ext.token = ft_strtrim(token, "\"");
+	var_ext.token = trim_quotes(token);
 	free(token);
 	if (ft_strchr(var_ext.token, '$'))
 	{
