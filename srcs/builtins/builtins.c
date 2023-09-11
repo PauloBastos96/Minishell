@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:00:41 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/07 16:03:05 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/11 14:58:39 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_env(t_shell *shell)
 	}
 	i = -1;
 	while (shell->env[++i])
-		print_fd(shell->env[i], 1, NULL);
+		print_fd(shell->env[i], STDOUT_FILENO, NULL);
 	return (0);
 }
 
@@ -92,7 +92,7 @@ int	ft_pwd(t_shell *shell)
 		perror("Pwd error");
 		return (1);
 	}
-	print_fd(pwd, cmd->fd[1], NULL);
+	print_fd(pwd, STDOUT_FILENO, NULL);
 	free(pwd);
 	return (0);
 }

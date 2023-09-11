@@ -28,6 +28,8 @@
                 "srcs/redirections/handle_redirections.c",
                 "srcs/redirections/heredoc.c",
                 "srcs/utils/paths.c",
+                "srcs/utils/pipes_utils.c",
+                "srcs/utils/redirs_utils.c",
                 "srcs/utils/signals.c",
                 "srcs/utils/utils.c",
                 "Libft/libft.a",

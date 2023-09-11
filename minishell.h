@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/07 15:18:23 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/11 14:57:19 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,6 @@ enum e_identifiers	get_cmd_type(char *token);
 char				*handle_envs(char *command, t_shell *shell);
 void				swap_fd(int *fd, int target);
 int					handle_redir_in(t_cmd *cmd);
+void				handle_redir_hdoc(t_cmd *cmd);
+void				handle_redir_out_append(t_cmd *cmd);
 #endif
