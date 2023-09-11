@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:32:32 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/11 13:56:27 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/11 14:43:12 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,24 +70,7 @@ bool	is_special_char(char *str, int i, int *end)
 	return (false);
 }
 
-/*Trim quotes from token*/
-char	*trim_quotes(char *token)
-{
-	char	*trimmed;
-	int		i;
-
-	i = 0;
-	while (token[i] && token[i] == ' ')
-		i++;
-	if (token[i] == '"')
-		trimmed = ft_strtrim(token, "\"");
-	else if (token[i] == '\'')
-		trimmed = ft_strtrim(token, "'");
-	else
-		trimmed = ft_strdup(token);
-	return (trimmed);
-}
-
+/*Get number of quotes to ignore in token*/
 int	get_quote_count(char *token)
 {
 	int		i;
