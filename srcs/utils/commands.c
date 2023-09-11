@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/07 13:59:42 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/11 13:24:58 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,6 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 	command->cmd = ft_calloc(sizeof(char *), 100);
 	while (tokens[i])
 	{
-		printf("token: %s\n", tokens[i]);
-		printf("%d\n", i);
 		if (!is_special_char(tokens[i], 0, NULL))
 		{
 			command->indentifier = (enum e_identifiers)get_cmd_type(tokens[i]);

@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 09:56:07 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/07 14:23:19 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/11 14:02:27 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,12 @@ void	bind_std(t_cmd *cmd)
 	{
 		if (cmd->redirs->indentifier == lesser)
 			handle_redir_in(cmd);
-		if (cmd->redirs->indentifier == greater)
+		else if (cmd->redirs->indentifier == greater)
 			handle_redir_out(cmd);
+		else if (cmd->redirs->indentifier == output)
+			handle_redir_out_append(cmd);
+		else if (cmd->redirs->indentifier == input)
+			handle_redir_hdoc(cmd);
 		cmd->redirs = cmd->redirs->next;
 	}
 	cmd->redirs = redirs;
@@ -60,7 +64,6 @@ int	exec_pipes(t_shell *shell)
 	t_cmd *cmd;
 
 	cmd = shell->cmd;
-	printf("exec_pipes\n");
 	if (pipe(cmd->fd) == -1)
 	{
 		// TODO: PROPER ERROR HANDLING
@@ -70,6 +73,8 @@ int	exec_pipes(t_shell *shell)
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		bind_std(cmd);
 		cmd->dup_fd[0] = dup2(cmd->std.in, STDIN_FILENO);
 		cmd->dup_fd[1] = dup2(cmd->std.out, STDOUT_FILENO);

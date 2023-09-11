@@ -6,11 +6,22 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 12:45:36 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/07 14:19:07 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/11 14:04:47 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void ft_wait(t_cmd *cmd)
+{
+	while (cmd)
+	{
+		waitpid(cmd->pid, &cmd->status, 0);
+		if (WIFEXITED(cmd->status))
+			cmd->status = WEXITSTATUS(cmd->status);
+		cmd = cmd->next;
+	}
+}
 
 bool	is_builtIn(t_cmd *cmd)
 {
@@ -39,11 +50,12 @@ void	start_exec(t_shell *shell)
 	t_cmd	*start;
 
 	start = shell->cmd;
-	if (!shell->cmd->next && is_builtIn(shell->cmd))
+	if (!shell->cmd->next && is_builtIn(shell->cmd) && !shell->cmd->redirs)
 	{
 		handle_commands(shell);
 		return ;
 	}
+	g_using_sub_process = true;
 	while (shell->cmd)
 	{
 		cmd = shell->cmd;
@@ -56,13 +68,8 @@ void	start_exec(t_shell *shell)
 		shell->cmd = shell->cmd->next;
 	}
 	shell->cmd = start;
-	while (shell->cmd)
-	{
-		waitpid(shell->cmd->pid, &shell->cmd->status, 0);
-		if (WIFEXITED(shell->cmd->status))
-			shell->cmd->status = WEXITSTATUS(shell->cmd->status);
-		shell->cmd = shell->cmd->next;
-	}
+	ft_wait(shell->cmd);
+	g_using_sub_process = false;
 }
 
 // Main shell loop
@@ -85,10 +92,9 @@ void	shell_loop(t_shell *shell)
 			if (ft_strlen(command) > 0)
 			{
 				shell->cmd = command_parser(command, shell);
-				// exec_pipes(shell);
 				start_exec(shell);
+				//handle_redir_out_hdoc(shell->cmd);
 			}
-			// handle_commands(shell);
 			// free_cmd(shell->cmd);
 		}
 	}

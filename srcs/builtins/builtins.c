@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:00:41 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/07 12:19:20 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/11 13:47:20 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_env(t_shell *shell)
 	}
 	i = -1;
 	while (shell->env[++i])
-		print_fd(shell->env[i], cmd->fd[0], NULL);
+		print_fd(shell->env[i], STDOUT_FILENO, NULL);
 	return (0);
 }
 
@@ -92,7 +92,7 @@ int	ft_pwd(t_shell *shell)
 		perror("Pwd error");
 		return (1);
 	}
-	print_fd(pwd, cmd->fd[0], NULL);
+	print_fd(pwd, STDOUT_FILENO, NULL);
 	free(pwd);
 	return (0);
 }
