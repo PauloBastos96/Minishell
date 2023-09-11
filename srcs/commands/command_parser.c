@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:18:12 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/30 16:22:53 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/01 13:34:05 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ char	*separate_special_chars(char *command)
 char	*check_unclosed_quotes(char *command)
 {
 	char	*rl_tmp;
-	char	*tmp;
 	char	*promt;
 	int		i;
 
@@ -87,10 +86,7 @@ char	*check_unclosed_quotes(char *command)
 		else if (!in_quotes('\''))
 			promt = "quote>";
 		rl_tmp = readline(promt);
-		tmp = ft_strjoin(command, rl_tmp);
-		free(command);
-		free(rl_tmp);
-		command = tmp;
+		command = join_values(command, rl_tmp);
 	}
 	i = 0;
 	while (command[i])
@@ -124,10 +120,16 @@ char	*prepare_string(char *command)
 char	**create_cmd_tokens(char *command, t_shell *shell)
 {
 	char	**cmd;
+	int		i;
 
-	(void)shell;
+	i = 0;
 	command = prepare_string(command);
 	command = separate_special_chars(command);
 	cmd = ft_split(command, '\1');
+	while (cmd[i])
+	{
+		cmd[i] = handle_envs(cmd[i], shell);
+		i++;
+	}
 	return (cmd);
 }
