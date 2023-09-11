@@ -6,24 +6,28 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 12:45:36 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/11 15:01:17 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/11 16:12:02 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void ft_wait(t_cmd *cmd)
+void	ft_wait(t_shell *shell)
 {
+	t_cmd	*cmd;
+
+	cmd = shell->cmd;
 	while (cmd)
 	{
 		waitpid(cmd->pid, &cmd->status, 0);
 		if (WIFEXITED(cmd->status))
 			cmd->status = WEXITSTATUS(cmd->status);
+		shell->status = cmd->status;
 		cmd = cmd->next;
 	}
 }
 
-bool	is_builtIn(t_cmd *cmd)
+bool	is_builtin(t_cmd *cmd)
 {
 	if (!cmd->cmd[0])
 		return (false);
@@ -50,7 +54,7 @@ void	start_exec(t_shell *shell)
 	t_cmd	*start;
 
 	start = shell->cmd;
-	if (!shell->cmd->next && is_builtIn(shell->cmd) && !shell->cmd->redirs)
+	if (!shell->cmd->next && is_builtin(shell->cmd) && !shell->cmd->redirs)
 	{
 		handle_commands(shell);
 		return ;
@@ -68,7 +72,7 @@ void	start_exec(t_shell *shell)
 		shell->cmd = shell->cmd->next;
 	}
 	shell->cmd = start;
-	ft_wait(shell->cmd);
+	ft_wait(shell);
 	g_using_sub_process = false;
 }
 
@@ -93,11 +97,8 @@ void	shell_loop(t_shell *shell)
 			{
 				shell->cmd = command_parser(command, shell);
 				start_exec(shell);
-				//handle_redir_out_hdoc(shell->cmd);
 			}
-			// handle_commands(shell);
 			free_cmd(shell->cmd);
-			//free(command); //!Double free here when using unclosed quotes
 		}
 	}
 }

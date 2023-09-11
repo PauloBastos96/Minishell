@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/11 15:00:25 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/11 15:30:03 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 		if (!is_special_char(tokens[i], 0, NULL))
 		{
 			command->indentifier = (enum e_identifiers)get_cmd_type(tokens[i]);
-			command->cmd[j++] = tokens[i];
+			command->cmd[j++] = ft_strdup(tokens[i]);
 		}
 		else
 		{

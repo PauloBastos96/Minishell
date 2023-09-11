@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:18:12 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/01 13:34:05 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/11 15:46:46 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,5 +131,6 @@ char	**create_cmd_tokens(char *command, t_shell *shell)
 		cmd[i] = handle_envs(cmd[i], shell);
 		i++;
 	}
+	free(command);
 	return (cmd);
 }
