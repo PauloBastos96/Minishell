@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:59:38 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/11 13:59:11 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/12 13:13:08 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,11 @@ void	free_cmd(t_cmd *cmd)
 		}
 		if (cmd->path)
 			free(cmd->path);
+		if (cmd->redirs)
+		{
+			free(cmd->redirs->redirection);
+			free(cmd->redirs);
+		}
 		free(cmd->cmd);
 		temp = cmd->next;
 		free(cmd);

@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/11 14:57:19 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/12 13:08:28 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MINISHELL_H
 
 # define PROMPT "minishell$ "
+# define HEREDOC_ERROR "warning: here-document delimited \
+by end-of-file (wanted '"
 # define _GNU_SOURCE
 
 # include "Libft/libft.h"

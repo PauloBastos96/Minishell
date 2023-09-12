@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:32:32 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/11 15:40:43 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/12 13:26:41 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,9 @@ char	*extend_env_vars(char *token, t_shell *shell, bool ignore_quotes)
 	t_var_ext	var_ext;
 	char		*tmp;
 
-	var_ext.token = token;
+	if (!token)
+		return (NULL);
+	var_ext.token = ft_strdup(token);
 	if (ft_strchr(var_ext.token, '$'))
 	{
 		var_ext.new_token = ft_calloc(sizeof(char),
