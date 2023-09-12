@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:32:32 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/12 13:26:41 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/12 14:44:31 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ char	*handle_envs(char *token, t_shell *shell)
 	char	*env_value;
 
 	env_value = extend_env_vars(token, shell, false);
+	free(token);
 	if (env_value && *env_value)
 		return (env_value);
 	else if (env_value)

@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 12:45:36 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/11 16:12:02 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/12 14:52:15 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,19 @@ void	start_exec(t_shell *shell)
 	shell->cmd = start;
 	ft_wait(shell);
 	g_using_sub_process = false;
+}
+
+void	free_envs(t_shell *shell)
+{
+	int	i;
+
+	i = 0;
+	while (shell->env[i])
+	{
+		free(shell->env[i]);
+		i++;
+	}
+	free(shell->env);
 }
 
 // Main shell loop

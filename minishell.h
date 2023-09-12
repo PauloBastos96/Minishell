@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/12 13:08:28 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/12 14:24:38 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,5 @@ void				swap_fd(int *fd, int target);
 int					handle_redir_in(t_cmd *cmd);
 void				handle_redir_hdoc(t_cmd *cmd);
 void				handle_redir_out_append(t_cmd *cmd);
+void				free_envs(t_shell *shell);
 #endif

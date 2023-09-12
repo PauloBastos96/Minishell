@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 12:38:53 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/11 15:19:39 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/12 14:11:59 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@ int	set_redirs(char **tokens, int *i, t_shell *shell, t_cmd *command)
 	t_redirs			*tmp;
 	enum e_identifiers	check;
 
+	(void)shell;
 	check = (enum e_identifiers)get_cmd_type(tokens[*i]);
 	if (check == lesser || check == greater || check == output
 		|| check == input)
 	{
 		redirs = ft_calloc(sizeof(t_redirs), 1);
 		redirs->indentifier = check;
-		redirs->redirection = handle_envs(tokens[++(*i)], shell);
+		redirs->redirection = ft_strdup(tokens[++(*i)]);
 		tmp = command->redirs;
 		while (tmp && tmp->next)
 			tmp = tmp->next;

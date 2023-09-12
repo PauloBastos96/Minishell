@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:18:12 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/11 15:46:46 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/12 14:41:56 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,18 +119,18 @@ char	*prepare_string(char *command)
 /*Split command into tokens*/
 char	**create_cmd_tokens(char *command, t_shell *shell)
 {
-	char	**cmd;
+	char	**tokens;
 	int		i;
 
 	i = 0;
 	command = prepare_string(command);
 	command = separate_special_chars(command);
-	cmd = ft_split(command, '\1');
-	while (cmd[i])
+	tokens = ft_split(command, '\1');
+	while (tokens[i])
 	{
-		cmd[i] = handle_envs(cmd[i], shell);
+		tokens[i] = handle_envs(tokens[i], shell);
 		i++;
 	}
 	free(command);
-	return (cmd);
+	return (tokens);
 }

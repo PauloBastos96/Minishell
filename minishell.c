@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/11 15:40:58 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/12 14:24:09 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	handle_commands(t_shell *shell)
 	else if (ft_strcmp(shell->cmd->cmd[0], "unset") == 0)
 		shell->status = ft_unset(shell);
 	else if (ft_strcmp(shell->cmd->cmd[0], "exit") == 0)
-		shell->status = ft_exit(shell->cmd);
+		shell->status = ft_exit(shell);
 	else
 		shell->status = run_command(shell);
 }

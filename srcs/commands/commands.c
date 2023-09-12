@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/11 15:30:03 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/12 14:31:04 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 	j = 0;
 	(void)shell;
 	command = ft_calloc(sizeof(t_cmd), 1);
-	command->cmd = ft_calloc(sizeof(char *), 100);
+	command->cmd = ft_calloc(sizeof(char *), 100); //?Change this to use the correct size instead of over-allocating memory
 	while (tokens[i])
 	{
 		if (!is_special_char(tokens[i], 0, NULL))
@@ -108,7 +108,7 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 				command = command->next;
 				command->prev = tmp_cmd;
 				j = 0;
-				command->cmd = ft_calloc(sizeof(char *), 100);
+				command->cmd = ft_calloc(sizeof(char *), 100); //?Change this to use the correct size instead of over-allocating memory
 			}
 		}
 		i++;
