@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 12:38:53 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/12 14:11:59 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/12 15:08:41 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,14 @@ int	set_redirs(char **tokens, int *i, t_shell *shell, t_cmd *command)
 	{
 		redirs = ft_calloc(sizeof(t_redirs), 1);
 		redirs->indentifier = check;
-		redirs->redirection = ft_strdup(tokens[++(*i)]);
+		if (tokens[(*i) + 1])
+			redirs->redirection = ft_strdup(tokens[++(*i)]);
+		else
+		{
+			free(redirs);
+			redirs = NULL;
+			print_fd("parse error", 2, NULL);
+		}
 		tmp = command->redirs;
 		while (tmp && tmp->next)
 			tmp = tmp->next;
