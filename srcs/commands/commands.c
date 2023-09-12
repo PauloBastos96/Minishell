@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/12 14:31:04 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/12 15:55:32 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ int	create_command_process(t_cmd *cmd, char **env)
 {
 	if (execve(cmd->path, cmd->cmd, env) == -1)
 		perror("execve");
-	// exit (127);
-	return (1);
+	return (127);
 }
 
 /*Get command type indentifier*/

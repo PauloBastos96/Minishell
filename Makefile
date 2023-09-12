@@ -6,7 +6,7 @@
 #    By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/09 15:23:17 by paulorod          #+#    #+#              #
-#    Updated: 2023/09/12 14:40:20 by paulorod         ###   ########.fr        #
+#    Updated: 2023/09/12 15:34:04 by paulorod         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRCS	= minishell.c \
 	srcs/builtins/env_utils.c \
 	srcs/builtins/utils.c \
 	srcs/commands/command_parser.c \
+	srcs/commands/command_quote_handling.c \
 	srcs/commands/command_utils.c \
 	srcs/commands/command_var_extension.c \
 	srcs/commands/command_var_utils.c \

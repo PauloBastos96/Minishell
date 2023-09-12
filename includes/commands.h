@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:35:52 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/11 13:47:53 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/12 15:31:45 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ char	*process_vars(t_var_ext *var_ext, bool ignore_quotes, t_shell *shell);
 char	*remove_quotes(char *token);
 bool	is_special_char(char *str, int i, int *end);
 bool	in_quotes(char c);
+int		get_quote_count(char *token);
 
 #endif

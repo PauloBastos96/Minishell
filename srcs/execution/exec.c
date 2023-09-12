@@ -6,12 +6,13 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 12:45:36 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/12 14:52:15 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/12 15:30:01 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+/*Wait for sub process to complete*/
 void	ft_wait(t_shell *shell)
 {
 	t_cmd	*cmd;
@@ -27,6 +28,7 @@ void	ft_wait(t_shell *shell)
 	}
 }
 
+/*Check if command is a builtin*/
 bool	is_builtin(t_cmd *cmd)
 {
 	if (!cmd->cmd[0])
@@ -48,6 +50,7 @@ bool	is_builtin(t_cmd *cmd)
 	return (false);
 }
 
+/*Start command execution*/
 void	start_exec(t_shell *shell)
 {
 	t_cmd	*cmd;
@@ -76,6 +79,7 @@ void	start_exec(t_shell *shell)
 	g_using_sub_process = false;
 }
 
+/*Free environment variables*/
 void	free_envs(t_shell *shell)
 {
 	int	i;
