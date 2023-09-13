@@ -6,7 +6,7 @@
 #    By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/09 15:23:17 by paulorod          #+#    #+#              #
-#    Updated: 2023/09/12 15:34:04 by paulorod         ###   ########.fr        #
+#    Updated: 2023/09/13 12:36:44 by paulorod         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,12 +25,10 @@ SRCS	= minishell.c \
 	srcs/execution/exec.c \
 	srcs/pipes/handle_pipes.c \
 	srcs/redirections/handle_redirections.c \
-	srcs/redirections/heredoc.c \
 	srcs/utils/paths.c \
 	srcs/utils/signals.c \
 	srcs/utils/utils.c \
 	srcs/utils/pipes_utils.c \
-	srcs/utils/node_utils.c \
 	srcs/utils/redirs_utils.c
 
 OBJS	= $(SRCS:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/12 14:24:38 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/13 12:56:41 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ int					handle_redir_out(t_cmd *cmd);
 t_cmd				*command_parser(char *cmd_line, t_shell *shell);
 void				handle_commands(t_shell *shell);
 int					close_safe(int *fd);
-int					set_redirs(char **tokens, int *i, t_shell *shell,
-						t_cmd *command);
+int					set_redirs(char **tokens, int *i, t_cmd *command);
 enum e_identifiers	get_cmd_type(char *token);
 char				*handle_envs(char *command, t_shell *shell);
 void				swap_fd(int *fd, int target);

@@ -6,12 +6,13 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:55:29 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/12 15:58:34 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/13 12:41:58 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+/*Output redirection*/
 int	handle_redir_out(t_cmd *cmd)
 {
 	int	fd;
@@ -26,6 +27,7 @@ int	handle_redir_out(t_cmd *cmd)
 	return (1);
 }
 
+/*Input redirection*/
 int	handle_redir_in(t_cmd *cmd)
 {
 	int	fd;
@@ -41,19 +43,29 @@ int	handle_redir_in(t_cmd *cmd)
 	return (1);
 }
 
+/*Get heredoc error message*/
+char	*heredoc_error_message(char *redir)
+{
+	char	*tmp;
+	char	*error;
+
+	tmp = ft_strjoin(HEREDOC_ERROR, redir);
+	error = ft_strjoin(tmp, "')");
+	free(tmp);
+	return (error);
+}
+
+/*Heredoc*/
 void	handle_redir_hdoc(t_cmd *cmd)
 {
 	char	*definer;
 	char	*error;
-	char	*tmp;
 	int		h_doc[2];
 
 	if (pipe(h_doc) == -1)
 		exit(1);
 	swap_fd(&cmd->std.in, h_doc[0]);
-	tmp = ft_strjoin(HEREDOC_ERROR, cmd->redirs->redirection);
-	error = ft_strjoin(tmp, "')");
-	free(tmp);
+	error = heredoc_error_message(cmd->redirs->redirection);
 	while (1)
 	{
 		definer = readline("heredoc> ");
@@ -71,6 +83,7 @@ void	handle_redir_hdoc(t_cmd *cmd)
 	close_safe(&h_doc[1]);
 }
 
+/*Output redirection in append mode*/
 void	handle_redir_out_append(t_cmd *cmd)
 {
 	int	fd;
