@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:54:57 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/07 13:49:13 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/12 10:15:24 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ enum					e_identifiers
 {
 	unknown,
 	_pipe,
-	greater,
-	lesser,
-	output,
-	input,
+	great,
+	less,
+	append,
+	h_doc,
 	single
 };
 

@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/11 13:24:58 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:21:16 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,16 @@ enum e_identifiers	get_cmd_type(char *token)
 		if (*token == '|')
 			return (_pipe);
 		if (*token == '>')
-			return (greater);
+			return (great);
 		if (*token == '<')
-			return (lesser);
+			return (less);
 	}
 	else
 	{
 		if (*token == '>')
-			return (output);
+			return (append);
 		if (*token == '<')
-			return (input);
+			return (h_doc);
 	}
 	return (single);
 }
@@ -76,6 +76,7 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 {
 	int i;
 	int j;
+	int check;
 	t_cmd *command;
 	t_cmd *tmp_cmd;
 
@@ -92,8 +93,11 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 		}
 		else
 		{
-			if (set_redirs(tokens, &i, shell, command))
+			check = set_redirs(tokens, &i, shell, command); 
+			if (check == 1)
 				continue ;
+			else if(check == -1)
+				return(NULL);
 			command->indentifier = (enum e_identifiers)get_cmd_type(tokens[i]);
 			command->next = create_token_cmd(tokens[i]);
 			if (command->next)

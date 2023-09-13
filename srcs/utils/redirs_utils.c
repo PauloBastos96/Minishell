@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 12:38:53 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/07 14:01:36 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:32:16 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,15 @@ int	set_redirs(char **tokens, int *i, t_shell *shell, t_cmd *command)
 	enum e_identifiers check;
 
 	check = (enum e_identifiers)get_cmd_type(tokens[*i]);
-	if (check == lesser || check == greater || check == output
-		|| check == input)
+	if (check == less || check == great || check == append
+		|| check == h_doc)
 	{
 		redirs = ft_calloc(sizeof(t_redirs), 1);
 		redirs->indentifier = check;
-		redirs->redirection = handle_envs(tokens[++(*i)], shell);
+		if(tokens[++(*i)])
+			redirs->redirection = handle_envs(tokens[++(*i)], shell);
+		else
+			return(print_fd("Parse error near `\\n'", STDERR_FILENO, "minishell"), -1);
 		tmp = command->redirs;
 		while (tmp && tmp->next)
 			tmp = tmp->next;

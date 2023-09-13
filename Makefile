@@ -6,7 +6,7 @@
 #    By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/09 15:23:17 by paulorod          #+#    #+#              #
-#    Updated: 2023/09/07 12:47:18 by ffilipe-         ###   ########.fr        #
+#    Updated: 2023/09/12 10:12:51 by ffilipe-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,6 @@ SRCS	= minishell.c \
 	srcs/utils/utils.c \
 	srcs/utils/pipes_utils.c \
 	srcs/pipes/handle_pipes.c \
-	srcs/utils/node_utils.c \
 	srcs/redirections/handle_redirections.c \
 	srcs/redirections/heredoc.c \
 	srcs/execution/exec.c \

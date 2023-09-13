@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/07 13:24:44 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:21:44 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ t_cmd	*command_parser(char *cmd_line, t_shell *shell)
 	cmd_struct = ft_calloc(sizeof(t_cmd), 1);
 	tokens = create_cmd_tokens(cmd_line, shell);
 	cmd_struct = create_cmd_list(tokens, shell);
-	cmd_struct->fd[1] = 1;
-	//free(cmd_line);
+	free(cmd_line);
+	free(tokens);
 	return (cmd_struct);
 }
 

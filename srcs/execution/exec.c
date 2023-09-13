@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 12:45:36 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/11 14:04:47 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:22:52 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,11 @@ void	shell_loop(t_shell *shell)
 			if (ft_strlen(command) > 0)
 			{
 				shell->cmd = command_parser(command, shell);
+				if(!shell->cmd)
+					continue ;
 				start_exec(shell);
-				//handle_redir_out_hdoc(shell->cmd);
 			}
-			// free_cmd(shell->cmd);
+			free_cmd(shell->cmd);
 		}
 	}
 }

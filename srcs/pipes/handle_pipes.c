@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 09:56:07 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/11 14:02:27 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/12 14:40:26 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,12 @@ void	swap_fd(int *fd, int target)
 	*fd = target;
 }
 
-void	bind_std(t_cmd *cmd)
+void	bind_std(t_shell *shell)
 {
 	t_redirs	*redirs;
-
+	t_cmd		*cmd;
+	
+	cmd = shell->cmd;
 	cmd->std.in = dup(STDIN_FILENO);
 	cmd->std.out = dup(STDOUT_FILENO);
 	if (cmd->prev)
@@ -46,14 +48,14 @@ void	bind_std(t_cmd *cmd)
 	redirs = cmd->redirs;
 	while (cmd->redirs)
 	{
-		if (cmd->redirs->indentifier == lesser)
+		if (cmd->redirs->indentifier == less)
 			handle_redir_in(cmd);
-		else if (cmd->redirs->indentifier == greater)
+		else if (cmd->redirs->indentifier == great)
 			handle_redir_out(cmd);
-		else if (cmd->redirs->indentifier == output)
+		else if (cmd->redirs->indentifier == append)
 			handle_redir_out_append(cmd);
-		else if (cmd->redirs->indentifier == input)
-			handle_redir_hdoc(cmd);
+		else if (cmd->redirs->indentifier == h_doc)
+			handle_redir_hdoc(shell);
 		cmd->redirs = cmd->redirs->next;
 	}
 	cmd->redirs = redirs;
@@ -75,7 +77,7 @@ int	exec_pipes(t_shell *shell)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		bind_std(cmd);
+		bind_std(shell);
 		cmd->dup_fd[0] = dup2(cmd->std.in, STDIN_FILENO);
 		cmd->dup_fd[1] = dup2(cmd->std.out, STDOUT_FILENO);
 		if (cmd->dup_fd[0] == -1 || cmd->dup_fd[1] == -1)
