@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/12 14:24:09 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/13 13:33:15 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ t_cmd	*command_parser(char *cmd_line, t_shell *shell)
 
 	tokens = create_cmd_tokens(cmd_line, shell);
 	cmd_struct = create_cmd_list(tokens, shell);
-	cmd_struct->fd[1] = 1;
 	i = 0;
 	while (tokens[i])
 		free(tokens[i++]);

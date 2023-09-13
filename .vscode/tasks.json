@@ -27,6 +27,7 @@
                 "srcs/execution/exec.c",
                 "srcs/pipes/handle_pipes.c",
                 "srcs/redirections/handle_redirections.c",
+                "srcs/redirections/heredoc.c",
                 "srcs/utils/paths.c",
                 "srcs/utils/pipes_utils.c",
                 "srcs/utils/redirs_utils.c",

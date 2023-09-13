@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 09:56:07 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/13 12:33:57 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/13 14:12:37 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,12 @@ void	swap_fd(int *fd, int target)
 	*fd = target;
 }
 
-/*Set file descriptors*/
-void	bind_std(t_cmd *cmd)
+void	bind_std(t_shell *shell)
 {
 	t_redirs	*redirs;
+	t_cmd		*cmd;
 
+	cmd = shell->cmd;
 	cmd->std.in = dup(STDIN_FILENO);
 	cmd->std.out = dup(STDOUT_FILENO);
 	if (cmd->prev)
@@ -49,14 +50,14 @@ void	bind_std(t_cmd *cmd)
 	redirs = cmd->redirs;
 	while (cmd->redirs)
 	{
-		if (cmd->redirs->indentifier == lesser)
-			handle_redir_in(cmd);
-		else if (cmd->redirs->indentifier == greater)
-			handle_redir_out(cmd);
-		else if (cmd->redirs->indentifier == output)
-			handle_redir_out_append(cmd);
-		else if (cmd->redirs->indentifier == input)
-			handle_redir_hdoc(cmd);
+		if (cmd->redirs->indentifier == less)
+			handle_redir_in(shell);
+		else if (cmd->redirs->indentifier == great)
+			handle_redir_out(shell);
+		else if (cmd->redirs->indentifier == append)
+			handle_redir_out_append(shell);
+		else if (cmd->redirs->indentifier == h_doc)
+			handle_redir_hdoc(shell);
 		cmd->redirs = cmd->redirs->next;
 	}
 	cmd->redirs = redirs;
@@ -66,11 +67,12 @@ void	bind_std(t_cmd *cmd)
 void	pipe_process(t_shell *shell)
 {
 	t_cmd	*cmd;
+	int		status;
 
 	cmd = shell->cmd;
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	bind_std(cmd);
+	bind_std(shell);
 	cmd->dup_fd[0] = dup2(cmd->std.in, STDIN_FILENO);
 	cmd->dup_fd[1] = dup2(cmd->std.out, STDOUT_FILENO);
 	if (cmd->dup_fd[0] == -1 || cmd->dup_fd[1] == -1)
@@ -80,6 +82,7 @@ void	pipe_process(t_shell *shell)
 		close_safe(&cmd->dup_fd[0]);
 		close_safe(&cmd->dup_fd[1]);
 		perror("dups");
+		free_all(shell);
 		exit(1);
 	}
 	close_safe(&cmd->std.out);
@@ -87,7 +90,9 @@ void	pipe_process(t_shell *shell)
 	handle_commands(shell);
 	close_safe(&cmd->dup_fd[0]);
 	close_safe(&cmd->dup_fd[1]);
-	exit(shell->status);
+	status = shell->status;
+	free_all(shell);
+	exit(status);
 }
 
 /*Execute pipes*/

@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 12:45:36 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/12 15:30:01 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/13 14:30:13 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	shell_loop(t_shell *shell)
 		if (!command)
 		{
 			printf("exit\n");
+			free_all(shell);
 			exit(0);
 		}
 		if (*command)
@@ -113,9 +114,10 @@ void	shell_loop(t_shell *shell)
 			if (ft_strlen(command) > 0)
 			{
 				shell->cmd = command_parser(command, shell);
+				if (!shell->cmd)
+					continue ;
 				start_exec(shell);
 			}
-			free_cmd(shell->cmd);
 		}
 	}
 }

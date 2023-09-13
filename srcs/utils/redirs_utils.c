@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 12:38:53 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/13 12:59:04 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/13 13:26:17 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	set_redirs(char **tokens, int *i, t_cmd *command)
 	enum e_identifiers	check;
 
 	check = (enum e_identifiers)get_cmd_type(tokens[*i]);
-	if (check >= greater && check <= input)
+	if (check >= great && check <= h_doc)
 	{
 		redirs = ft_calloc(sizeof(t_redirs), 1);
 		redirs->indentifier = check;
