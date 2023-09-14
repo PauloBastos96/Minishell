@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:54:57 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/07 15:20:03 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/13 13:15:54 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ enum					e_identifiers
 {
 	unknown,
 	_pipe,
-	greater,
-	lesser,
-	output,
-	input,
+	great,
+	less,
+	append,
+	h_doc,
 	single
 };
 

@@ -19,6 +19,7 @@
                 "srcs/builtins/env_utils.c",
                 "srcs/builtins/utils.c",
                 "srcs/commands/command_parser.c",
+                "srcs/commands/command_quote_handling.c",
                 "srcs/commands/command_utils.c",
                 "srcs/commands/command_var_extension.c",
                 "srcs/commands/command_var_utils.c",

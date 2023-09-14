@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:58:53 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/28 13:04:00 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/12 14:23:49 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		ft_cd(t_shell *shell);
 int		ft_env(t_shell *shell);
 int		ft_export(t_shell *shell);
 int		ft_unset(t_shell *shell);
-int		ft_exit(t_cmd *cmd);
+int		ft_exit(t_shell *shell);
 void	update_pwd(char ***_env);
 
 #endif

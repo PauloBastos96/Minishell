@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:22:57 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/08/24 14:01:11 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/13 13:43:41 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include "../../includes/shell.h"
 
 int	check_pipes(char *cmd_str)
 {
@@ -36,4 +37,11 @@ int	check_valid_pipe(char *cmd_str)
 		i++;
 	}
 	return (1);
+}
+
+void	free_all(t_shell *shell)
+{
+	free_cmd(shell->cmd);
+	free_envs(shell);
+	free(shell);
 }

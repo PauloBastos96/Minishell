@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/11 14:57:19 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/13 14:12:29 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MINISHELL_H
 
 # define PROMPT "minishell$ "
+# define HEREDOC_ERROR "warning: here-document delimited \
+by end-of-file (wanted '"
 # define _GNU_SOURCE
 
 # include "Libft/libft.h"
@@ -43,16 +45,17 @@ t_cmd				*create_cmd_list(char **tokens, t_shell *shell);
 char				**create_cmd_tokens(char *command, t_shell *shell);
 int					run_command(t_shell *shell);
 void				shell_loop(t_shell *shell);
-int					handle_redir_out(t_cmd *cmd);
 t_cmd				*command_parser(char *cmd_line, t_shell *shell);
 void				handle_commands(t_shell *shell);
 int					close_safe(int *fd);
-int					set_redirs(char **tokens, int *i, t_shell *shell,
-						t_cmd *command);
+int					set_redirs(char **tokens, int *i, t_cmd *command);
 enum e_identifiers	get_cmd_type(char *token);
 char				*handle_envs(char *command, t_shell *shell);
 void				swap_fd(int *fd, int target);
-int					handle_redir_in(t_cmd *cmd);
-void				handle_redir_hdoc(t_cmd *cmd);
-void				handle_redir_out_append(t_cmd *cmd);
+void				handle_redir_out(t_shell *shell);
+void				handle_redir_in(t_shell *shell);
+void				handle_redir_hdoc(t_shell *shell);
+void				handle_redir_out_append(t_shell *shell);
+void				free_envs(t_shell *shell);
+void				free_all(t_shell *shell);
 #endif

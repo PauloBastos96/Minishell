@@ -6,7 +6,7 @@
 #    By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/09 15:23:17 by paulorod          #+#    #+#              #
-#    Updated: 2023/09/07 15:52:33 by paulorod         ###   ########.fr        #
+#    Updated: 2023/09/13 13:14:50 by paulorod         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRCS	= minishell.c \
 	srcs/builtins/env_utils.c \
 	srcs/builtins/utils.c \
 	srcs/commands/command_parser.c \
+	srcs/commands/command_quote_handling.c \
 	srcs/commands/command_utils.c \
 	srcs/commands/command_var_extension.c \
 	srcs/commands/command_var_utils.c \
@@ -24,12 +25,14 @@ SRCS	= minishell.c \
 	srcs/execution/exec.c \
 	srcs/pipes/handle_pipes.c \
 	srcs/redirections/handle_redirections.c \
-	srcs/redirections/heredoc.c \
 	srcs/utils/paths.c \
 	srcs/utils/signals.c \
 	srcs/utils/utils.c \
 	srcs/utils/pipes_utils.c \
-	srcs/utils/node_utils.c \
+	srcs/pipes/handle_pipes.c \
+	srcs/redirections/handle_redirections.c \
+	srcs/redirections/heredoc.c \
+	srcs/execution/exec.c \
 	srcs/utils/redirs_utils.c
 
 OBJS	= $(SRCS:.c=.o)
@@ -38,7 +41,7 @@ NAME	= minishell
 
 CC		= cc
 
-CFLAGS	= -Wall -Wextra -Werror -g
+CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
 
 RM		= rm -rf
 
