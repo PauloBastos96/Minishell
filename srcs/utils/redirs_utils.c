@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 12:38:53 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/14 10:49:35 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/14 10:50:19 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,3 @@ int	set_redirs(char **tokens, int *i, t_shell *shell, t_cmd *command)
 	}
 	return (0);
 }
-
