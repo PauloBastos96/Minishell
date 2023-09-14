@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 12:38:53 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/13 11:32:16 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/14 10:49:35 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	set_redirs(char **tokens, int *i, t_shell *shell, t_cmd *command)
 {
-	t_redirs *redirs;
-	t_redirs *tmp;
-	enum e_identifiers check;
+	t_redirs			*redirs;
+	t_redirs			*tmp;
+	enum e_identifiers	check;
 
 	check = (enum e_identifiers)get_cmd_type(tokens[*i]);
 	if (check == less || check == great || check == append
@@ -40,3 +40,4 @@ int	set_redirs(char **tokens, int *i, t_shell *shell, t_cmd *command)
 	}
 	return (0);
 }
+

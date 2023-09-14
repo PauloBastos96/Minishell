@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:55:29 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/12 12:32:53 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/14 10:49:24 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	handle_redir_in(t_cmd *cmd)
 	if (fd == -1)
 	{
 		perror(NULL);
-        //ft_clean(cmd);
+		//ft_clean(cmd);
 		exit(127);
 	}
 	swap_fd(&cmd->std.in, fd);
@@ -42,7 +42,7 @@ int	handle_redir_in(t_cmd *cmd)
 }
 
 void	handle_redir_out_append(t_cmd *cmd)
-{	
+{
 	int	fd;
 
 	fd = open(cmd->redirs->redirection, O_WRONLY | O_CREAT | O_APPEND, 0644);

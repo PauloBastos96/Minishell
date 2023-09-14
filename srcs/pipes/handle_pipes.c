@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 09:56:07 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/12 14:40:26 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/14 10:48:49 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	bind_std(t_shell *shell)
 
 int	exec_pipes(t_shell *shell)
 {
-	t_cmd *cmd;
+	t_cmd	*cmd;
 
 	cmd = shell->cmd;
 	if (pipe(cmd->fd) == -1)

@@ -6,9 +6,10 @@
 #    By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/09 15:23:17 by paulorod          #+#    #+#              #
-#    Updated: 2023/09/12 10:12:51 by ffilipe-         ###   ########.fr        #
+#    Updated: 2023/09/14 10:43:43 by ffilipe-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 SRCS	= minishell.c \
 	srcs/builtins/builtin_export.c \
@@ -16,13 +17,20 @@ SRCS	= minishell.c \
 	srcs/builtins/builtins.c \
 	srcs/builtins/env_utils.c \
 	srcs/builtins/utils.c \
-	srcs/utils/command_utils.c \
-	srcs/utils/commands.c \
-	srcs/utils/command_parser.c \
+	srcs/commands/command_parser.c \
+	srcs/commands/command_utils.c \
+	srcs/commands/command_var_extension.c \
+	srcs/commands/command_var_utils.c \
+	srcs/commands/commands.c \
+	srcs/execution/exec.c \
+	srcs/pipes/handle_pipes.c \
+	srcs/redirections/handle_redirections.c \
+	srcs/redirections/heredoc.c \
 	srcs/utils/paths.c \
 	srcs/utils/signals.c \
 	srcs/utils/utils.c \
 	srcs/utils/pipes_utils.c \
+	srcs/utils/node_utils.c \
 	srcs/pipes/handle_pipes.c \
 	srcs/redirections/handle_redirections.c \
 	srcs/redirections/heredoc.c \
@@ -61,5 +69,7 @@ fclean: clean
 		make -C $(LIBFT_PATH) fclean
 
 re: fclean all
+
+debug: all clean
 
 .PHONY: all clean fclean re

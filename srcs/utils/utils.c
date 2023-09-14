@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:59:38 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/13 10:55:57 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/14 10:49:48 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,22 +67,25 @@ char	**fill_envs(const char **env)
 /*Free command struct*/
 void	free_cmd(t_cmd *cmd)
 {
-	int	i;
+	int		i;
+	t_cmd	*temp;
 
-	i = 0;
-	while (cmd->cmd[i])
+	while (cmd)
 	{
-		if (*(cmd->cmd[i]))
+		i = 0;
+		while (cmd->cmd[i])
 		{
-			//free(cmd->cmd[i]);
+			free(cmd->cmd[i]);
 			cmd->cmd[i] = NULL;
+			i++;
 		}
-		i++;
+		if (cmd->path)
+			free(cmd->path);
+		free(cmd->cmd);
+		temp = cmd->next;
+		free(cmd);
+		cmd = temp;
 	}
-	if (cmd->path)
-		free(cmd->path);
-	free(cmd->cmd);
-	free(cmd);
 }
 
 /*Custom getenv fucntion that searches our environment variable list*/
@@ -104,18 +107,4 @@ char	*ft_getenv(const char *name, char ***_env)
 		i++;
 	}
 	return (NULL);
-}
-
-void	free_list(t_cmd *head)
-{
-	t_cmd	*current;
-	t_cmd	*next;
-
-	current = head;
-	while (current != NULL)
-	{
-		next = current->next;
-		free_cmd(current);
-		current = next;
-	}
 }

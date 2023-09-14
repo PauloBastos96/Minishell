@@ -6,9 +6,10 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 12:45:36 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/13 11:22:52 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/14 10:47:56 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../minishell.h"
 
@@ -76,7 +77,7 @@ void	start_exec(t_shell *shell)
 //! readline has memory leaks that don't have to be fixed
 void	shell_loop(t_shell *shell)
 {
-	char *command;
+	char	*command;
 
 	while (true)
 	{
@@ -96,7 +97,7 @@ void	shell_loop(t_shell *shell)
 					continue ;
 				start_exec(shell);
 			}
-			free_cmd(shell->cmd);
+			// free_cmd(shell->cmd);
 		}
 	}
 }
