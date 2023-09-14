@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/13 14:12:29 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/14 13:48:37 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ char				*search_command_path(char *command);
 char				**create_cmd_tokens(char *command, t_shell *shell);
 char				*ft_getenv(const char *name, char ***_env);
 int					exec_pipes(t_shell *shell);
+int					get_exit_code(char *cmd);
 t_cmd				*create_cmd_list(char **tokens, t_shell *shell);
 char				**create_cmd_tokens(char *command, t_shell *shell);
 int					run_command(t_shell *shell);

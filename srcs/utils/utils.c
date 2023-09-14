@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:59:38 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/13 15:10:56 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/14 13:48:25 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,23 @@ char	*ft_getenv(const char *name, char ***_env)
 		i++;
 	}
 	return (NULL);
+}
+
+/*Get exit code or exit due to invalid argument*/
+int	get_exit_code(char *cmd)
+{
+	int	exit_code;
+
+	exit_code = 0;
+	if (cmd)
+	{
+		if (is_exit_code_valid(cmd))
+			exit_code = ft_atoi(cmd);
+		else
+		{
+			printf("minishell: exit: %s: numeric argument required\n", cmd);
+			exit(2);
+		}
+	}
+	return (exit_code);
 }

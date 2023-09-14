@@ -6,12 +6,12 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:00:41 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/13 15:38:53 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/14 13:48:43 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/list.h"
 #include "../../includes/builtins.h"
+#include "../../includes/list.h"
 #include "../../minishell.h"
 
 /*Builtin cd command*/
@@ -101,17 +101,17 @@ int	ft_pwd(t_shell *shell)
 int	ft_exit(t_shell *shell)
 {
 	int	exit_code;
+	int	i;
 
-	exit_code = 0;
-	if (shell->cmd->cmd[1])
+	i = 0;
+	print_fd("exit", 1, NULL);
+	while (shell->cmd->cmd[i])
+		i++;
+	exit_code = get_exit_code(shell->cmd->cmd[1]);
+	if (i > 2)
 	{
-		if (is_exit_code_valid(shell->cmd->cmd[1]))
-			exit_code = ft_atoi(shell->cmd->cmd[1]);
-		else
-		{
-			printf("exit: %s: numeric argument required\n", shell->cmd->cmd[1]);
-			return (1);
-		}
+		print_fd("too many arguments", 2, "minishell: exit");
+		return (1);
 	}
 	free_all(shell);
 	rl_clear_history();
