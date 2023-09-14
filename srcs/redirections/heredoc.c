@@ -3,49 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:10:51 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/13 16:19:45 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/14 16:00:44 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-bool	to_expand(char *var)
+char* expand_env_var(t_shell *shell,char *var)
 {
-	if (!ft_strchr("'\"", var[0]) && !ft_strchr("'\"", var[ft_strlen(var) - 1]))
-		return (false);
-	else
-		return (true);
+	return(ft_getenv(var, &shell->env));
 }
 
-bool	is_var(char *var)
+char str_replace(char *str)
 {
-	if (var[0] == '$')
-		return (true);
-	else
-		return (false);
+
 }
-
-char	*get_var(char *var)
-{
-	int	i;
-
-	i = 0;
-	while (var[i])
-	{
-		if (var[i] == '$')
-		{
-			while (var[i] != ' ' && var[i] != '\0')
-				i++;
-			return (ft_substr(var, 0, i));
-		}
-		i++;
-	}
-	return (var);
-}
-
 /*Get heredoc error message*/
 void	heredoc_error_message(char *redir)
 {
@@ -81,13 +56,9 @@ void	handle_redir_hdoc(t_shell *shell)
 		}
 		if (ft_strcmp(definer, cmd->redirs->redirection) == 0)
 			break ;
-		if (to_expand(cmd->redirs->redirection) == true)
-		{
+		if(to_expand(definer) == true)
 			expanded_var = get_var(definer);
-			if (is_var(expanded_var) == true)
-				if (ft_getenv(expanded_var, &shell->env) != NULL)
-					definer = ft_getenv(expanded_var, &shell->env);
-		}
+		
 		write(h_doc[1], definer, ft_strlen(definer));
 		write(h_doc[1], "\n", 1);
 	}

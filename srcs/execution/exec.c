@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 12:45:36 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/14 12:44:22 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/14 14:06:45 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ void	shell_loop(t_shell *shell)
 		if (!command)
 		{
 			printf("exit\n");
-			free_all(shell); //!Double free when ctrl+D
+			free_envs(shell); //!Double free when ctrl+D
+			free(shell);
 			exit(0);
 		}
 		if (*command)
