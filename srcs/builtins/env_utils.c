@@ -6,11 +6,11 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:56:57 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/25 13:53:33 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/14 15:42:17 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/list.h"
+#include "../../minishell.h"
 
 /*Sort enviroment variables by alphabetical order*/
 char	**sort_envs(char **envs)
@@ -77,13 +77,18 @@ void	update_pwd(char ***_env)
 {
 	char	*pwd;
 	char	*oldpwd;
+	char	*temp;
 	char	**env;
 	int		i;
 
 	i = 0;
 	env = *_env;
 	pwd = getcwd(NULL, 0);
-	oldpwd = ft_strdup(getenv("PWD"));
+	temp = getenv("PWD");
+	if (temp)
+		oldpwd = ft_strdup(temp);
+	else
+		oldpwd = ft_strdup("");
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], "PWD", 3) == 0)

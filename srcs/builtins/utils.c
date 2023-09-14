@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:38:12 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/24 13:57:34 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/14 14:43:12 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,13 @@ char	*get_home_path(char *path)
 	char	*tmp;
 
 	home_path = getenv("HOME");
-	tmp = ft_strtrim(path, "~");
-	free(path);
-	path = ft_strjoin(home_path, tmp);
-	free(tmp);
+	if (home_path)
+	{
+		tmp = ft_strtrim(path, "~");
+		free(path);
+		path = ft_strjoin(home_path, tmp);
+		free(tmp);
+	}
 	return (path);
 }
 

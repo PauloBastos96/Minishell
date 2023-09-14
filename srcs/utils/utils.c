@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:59:38 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/14 13:52:10 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/14 15:00:43 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	**fill_envs(const char **env)
 	return (array);
 }
 
-/*Custom getenv fucntion that searches our environment variable list*/
+/*Custom getenv function that searches our environment variable list*/
 char	*ft_getenv(const char *name, char ***_env)
 {
 	int		i;
