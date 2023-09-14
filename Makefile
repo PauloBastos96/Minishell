@@ -6,7 +6,7 @@
 #    By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/09 15:23:17 by paulorod          #+#    #+#              #
-#    Updated: 2023/09/13 13:14:50 by paulorod         ###   ########.fr        #
+#    Updated: 2023/09/13 16:01:00 by paulorod         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS	= minishell.c \
 	srcs/execution/exec.c \
 	srcs/pipes/handle_pipes.c \
 	srcs/redirections/handle_redirections.c \
+	srcs/utils/cleaner.c \
 	srcs/utils/paths.c \
 	srcs/utils/signals.c \
 	srcs/utils/utils.c \
@@ -41,7 +42,7 @@ NAME	= minishell
 
 CC		= cc
 
-CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS	= -Wall -Wextra -Werror -g #-fsanitize=address
 
 RM		= rm -rf
 
