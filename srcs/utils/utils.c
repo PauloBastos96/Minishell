@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:59:38 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/13 14:19:47 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/13 15:10:56 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,44 +62,6 @@ char	**fill_envs(const char **env)
 		i++;
 	}
 	return (array);
-}
-
-void	free_redirs(t_redirs *redirs)
-{
-	t_redirs	*tmp;
-
-	while (redirs)
-	{
-		free(redirs->redirection);
-		tmp = redirs->next;
-		free(redirs);
-		redirs = tmp;
-	}
-}
-
-/*Free command struct*/
-void	free_cmd(t_cmd *cmd)
-{
-	int		i;
-	t_cmd	*temp;
-
-	while (cmd)
-	{
-		i = 0;
-		while (cmd->cmd[i])
-		{
-			free(cmd->cmd[i]);
-			cmd->cmd[i] = NULL;
-			i++;
-		}
-		if (cmd->path)
-			free(cmd->path);
-		free_redirs(cmd->redirs);
-		free(cmd->cmd);
-		temp = cmd->next;
-		free(cmd);
-		cmd = temp;
-	}
 }
 
 /*Custom getenv fucntion that searches our environment variable list*/
