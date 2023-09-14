@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/14 10:44:28 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/14 12:42:22 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	run_command(t_shell *shell)
 		shell->cmd->path = search_command_path(shell->cmd->cmd[0]);
 	if (shell->cmd->path)
 		return (create_command_process(shell->cmd, shell->env));
+	//Check
 	return (127);
 }
 
@@ -45,7 +46,7 @@ void	handle_commands(t_shell *shell)
 	else if (ft_strcmp(shell->cmd->cmd[0], "unset") == 0)
 		shell->status = ft_unset(shell);
 	else if (ft_strcmp(shell->cmd->cmd[0], "exit") == 0)
-		shell->status = ft_exit(shell->cmd);
+		shell->status = ft_exit(shell);
 	else
 		shell->status = run_command(shell);
 }
@@ -55,12 +56,14 @@ t_cmd	*command_parser(char *cmd_line, t_shell *shell)
 {
 	t_cmd	*cmd_struct;
 	char	**tokens;
+	int		i;
 
 	tokens = create_cmd_tokens(cmd_line, shell);
 	cmd_struct = create_cmd_list(tokens, shell);
-	cmd_struct->fd[1] = 1;
-	//free(cmd_line); //!This breaks unclosed quote prompt
-	//free(tokens);
+	i = 0;
+	while (tokens[i])
+		free(tokens[i++]);
+	free(tokens);
 	return (cmd_struct);
 }
 

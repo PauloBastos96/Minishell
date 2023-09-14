@@ -6,26 +6,13 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:32:32 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/11 15:15:02 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/12 15:53:32 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/commands.h"
 #include "../../includes/shell.h"
 #include "../../minishell.h"
-
-/*Check if character is between quotes*/
-bool	in_quotes(char c)
-{
-	static bool	d_quote = false;
-	static bool	s_quote = false;
-
-	if (c == '"' && !s_quote)
-		d_quote = !d_quote;
-	if (c == '\'' && !d_quote)
-		s_quote = !s_quote;
-	return (d_quote || s_quote);
-}
 
 /*Join multiple strings and free old ones*/
 char	*join_values(char *v1, char *v2)
@@ -70,79 +57,16 @@ bool	is_special_char(char *str, int i, int *end)
 	return (false);
 }
 
-/*Get number of quotes to ignore in token*/
-int	get_quote_count(char *token)
-{
-	int		i;
-	int		quotes;
-	bool	in_quote;
-	bool	in_dquote;
-
-	i = 0;
-	quotes = 0;
-	in_quote = false;
-	in_dquote = false;
-	while (token[i])
-	{
-		if (token[i] == '"' && !in_quote)
-		{
-			in_dquote = !in_dquote;
-			quotes++;
-		}
-		if (token[i] == '\'' && !in_dquote)
-		{
-			in_quote = !in_quote;
-			quotes++;
-		}
-		i++;
-	}
-	return (quotes);
-}
-
-/*Remove quotes from token*/
-char	*remove_quotes(char *token)
-{
-	char	*new;
-	bool	in_quote;
-	bool	in_dquote;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	in_quote = false;
-	in_dquote = false;
-	new = ft_calloc(sizeof(char),
-			ft_strlen(token) - get_quote_count(token) + 1);
-	while (token[i])
-	{
-		if (token[i] == '"' && !in_quote)
-			in_dquote = !in_dquote;
-		if (token[i] == '\'' && !in_dquote)
-			in_quote = !in_quote;
-		if ((token[i] == '"' && in_quote) || (token[i] == '\'' && in_dquote))
-		{
-			new[j] = token[i];
-			j++;
-		}
-		else if (token[i] != '"' && token[i] != '\'')
-		{
-			new[j] = token[i];
-			j++;
-		}
-		i++;
-	}
-	new[j] = '\0';
-	return (new);
-}
-
 /*Replace environment variables with their value*/
 char	*extend_env_vars(char *token, t_shell *shell, bool ignore_quotes)
 {
 	t_var_ext	var_ext;
 	char		*tmp;
 
-	var_ext.token = token;
+	if (!token)
+		return (NULL);
+	var_ext.token = ft_strdup(token);
+	free(token);
 	if (ft_strchr(var_ext.token, '$'))
 	{
 		var_ext.new_token = ft_calloc(sizeof(char),

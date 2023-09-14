@@ -3,53 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redirections.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:55:29 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/14 10:49:24 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/14 12:44:59 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	handle_redir_out(t_cmd *cmd)
+/*Output redirection*/
+void	handle_redir_out(t_shell *shell)
 {
 	int	fd;
 
-	fd = open(cmd->redirs->redirection, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open(shell->cmd->redirs->redirection, O_WRONLY | O_CREAT | O_TRUNC,
+			0644);
 	if (fd == -1)
 	{
 		perror(NULL);
-		return (1);
-	}
-	swap_fd(&cmd->std.out, fd);
-	return (1);
-}
-
-int	handle_redir_in(t_cmd *cmd)
-{
-	int	fd;
-
-	fd = open(cmd->redirs->redirection, O_RDONLY);
-	if (fd == -1)
-	{
-		perror(NULL);
-		//ft_clean(cmd);
+		free_all(shell);
 		exit(127);
 	}
-	swap_fd(&cmd->std.in, fd);
-	return (1);
+	swap_fd(&shell->cmd->std.out, fd);
 }
 
-void	handle_redir_out_append(t_cmd *cmd)
+/*Input redirection*/
+void	handle_redir_in(t_shell *shell)
 {
 	int	fd;
 
-	fd = open(cmd->redirs->redirection, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	fd = open(shell->cmd->redirs->redirection, O_RDONLY);
 	if (fd == -1)
 	{
 		perror(NULL);
-		return ;
+		free_all(shell);
+		exit(127);
 	}
-	swap_fd(&cmd->std.out, fd);
+	swap_fd(&shell->cmd->std.in, fd);
+}
+
+/*Output redirection in append mode*/
+void	handle_redir_out_append(t_shell *shell)
+{
+	int	fd;
+
+	fd = open(shell->cmd->redirs->redirection, O_WRONLY | O_CREAT | O_APPEND,
+			0644);
+	if (fd == -1)
+	{
+		perror(NULL);
+		free_all(shell);
+		exit(127);
+	}
+	swap_fd(&shell->cmd->std.out, fd);
 }

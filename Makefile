@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+         #
+#    By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/09 15:23:17 by paulorod          #+#    #+#              #
-#    Updated: 2023/09/14 10:53:22 by ffilipe-         ###   ########.fr        #
+#    Updated: 2023/09/14 12:41:50 by paulorod         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRCS	= minishell.c \
 	srcs/builtins/env_utils.c \
 	srcs/builtins/utils.c \
 	srcs/commands/command_parser.c \
+	srcs/commands/command_quote_handling.c \
 	srcs/commands/command_utils.c \
 	srcs/commands/command_var_extension.c \
 	srcs/commands/command_var_utils.c \
@@ -25,7 +26,7 @@ SRCS	= minishell.c \
 	srcs/execution/exec.c \
 	srcs/pipes/handle_pipes.c \
 	srcs/redirections/handle_redirections.c \
-	srcs/redirections/heredoc.c \
+	srcs/utils/cleaner.c \
 	srcs/utils/paths.c \
 	srcs/utils/signals.c \
 	srcs/utils/utils.c \
@@ -42,7 +43,7 @@ NAME	= minishell
 
 CC		= cc
 
-CFLAGS	= -Wall -Wextra -Werror -g
+CFLAGS	= -Wall -Wextra -Werror -g #-fsanitize=address
 
 RM		= rm -rf
 

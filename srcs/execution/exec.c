@@ -3,28 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 12:45:36 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/14 10:47:56 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/14 12:44:22 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../minishell.h"
 
-void ft_wait(t_cmd *cmd)
+/*Wait for sub process to complete*/
+void	ft_wait(t_shell *shell)
 {
+	t_cmd	*cmd;
+
+	cmd = shell->cmd;
 	while (cmd)
 	{
 		waitpid(cmd->pid, &cmd->status, 0);
 		if (WIFEXITED(cmd->status))
 			cmd->status = WEXITSTATUS(cmd->status);
+		shell->status = cmd->status;
 		cmd = cmd->next;
 	}
 }
 
-bool	is_builtIn(t_cmd *cmd)
+/*Check if command is a builtin*/
+bool	is_builtin(t_cmd *cmd)
 {
 	if (!cmd->cmd[0])
 		return (false);
@@ -45,13 +51,14 @@ bool	is_builtIn(t_cmd *cmd)
 	return (false);
 }
 
+/*Start command execution*/
 void	start_exec(t_shell *shell)
 {
 	t_cmd	*cmd;
 	t_cmd	*start;
 
 	start = shell->cmd;
-	if (!shell->cmd->next && is_builtIn(shell->cmd) && !shell->cmd->redirs)
+	if (!shell->cmd->next && is_builtin(shell->cmd) && !shell->cmd->redirs)
 	{
 		handle_commands(shell);
 		return ;
@@ -69,7 +76,7 @@ void	start_exec(t_shell *shell)
 		shell->cmd = shell->cmd->next;
 	}
 	shell->cmd = start;
-	ft_wait(shell->cmd);
+	ft_wait(shell);
 	g_using_sub_process = false;
 }
 
@@ -85,19 +92,17 @@ void	shell_loop(t_shell *shell)
 		if (!command)
 		{
 			printf("exit\n");
+			free_all(shell); //!Double free when ctrl+D
 			exit(0);
 		}
 		if (*command)
 		{
 			add_history(command);
-			if (ft_strlen(command) > 0)
-			{
-				shell->cmd = command_parser(command, shell);
-				if(!shell->cmd)
-					continue ;
-				start_exec(shell);
-			}
-			// free_cmd(shell->cmd);
+			shell->cmd = command_parser(command, shell);
+			if (!shell->cmd)
+				continue ;
+			start_exec(shell);
+			free_cmd(shell->cmd);
 		}
 	}
 }

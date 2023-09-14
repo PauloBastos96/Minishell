@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/14 10:52:59 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/14 12:43:52 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ int	create_command_process(t_cmd *cmd, char **env)
 {
 	if (execve(cmd->path, cmd->cmd, env) == -1)
 		perror("execve");
-	// exit (127);
-	return (1);
+	return (127);
 }
 
 /*Get command type indentifier*/
@@ -80,6 +79,7 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 {
 	int		i;
 	int		j;
+	int		check;
 	t_cmd	*command;
 	t_cmd	*tmp_cmd;
 
@@ -87,18 +87,19 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 	j = 0;
 	(void)shell;
 	command = ft_calloc(sizeof(t_cmd), 1);
-	command->cmd = ft_calloc(sizeof(char *), 100);
+	command->cmd = ft_calloc(sizeof(char *), get_cmd_size(tokens));
 	while (tokens[i])
 	{
+		command->indentifier = (enum e_identifiers)get_cmd_type(tokens[i]);
 		if (!is_special_char(tokens[i], 0, NULL))
-		{
-			command->indentifier = (enum e_identifiers)get_cmd_type(tokens[i]);
-			command->cmd[j++] = tokens[i];
-		}
+			command->cmd[j++] = ft_strdup(tokens[i]);
 		else
 		{
-			if (set_redirs(tokens, &i, shell, command))
+			check = set_redirs(tokens, &i, command);
+			if (check == 1)
 				continue ;
+			else if (check == -1)
+				return (NULL);
 			command->indentifier = (enum e_identifiers)get_cmd_type(tokens[i]);
 			command->next = create_token_cmd(tokens[i]);
 			if (command->next)
@@ -108,7 +109,8 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 				command = command->next;
 				command->prev = tmp_cmd;
 				j = 0;
-				command->cmd = ft_calloc(sizeof(char *), 100);
+				command->cmd = ft_calloc(sizeof(char *),
+						get_cmd_size(&tokens[i + 1]));
 			}
 		}
 		i++;

@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:00:41 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/11 14:58:39 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/13 15:38:53 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,22 +98,22 @@ int	ft_pwd(t_shell *shell)
 }
 
 /*Builtin exit command*/
-int	ft_exit(t_cmd *cmd)
+int	ft_exit(t_shell *shell)
 {
 	int	exit_code;
 
 	exit_code = 0;
-	if (cmd->cmd[1])
+	if (shell->cmd->cmd[1])
 	{
-		if (is_exit_code_valid(cmd->cmd[1]))
-			exit_code = ft_atoi(cmd->cmd[1]);
+		if (is_exit_code_valid(shell->cmd->cmd[1]))
+			exit_code = ft_atoi(shell->cmd->cmd[1]);
 		else
 		{
-			printf("exit: %s: numeric argument required\n", cmd->cmd[1]);
+			printf("exit: %s: numeric argument required\n", shell->cmd->cmd[1]);
 			return (1);
 		}
 	}
-	free_cmd(cmd);
+	free_all(shell);
 	rl_clear_history();
 	exit(exit_code);
 }

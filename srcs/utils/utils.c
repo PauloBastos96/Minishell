@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:59:38 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/14 10:49:48 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/14 12:45:20 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,30 +62,6 @@ char	**fill_envs(const char **env)
 		i++;
 	}
 	return (array);
-}
-
-/*Free command struct*/
-void	free_cmd(t_cmd *cmd)
-{
-	int		i;
-	t_cmd	*temp;
-
-	while (cmd)
-	{
-		i = 0;
-		while (cmd->cmd[i])
-		{
-			free(cmd->cmd[i]);
-			cmd->cmd[i] = NULL;
-			i++;
-		}
-		if (cmd->path)
-			free(cmd->path);
-		free(cmd->cmd);
-		temp = cmd->next;
-		free(cmd);
-		cmd = temp;
-	}
 }
 
 /*Custom getenv fucntion that searches our environment variable list*/
