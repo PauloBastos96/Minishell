@@ -6,7 +6,7 @@
 #    By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/09 15:23:17 by paulorod          #+#    #+#              #
-#    Updated: 2023/09/14 10:43:43 by ffilipe-         ###   ########.fr        #
+#    Updated: 2023/09/14 10:53:22 by ffilipe-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,6 @@ SRCS	= minishell.c \
 	srcs/utils/signals.c \
 	srcs/utils/utils.c \
 	srcs/utils/pipes_utils.c \
-	srcs/utils/node_utils.c \
 	srcs/pipes/handle_pipes.c \
 	srcs/redirections/handle_redirections.c \
 	srcs/redirections/heredoc.c \

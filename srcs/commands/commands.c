@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/14 10:45:37 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/14 10:52:59 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,16 @@ enum e_identifiers	get_cmd_type(char *token)
 		if (*token == '|')
 			return (_pipe);
 		if (*token == '>')
-			return (greater);
+			return (great);
 		if (*token == '<')
-			return (lesser);
+			return (less);
 	}
 	else
 	{
 		if (*token == '>')
-			return (output);
+			return (append);
 		if (*token == '<')
-			return (input);
+			return (h_doc);
 	}
 	return (single);
 }
