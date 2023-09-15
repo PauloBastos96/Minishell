@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:59:38 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/14 15:00:43 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/15 13:42:19 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,10 @@ char	*ft_getenv(const char *name, char ***_env)
 		if (ft_strncmp(env[i], name, ft_strlen(name)) == 0)
 		{
 			value = ft_strchr(env[i], '=');
-			return (value + 1);
+			if (value)
+				return (value + 1);
+			else
+				return (NULL);
 		}
 		i++;
 	}

@@ -13,6 +13,7 @@
                 "-Werror",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}",
+                "srcs/builtins/builtin_cd.c",
                 "srcs/builtins/builtin_echo.c",
                 "srcs/builtins/builtin_export.c",
                 "srcs/builtins/builtin_unset.c",

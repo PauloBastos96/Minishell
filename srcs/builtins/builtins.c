@@ -6,32 +6,12 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:00:41 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/15 13:05:50 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/15 13:37:38 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/builtins.h"
-#include "../../includes/list.h"
 #include "../../minishell.h"
-
-/*Builtin cd command*/
-int	ft_cd(t_shell *shell)
-{
-	char	*path;
-
-	path = shell->cmd->cmd[1];
-	if (!path)
-		path = get_home_path(ft_strdup("~"));
-	if (ft_strncmp(path, "~", 1) == 0)
-		path = get_home_path(path);
-	if (chdir(path) == -1)
-	{
-		perror(NULL);
-		return (1);
-	}
-	update_pwd(&shell->env);
-	return (0);
-}
 
 /*Builtin env command*/
 int	ft_env(t_shell *shell)

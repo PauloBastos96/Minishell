@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:56:57 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/14 16:12:22 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/15 13:40:12 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,55 +59,4 @@ bool	is_duplicate(char **env, char *new)
 		i++;
 	}
 	return (false);
-}
-
-/*Free old PWD and OLDPWD and update them with the new values*/
-static	void	update_var(char	**env, char *var, char *value)
-{
-	char	*temp;
-
-	free(*env);
-	temp = ft_strdup(value);
-	*env = ft_strjoin(var, temp);
-	free(temp);
-}
-
-/*Get the old pwd, either the cuurent directory before changing
-or empty if the PWD variable doesn't exist*/
-char	*get_old_pwd(void)
-{
-	char	*temp;
-	char	*oldpwd;
-
-	temp = getenv("PWD");
-	if (temp)
-		oldpwd = ft_strdup(temp);
-	else
-		oldpwd = ft_strdup("");
-	return (oldpwd);
-}
-
-/*Update PWD and OLDPWD environment variables*/
-void	update_pwd(char ***_env)
-{
-	char	*pwd;
-	char	*oldpwd;
-	char	**env;
-	int		i;
-
-	i = 0;
-	env = *_env;
-	pwd = getcwd(NULL, 0);
-	oldpwd = get_old_pwd();
-	while (env[i])
-	{
-		if (ft_strncmp(env[i], "PWD", 3) == 0)
-			update_var(&env[i], "PWD=", pwd);
-		if (ft_strncmp(env[i], "OLDPWD", 6) == 0)
-			update_var(&env[i], "OLDPWD=", oldpwd);
-		//TODO create OLDPWD if it doesn't exist
-		i++;
-	}
-	free(pwd);
-	free(oldpwd);
 }

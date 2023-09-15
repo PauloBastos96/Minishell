@@ -6,11 +6,12 @@
 #    By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/09 15:23:17 by paulorod          #+#    #+#              #
-#    Updated: 2023/09/15 13:06:33 by paulorod         ###   ########.fr        #
+#    Updated: 2023/09/15 13:54:31 by paulorod         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS	= minishell.c \
+	srcs/builtins/builtin_cd.c \
 	srcs/builtins/builtin_echo.c \
 	srcs/builtins/builtin_export.c \
 	srcs/builtins/builtin_unset.c \
