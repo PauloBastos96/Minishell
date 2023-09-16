@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:10:51 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/16 19:06:35 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/16 21:35:32 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,15 @@ char	*set_expansion(t_shell *shell, char *str)
 	char	*var;
 	char	*expanded_var;
 
+	(void)shell;
 	if (get_var(str))
 	{
 		var = get_var(str);
-		if(ft_getenv(var + 1, &shell->env))
-			expanded_var = ft_getenv(var + 1, &shell->env);
-		str = str_replace(str, var, expanded_var);
+		if (getenv(var + 1) != NULL)
+		{
+			expanded_var = getenv(var + 1);
+			str = str_replace(str, var, expanded_var);
+		}
 	}
 	return (str);
 }
@@ -122,6 +125,7 @@ void	handle_redir_hdoc(t_shell *shell)
 		}
 		if (ft_strcmp(definer, cmd->redirs->redirection) == 0)
 			break ;
+		if(cmd->redirs->redirection)
 		definer = set_expansion(shell, definer);
 		write(h_doc[1], definer, ft_strlen(definer));
 		write(h_doc[1], "\n", 1);
