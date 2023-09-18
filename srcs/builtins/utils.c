@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:38:12 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/14 14:43:12 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/18 12:51:51 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,15 @@ char	*add_quotes(char *str)
 	}
 	free(str);
 	return (new);
+}
+
+/*Free old PWD and OLDPWD and update them with the new values*/
+void	update_var(char	**env, char *var, char *value)
+{
+	char	*temp;
+
+	free(*env);
+	temp = ft_strdup(value);
+	*env = ft_strjoin(var, temp);
+	free(temp);
 }

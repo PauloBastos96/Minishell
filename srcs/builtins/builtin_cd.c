@@ -6,26 +6,15 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 13:36:58 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/15 14:24:05 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/18 13:02:55 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/*Free old PWD and OLDPWD and update them with the new values*/
-static	void	update_var(char	**env, char *var, char *value)
-{
-	char	*temp;
-
-	free(*env);
-	temp = ft_strdup(value);
-	*env = ft_strjoin(var, temp);
-	free(temp);
-}
-
-/*Get the old pwd, either the cuurent directory before changing
+/*Get the old pwd, either the current directory before changing
 or empty if the PWD variable doesn't exist*/
-char	*get_old_pwd(char ***env)
+static char	*get_old_pwd(char ***env)
 {
 	char	*temp;
 	char	*oldpwd;
@@ -39,7 +28,7 @@ char	*get_old_pwd(char ***env)
 }
 
 /*Create OLDPWD variable if it doesn't exist*/
-void	create_oldpwd(t_shell *shell, char *oldpwd)
+static void	create_oldpwd(t_shell *shell, char *oldpwd)
 {
 	int		i;
 	char	**new_env;
@@ -56,13 +45,21 @@ void	create_oldpwd(t_shell *shell, char *oldpwd)
 		new_env[i] = env[i];
 		i++;
 	}
-	new_env[i] = ft_strdup(oldpwd);
+	new_env[i] = ft_strjoin("OLDPWD=", oldpwd);
 	free(shell->env);
 	shell->env = new_env;
 }
 
+/*Init vars*/
+void	init_vars(char **pwd, char **oldpwd, bool *has_old_pwd, t_shell *shell)
+{
+	*pwd = getcwd(NULL, 0);
+	*oldpwd = get_old_pwd(&shell->env);
+	*has_old_pwd = false;
+}
+
 /*Update PWD and OLDPWD environment variables*/
-void	update_pwd(t_shell *shell)
+static void	update_pwd(t_shell *shell)
 {
 	char	*pwd;
 	char	*oldpwd;
@@ -71,9 +68,7 @@ void	update_pwd(t_shell *shell)
 	int		i;
 
 	i = 0;
-	pwd = getcwd(NULL, 0);
-	oldpwd = get_old_pwd(&shell->env);
-	has_old_pwd = false;
+	init_vars(&pwd, &oldpwd, &has_old_pwd, shell);
 	env = shell->env;
 	while (env[i])
 	{
