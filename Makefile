@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+         #
+#    By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/09 15:23:17 by paulorod          #+#    #+#              #
-#    Updated: 2023/09/14 12:41:50 by paulorod         ###   ########.fr        #
+#    Updated: 2023/09/18 14:13:59 by ffilipe-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,8 @@ SRCS	= minishell.c \
 	srcs/redirections/handle_redirections.c \
 	srcs/redirections/heredoc.c \
 	srcs/execution/exec.c \
-	srcs/utils/redirs_utils.c
+	srcs/utils/redirs_utils.c \
+	srcs/utils/heredoc_utils.c
 
 OBJS	= $(SRCS:.c=.o)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:15:03 by paulorod          #+#    #+#             */
-/*   Updated: 2023/04/21 15:41:17 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:40:30 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 
 	start = 0;
 	i = 0;
+	if (!s1)
+		return (NULL);
 	end = ft_strlen(s1);
 	while (s1[start] && is_in_set(s1[start], set))
 		start++;

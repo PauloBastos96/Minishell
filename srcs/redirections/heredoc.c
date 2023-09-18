@@ -6,87 +6,51 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:10:51 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/16 21:35:32 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:33:06 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*str_replace(char *string, const char *substr, const char *replacement)
-{
-	char	*tok;
-	char	*newstr;
-	char	*oldstr;
-	int		oldstr_len;
-	int		substr_len;
-	int		replacement_len;
-
-	tok = NULL;
-	newstr = NULL;
-	oldstr = NULL;
-	oldstr_len = 0;
-	substr_len = 0;
-	replacement_len = 0;
-	newstr = ft_strdup(string);
-	substr_len = ft_strlen(substr);
-	replacement_len = ft_strlen(replacement);
-	if (substr == NULL || replacement == NULL)
-		return (newstr);
-	while ((tok = ft_strnstr(newstr, substr, ft_strlen(newstr))))
-	{
-		oldstr = newstr;
-		oldstr_len = ft_strlen(oldstr);
-		newstr = (char *)malloc(sizeof(char) * (oldstr_len - substr_len
-				+ replacement_len + 1));
-		if (newstr == NULL)
-			return (free(oldstr), NULL);
-		ft_memcpy(newstr, oldstr, tok - oldstr);
-		ft_memcpy(newstr + (tok - oldstr), replacement, replacement_len);
-		ft_memcpy(newstr + (tok - oldstr) + replacement_len, tok + substr_len,
-			oldstr_len - substr_len - (tok - oldstr));
-		ft_memset(newstr + oldstr_len - substr_len + replacement_len, 0, 1);
-		free(oldstr);
-	}
-	return (free(string), newstr);
-}
-
 char	*get_var(char *str)
 {
 	int		i;
-	int		j;
 	char	*var;
 
-	i = 0;
-	j = 0;
-	while (str[i] && str[i] != '$')
-		i++;
-	if (str[i] == '$')
+	i = 1;
+	while (var_char_valid(str[i]))
 	{
-		while (str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '\"')
-		{
-			i++;
-			j++;
-		}
-		var = ft_substr(str, i - j, j);
-		return (var);
+		i++;
 	}
-	return (NULL);
+	var = ft_substr(str, 0, i);
+	return (var);
 }
 
 char	*set_expansion(t_shell *shell, char *str)
 {
 	char	*var;
 	char	*expanded_var;
+	int 	i;
 
-	(void)shell;
-	if (get_var(str))
+	i = 0;
+	while (str[i])
 	{
-		var = get_var(str);
-		if (getenv(var + 1) != NULL)
+		if (str[i++] != '$')
+			continue ;
+		if (!var_char_valid(str[i]))
+			continue ;
+		i--;
+		var = get_var(str + i);
+		if (!var)
+			continue ;
+		expanded_var = ft_getenv(var + 1, &shell->env);
+		if (expanded_var)
 		{
-			expanded_var = getenv(var + 1);
 			str = str_replace(str, var, expanded_var);
+			i += ft_strlen(expanded_var) - 1;
 		}
+		else
+			str = str_replace(str, var, "");
 	}
 	return (str);
 }
