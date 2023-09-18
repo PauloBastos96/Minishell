@@ -6,12 +6,12 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 12:49:20 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/28 12:58:20 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/18 16:00:07 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/list.h"
 #include "../../includes/builtins.h"
+#include "../../includes/list.h"
 #include "../../minishell.h"
 
 /*Copy env and sort it to new array*/
@@ -72,9 +72,11 @@ static char	*add_or_update_var(char *env, char **cmd)
 		if (ft_strchr(cmd[i], '='))
 		{
 			length = 0;
-			while (cmd[i][length] != '=')
+			while (cmd[i][length] && cmd[i][length] != '=')
 				length++;
-			if (!ft_strncmp(env, cmd[i], length))
+			if (!env[length])
+				length--;
+			if (!ft_strncmp(env, cmd[i], length + 1))
 				return (ft_strdup(cmd[i]));
 		}
 		i++;
@@ -117,6 +119,8 @@ int	ft_export(t_shell *shell)
 
 	if (!shell->cmd->cmd[1])
 		return (export_noarg(shell->env));
+	if (!is_expression_valid(shell->cmd->cmd))
+		return (0);
 	i = 0;
 	j = 0;
 	while (shell->env[i])

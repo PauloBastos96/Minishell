@@ -6,11 +6,12 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:38:12 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/18 12:51:51 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:57:02 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/list.h"
+#include "../../minishell.h"
 
 //Get home home path
 char	*get_home_path(char *path)
@@ -73,13 +74,21 @@ char	*add_quotes(char *str)
 	return (new);
 }
 
-/*Free old PWD and OLDPWD and update them with the new values*/
-void	update_var(char	**env, char *var, char *value)
+/*Check if export expression is valid*/
+bool	is_expression_valid(char **cmd)
 {
-	char	*temp;
+	int		i;
 
-	free(*env);
-	temp = ft_strdup(value);
-	*env = ft_strjoin(var, temp);
-	free(temp);
+	i = 0;
+	while (cmd[i])
+	{
+		if ((ft_strchr(cmd[i], '=') && ft_strlen(cmd[i]) == 1)
+			|| *cmd[i] == '=')
+		{
+			print_fd("bad assignment", 2, "minishell");
+			return (false);
+		}
+		i++;
+	}
+	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 13:53:26 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/05 13:53:59 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/18 16:01:49 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	*get_var_value(char *key, t_shell *shell, int *i, int *j)
 {
 	char	*value;
 
-	if (ft_strlen(key) > 1)
+	if (key)
 	{
 		value = ft_getenv(key, &shell->env);
 		if (value)
