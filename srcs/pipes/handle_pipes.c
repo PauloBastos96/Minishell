@@ -6,47 +6,24 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 09:56:07 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/14 12:44:34 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/19 14:54:08 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/*Close file descriptor*/
-int	close_safe(int *fd)
+/*Close duplicated file descriptors*/
+void	close_dup(t_cmd *cmd)
 {
-	int	result;
-
-	if (*fd == -1)
-		return (0);
-	result = close(*fd);
-	if (result == 0)
-		*fd = -1;
-	return (result);
+	close_safe(&cmd->dup_fd[0]);
+	close_safe(&cmd->dup_fd[1]);
 }
 
-/*Swap file descriptor*/
-void	swap_fd(int *fd, int target)
-{
-	close_safe(fd);
-	*fd = target;
-}
-
-void	bind_std(t_shell *shell)
+/*Handle redirections*/
+void	handle_redirs(t_cmd *cmd, t_shell *shell)
 {
 	t_redirs	*redirs;
-	t_cmd		*cmd;
 
-	cmd = shell->cmd;
-	cmd->std.in = dup(STDIN_FILENO);
-	cmd->std.out = dup(STDOUT_FILENO);
-	if (cmd->prev)
-		swap_fd(&cmd->std.in, cmd->prev->fd[0]);
-	if (cmd->next)
-		swap_fd(&cmd->std.out, cmd->fd[1]);
-	else
-		close_safe(&cmd->fd[1]);
-	close_safe(&cmd->fd[0]);
 	redirs = cmd->redirs;
 	while (cmd->redirs)
 	{
@@ -63,6 +40,24 @@ void	bind_std(t_shell *shell)
 	cmd->redirs = redirs;
 }
 
+/*Setup file descriptors*/
+void	bind_std(t_shell *shell)
+{
+	t_cmd	*cmd;
+
+	cmd = shell->cmd;
+	cmd->std.in = dup(STDIN_FILENO);
+	cmd->std.out = dup(STDOUT_FILENO);
+	if (cmd->prev)
+		swap_fd(&cmd->std.in, cmd->prev->fd[0]);
+	if (cmd->next)
+		swap_fd(&cmd->std.out, cmd->fd[1]);
+	else
+		close_safe(&cmd->fd[1]);
+	close_safe(&cmd->fd[0]);
+	handle_redirs(cmd, shell);
+}
+
 /*Execute pipe process*/
 void	pipe_process(t_shell *shell)
 {
@@ -77,19 +72,15 @@ void	pipe_process(t_shell *shell)
 	cmd->dup_fd[1] = dup2(cmd->std.out, STDOUT_FILENO);
 	if (cmd->dup_fd[0] == -1 || cmd->dup_fd[1] == -1)
 	{
-		close_safe(&cmd->std.out);
-		close_safe(&cmd->std.in);
-		close_safe(&cmd->dup_fd[0]);
-		close_safe(&cmd->dup_fd[1]);
+		close_std(cmd);
+		close_dup(cmd);
 		perror("dups");
 		free_all(shell);
 		exit(1);
 	}
-	close_safe(&cmd->std.out);
-	close_safe(&cmd->std.in);
+	close_std(cmd);
 	handle_commands(shell);
-	close_safe(&cmd->dup_fd[0]);
-	close_safe(&cmd->dup_fd[1]);
+	close_dup(cmd);
 	status = shell->status;
 	free_all(shell);
 	exit(status);
@@ -103,7 +94,6 @@ int	exec_pipes(t_shell *shell)
 	cmd = shell->cmd;
 	if (pipe(cmd->fd) == -1)
 	{
-		// TODO: PROPER ERROR HANDLING
 		perror("pipe");
 		return (1);
 	}

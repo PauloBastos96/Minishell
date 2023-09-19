@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/14 13:51:40 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/19 14:41:36 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ char				**create_cmd_tokens(char *command, t_shell *shell);
 char				*ft_getenv(const char *name, char ***_env);
 int					exec_pipes(t_shell *shell);
 int					get_exit_code(char *cmd);
-t_cmd				*create_cmd_list(char **tokens, t_shell *shell);
+t_cmd				*create_cmd_list(char **tokens);
+t_cmd				*command_parser(char *cmd_line, t_shell *shell);
 char				**create_cmd_tokens(char *command, t_shell *shell);
 int					run_command(t_shell *shell);
 void				shell_loop(t_shell *shell);
-t_cmd				*command_parser(char *cmd_line, t_shell *shell);
 void				handle_commands(t_shell *shell);
 int					close_safe(int *fd);
 int					set_redirs(char **tokens, int *i, t_cmd *command);
@@ -59,4 +59,5 @@ void				handle_redir_hdoc(t_shell *shell);
 void				handle_redir_out_append(t_shell *shell);
 void				free_envs(t_shell *shell);
 void				free_all(t_shell *shell);
+void				close_std(t_cmd *cmd);
 #endif

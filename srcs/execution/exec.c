@@ -6,11 +6,19 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 12:45:36 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/14 13:51:59 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/19 14:23:43 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+/*Create sub-process for command*/
+int	create_command_process(t_cmd *cmd, char **env)
+{
+	if (execve(cmd->path, cmd->cmd, env) == -1)
+		perror("execve");
+	return (127);
+}
 
 /*Wait for sub process to complete*/
 void	ft_wait(t_shell *shell)
