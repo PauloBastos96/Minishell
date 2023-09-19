@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/14 12:42:22 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/19 15:22:00 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	run_command(t_shell *shell)
 		shell->cmd->path = search_command_path(shell->cmd->cmd[0]);
 	if (shell->cmd->path)
 		return (create_command_process(shell->cmd, shell->env));
-	//Check
+	// Check
 	return (127);
 }
 
@@ -58,17 +58,17 @@ t_cmd	*command_parser(char *cmd_line, t_shell *shell)
 	char	**tokens;
 	int		i;
 
+	i = 0;
 	tokens = create_cmd_tokens(cmd_line, shell);
 	cmd_struct = create_cmd_list(tokens, shell);
-	i = 0;
 	while (tokens[i])
 		free(tokens[i++]);
 	free(tokens);
 	return (cmd_struct);
 }
 
-//Start shell
-//!env should remain const because it should never be modified by us
+// Start shell
+//! env should remain const because it should never be modified by us
 int	main(int argc, char **argv, const char **env)
 {
 	t_shell	*shell;

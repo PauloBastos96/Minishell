@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:10:51 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/18 14:33:06 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/19 15:38:06 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*set_expansion(t_shell *shell, char *str)
 {
 	char	*var;
 	char	*expanded_var;
-	int 	i;
+	int		i;
 
 	i = 0;
 	while (str[i])
@@ -79,6 +79,9 @@ void	handle_redir_hdoc(t_shell *shell)
 	if (pipe(h_doc) == -1)
 		exit(1);
 	swap_fd(&cmd->std.in, h_doc[0]);
+	if (to_expand(cmd->redirs->redirection) == true)
+		cmd->redirs->to_expand = true;
+	cmd->redirs->redirection = remove_quotes(cmd->redirs->redirection);
 	while (1)
 	{
 		definer = readline("heredoc> ");
@@ -89,8 +92,8 @@ void	handle_redir_hdoc(t_shell *shell)
 		}
 		if (ft_strcmp(definer, cmd->redirs->redirection) == 0)
 			break ;
-		if(cmd->redirs->redirection)
-		definer = set_expansion(shell, definer);
+		if (cmd->redirs->to_expand == true)
+			definer = set_expansion(shell, definer);
 		write(h_doc[1], definer, ft_strlen(definer));
 		write(h_doc[1], "\n", 1);
 	}
