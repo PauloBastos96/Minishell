@@ -3,47 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:10:51 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/13 16:19:45 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/19 15:38:06 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-bool	to_expand(char *var)
+char	*get_var(char *str)
 {
-	if (!ft_strchr("'\"", var[0]) && !ft_strchr("'\"", var[ft_strlen(var) - 1]))
-		return (false);
-	else
-		return (true);
-}
+	int		i;
+	char	*var;
 
-bool	is_var(char *var)
-{
-	if (var[0] == '$')
-		return (true);
-	else
-		return (false);
-}
-
-char	*get_var(char *var)
-{
-	int	i;
-
-	i = 0;
-	while (var[i])
+	i = 1;
+	while (var_char_valid(str[i]))
 	{
-		if (var[i] == '$')
-		{
-			while (var[i] != ' ' && var[i] != '\0')
-				i++;
-			return (ft_substr(var, 0, i));
-		}
 		i++;
 	}
+	var = ft_substr(str, 0, i);
 	return (var);
+}
+
+char	*set_expansion(t_shell *shell, char *str)
+{
+	char	*var;
+	char	*expanded_var;
+	int		i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i++] != '$')
+			continue ;
+		if (!var_char_valid(str[i]))
+			continue ;
+		i--;
+		var = get_var(str + i);
+		if (!var)
+			continue ;
+		expanded_var = ft_getenv(var + 1, &shell->env);
+		if (expanded_var)
+		{
+			str = str_replace(str, var, expanded_var);
+			i += ft_strlen(expanded_var) - 1;
+		}
+		else
+			str = str_replace(str, var, "");
+	}
+	return (str);
 }
 
 /*Get heredoc error message*/
@@ -64,13 +73,15 @@ void	handle_redir_hdoc(t_shell *shell)
 {
 	t_cmd	*cmd;
 	char	*definer;
-	char	*expanded_var;
 	int		h_doc[2];
 
 	cmd = shell->cmd;
 	if (pipe(h_doc) == -1)
 		exit(1);
 	swap_fd(&cmd->std.in, h_doc[0]);
+	if (to_expand(cmd->redirs->redirection) == true)
+		cmd->redirs->to_expand = true;
+	cmd->redirs->redirection = remove_quotes(cmd->redirs->redirection);
 	while (1)
 	{
 		definer = readline("heredoc> ");
@@ -81,13 +92,8 @@ void	handle_redir_hdoc(t_shell *shell)
 		}
 		if (ft_strcmp(definer, cmd->redirs->redirection) == 0)
 			break ;
-		if (to_expand(cmd->redirs->redirection) == true)
-		{
-			expanded_var = get_var(definer);
-			if (is_var(expanded_var) == true)
-				if (ft_getenv(expanded_var, &shell->env) != NULL)
-					definer = ft_getenv(expanded_var, &shell->env);
-		}
+		if (cmd->redirs->to_expand == true)
+			definer = set_expansion(shell, definer);
 		write(h_doc[1], definer, ft_strlen(definer));
 		write(h_doc[1], "\n", 1);
 	}

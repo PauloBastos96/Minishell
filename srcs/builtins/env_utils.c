@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:56:57 by paulorod          #+#    #+#             */
-/*   Updated: 2023/08/25 13:53:33 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/18 15:35:11 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../minishell.h"
 #include "../../includes/list.h"
+
+static char	*get_old_pwd(char ***env)
+{
+	char	*temp;
+	char	*oldpwd;
+
+	temp = ft_getenv("PWD", env);
+	if (temp)
+		oldpwd = ft_strdup(temp);
+	else
+		oldpwd = NULL;
+	return (oldpwd);
+}
 
 /*Sort enviroment variables by alphabetical order*/
 char	**sort_envs(char **envs)
@@ -65,11 +79,16 @@ bool	is_duplicate(char **env, char *new)
 static	void	update_var(char	**env, char *var, char *value)
 {
 	char	*temp;
-
+	
 	free(*env);
-	temp = ft_strdup(value);
-	*env = ft_strjoin(var, temp);
-	free(temp);
+	if(!value)
+		*env = ft_strdup(var);
+	else
+	{
+		temp = ft_strdup(value);
+		*env = ft_strjoin(var, temp);
+		free(temp);
+	}
 }
 
 /*Update PWD and OLDPWD environment variables*/
@@ -83,13 +102,15 @@ void	update_pwd(char ***_env)
 	i = 0;
 	env = *_env;
 	pwd = getcwd(NULL, 0);
-	oldpwd = ft_strdup(getenv("PWD"));
+	oldpwd = get_old_pwd(_env);
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], "PWD", 3) == 0)
 			update_var(&env[i], "PWD=", pwd);
-		if (ft_strncmp(env[i], "OLDPWD", 6) == 0)
+		else if (ft_strncmp(env[i], "OLDPWD", 6) == 0 && oldpwd)
 			update_var(&env[i], "OLDPWD=", oldpwd);
+		else if (ft_strncmp(env[i], "OLDPWD", 6) == 0 && !oldpwd)
+			update_var(&env[i], "OLDPWD", oldpwd);
 		i++;
 	}
 	free(pwd);

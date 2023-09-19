@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:32:32 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/12 15:53:32 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/19 15:25:48 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ char	*extend_env_vars(char *token, t_shell *shell, bool ignore_quotes)
 		var_ext.new_token = tmp;
 		return (var_ext.new_token);
 	}
-	tmp = remove_quotes(var_ext.token);
+/* 	tmp = remove_quotes(var_ext.token);
 	free(var_ext.token);
-	var_ext.token = tmp;
+	var_ext.token = tmp; */
 	return (var_ext.token);
 }
 

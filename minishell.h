@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/14 12:42:38 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/19 15:29:11 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define MINISHELL_H
 
 # define PROMPT "minishell$ "
-# define HEREDOC_ERROR "warning: here-document delimited \
+# define HEREDOC_ERROR \
+	"warning: here-document delimited \
 by end-of-file (wanted '"
 # define _GNU_SOURCE
 
@@ -58,4 +59,10 @@ void				handle_redir_hdoc(t_shell *shell);
 void				handle_redir_out_append(t_shell *shell);
 void				free_envs(t_shell *shell);
 void				free_all(t_shell *shell);
+char				*str_replace(char *string, const char *substr,
+						const char *replacement);
+bool				var_char_valid(char c);
+char				*get_var(char *str);
+bool				to_expand(char *limiter);
+char				*remove_quotes(char *token);
 #endif
