@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:00:41 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/13 15:38:53 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/19 17:23:43 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	ft_cd(t_shell *shell)
 {
 	char	*path;
 
+	shell->cmd->cmd[1] = remove_quotes(shell->cmd->cmd[1]);
 	path = shell->cmd->cmd[1];
 	if (!path)
 		return (1);
@@ -65,6 +66,7 @@ int	ft_echo(t_shell *shell)
 	i = 0 + (ft_strncmp("-n", cmd->cmd[1], 3) == 0);
 	while (cmd->cmd[++i])
 	{
+		cmd->cmd[i] = remove_quotes(cmd->cmd[i]);
 		write(1, cmd->cmd[i], ft_strlen(cmd->cmd[i]));
 		if (cmd->cmd[i + 1])
 			write(1, " ", 1);

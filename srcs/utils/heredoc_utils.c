@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 14:11:27 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/19 15:29:04 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/19 16:46:08 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ bool	var_char_valid(char c)
 			|| c == ':' || c == '/' || c == '{' || c == '}' || c == '+'
 			|| c == '^' || c == '%' || c == '#' || c == '@' || c == '!'
 			|| c == '~' || c == '"' || c == '`' || c == '(' || c == ')'
-			|| c == '$' || c == '\1' || c == '\0'
-			|| c == '=' || c == '-' || c == '&' || c == '*'));
+			|| c == '$' || c == '\1' || c == '\0' || c == '=' || c == '-'
+			|| c == '&' || c == '*'));
 }
 
-bool to_expand(char *limiter)
+bool	to_expand(char *limiter)
 {
-	if(limiter[0] == '"' && limiter[ft_strlen(limiter) - 1] == '"')
+	if (limiter[0] == '"' && limiter[ft_strlen(limiter) - 1] == '"')
 		return (false);
 	else
 		return (true);

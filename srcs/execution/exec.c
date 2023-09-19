@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 12:45:36 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/19 12:55:15 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/19 17:36:26 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	ft_wait(t_shell *shell)
 /*Check if command is a builtin*/
 bool	is_builtin(t_cmd *cmd)
 {
+	cmd->cmd[0] = remove_quotes(cmd->cmd[0]);
 	if (!cmd->cmd[0])
 		return (false);
 	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
