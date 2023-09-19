@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/19 12:48:58 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/19 16:11:32 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ t_cmd	*command_parser(char *cmd_line, t_shell *shell)
 	char	**tokens;
 	int		i;
 
+	i = 0;
 	tokens = create_cmd_tokens(cmd_line, shell);
 	cmd_struct = create_cmd_list(tokens);
 	i = 0;
@@ -66,8 +67,8 @@ t_cmd	*command_parser(char *cmd_line, t_shell *shell)
 	return (cmd_struct);
 }
 
-//Start shell
-//!env should remain const because it should never be modified by us
+// Start shell
+//! env should remain const because it should never be modified by us
 int	main(int argc, char **argv, const char **env)
 {
 	t_shell	*shell;

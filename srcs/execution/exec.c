@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 12:45:36 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/19 14:23:43 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/19 16:15:19 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,21 +92,24 @@ void	start_exec(t_shell *shell)
 void	shell_loop(t_shell *shell)
 {
 	char	*command;
+	char	*trimmed;
 
 	while (true)
 	{
 		command = readline(PROMPT);
-		if (!command)
+		trimmed = ft_strtrim(command, "\n\r\t \v");
+		free(command);
+		if (!command || !trimmed)
 		{
 			printf("exit\n");
 			free_envs(shell);
 			free(shell);
 			exit(0);
 		}
-		if (*command)
+		if (ft_strlen(trimmed) > 0)
 		{
-			add_history(command);
-			shell->cmd = command_parser(command, shell);
+			add_history(trimmed);
+			shell->cmd = command_parser(trimmed, shell);
 			if (!shell->cmd)
 				continue ;
 			start_exec(shell);
