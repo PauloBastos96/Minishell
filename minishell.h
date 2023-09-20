@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/19 16:12:22 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/20 15:16:09 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,5 @@ bool				var_char_valid(char c);
 char				*get_var(char *str);
 bool				to_expand(char *limiter);
 char				*remove_quotes(char *token);
+t_cmd 				*set_quotes(t_cmd *cmd);
 #endif

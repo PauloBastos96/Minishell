@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 12:45:36 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/19 16:15:19 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/20 15:16:33 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	ft_wait(t_shell *shell)
 /*Check if command is a builtin*/
 bool	is_builtin(t_cmd *cmd)
 {
+	cmd = set_quotes(cmd);
 	if (!cmd->cmd[0])
 		return (false);
 	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
@@ -74,6 +75,7 @@ void	start_exec(t_shell *shell)
 	while (shell->cmd)
 	{
 		cmd = shell->cmd;
+		cmd = set_quotes(cmd);
 		exec_pipes(shell);
 		if (cmd->prev)
 			close_safe(&cmd->prev->fd[0]);

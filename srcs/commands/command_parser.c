@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:18:12 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/19 15:21:29 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/20 13:57:38 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,15 +104,18 @@ char	*prepare_string(char *command)
 {
 	int		i;
 
-	i = 0;
+	i = -1;
 	while (command[++i])
 	{
-		if (in_quotes(command[i]))
+		if (!in_quotes(command[i]))
+		{
+			if (command[i] == ' ')
+				command[i] = '\1';
+		}
+		else
 			continue ;
-		if (command[i] == ' ')
-			command[i] = '\1';
 	}
-	command = check_unclosed_quotes(command);
+	//command = check_unclosed_quotes(command);
 	return (command);
 }
 
