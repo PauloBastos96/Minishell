@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:56:57 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/19 16:14:08 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/20 16:10:29 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,12 @@ bool	is_duplicate(char **env, char *new)
 }
 
 /*Free old PWD and OLDPWD and update them with the new values*/
-static	void	update_var(char	**env, char *var, char *value)
+static void	update_var(char **env, char *var, char *value)
 {
 	char	*temp;
 
 	free(*env);
-	if(!value)
+	if (!value)
 		*env = ft_strdup(var);
 	else
 	{

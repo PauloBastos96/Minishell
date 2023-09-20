@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:04:18 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/14 13:22:26 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/20 16:00:50 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,39 +42,39 @@ void	free_envs(t_shell *shell)
 }
 
 /*Free command struct*/
-void	free_cmd(t_cmd *cmd)
+void	free_cmd(t_shell *shell)
 {
 	int		i;
 	t_cmd	*temp;
 
-	while (cmd)
+	while (shell->cmd)
 	{
 		i = 0;
-		if (cmd->cmd)
+		if (shell->cmd->cmd)
 		{
-			while (cmd->cmd[i])
+			while (shell->cmd->cmd[i])
 			{
-				free(cmd->cmd[i]);
-				cmd->cmd[i] = NULL;
+				free(shell->cmd->cmd[i]);
+				shell->cmd->cmd[i] = NULL;
 				i++;
 			}
-			free(cmd->cmd);
-			cmd->cmd = NULL;
+			free(shell->cmd->cmd);
+			shell->cmd->cmd = NULL;
 		}
-		if (cmd->path)
-			free(cmd->path);
-		free_redirs(cmd->redirs);
-		temp = cmd->next;
-		if (cmd)
-			free(cmd);
-		cmd = temp;
+		if (shell->cmd->path)
+			free(shell->cmd->path);
+		free_redirs(shell->cmd->redirs);
+		temp = shell->cmd->next;
+		if (shell->cmd)
+			free(shell->cmd);
+		shell->cmd = temp;
 	}
 }
 
 /*Free commands, envs and shell variables*/
 void	free_all(t_shell *shell)
 {
-	free_cmd(shell->cmd);
+	free_cmd(shell);
 	free_envs(shell);
 	free(shell);
 }

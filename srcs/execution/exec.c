@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 12:45:36 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/20 15:16:33 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/20 15:57:04 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,12 @@ void	shell_loop(t_shell *shell)
 	while (true)
 	{
 		command = readline(PROMPT);
-		trimmed = ft_strtrim(command, "\n\r\t \v");
+		if (command)
+			trimmed = ft_strtrim(command, "\n\r\t \v");
+		else
+			trimmed = NULL;
 		free(command);
-		if (!command || !trimmed)
+		if (!trimmed)
 		{
 			printf("exit\n");
 			free_envs(shell);
@@ -115,7 +118,7 @@ void	shell_loop(t_shell *shell)
 			if (!shell->cmd)
 				continue ;
 			start_exec(shell);
-			free_cmd(shell->cmd);
+			free_cmd(shell);
 		}
 	}
 }

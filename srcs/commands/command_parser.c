@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_parser.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:18:12 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/20 13:57:38 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/20 16:07:09 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*separate_special_chars(char *command)
 }
 
 /*Check for unclosed quotes*/
-char	*check_unclosed_quotes(char *command)
+/*char	*check_unclosed_quotes(char *command)
 {
 	char	*rl_tmp;
 	char	*promt;
@@ -97,7 +97,7 @@ char	*check_unclosed_quotes(char *command)
 	if (in_quotes(0))
 		command = check_unclosed_quotes(command);
 	return (command);
-}
+}*/
 
 /*Prepare string for token generation*/
 char	*prepare_string(char *command)
@@ -115,7 +115,6 @@ char	*prepare_string(char *command)
 		else
 			continue ;
 	}
-	//command = check_unclosed_quotes(command);
 	return (command);
 }
 

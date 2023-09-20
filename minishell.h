@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/20 15:16:09 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/20 16:06:33 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ extern bool			g_using_sub_process;
 t_list				**new_env_list(char **env);
 void				clear_env_list(t_list **env_list);
 void				register_signals(void);
-void				free_cmd(t_cmd *cmd);
+void				free_cmd(t_shell *shell);
 void				clear_paths(char **paths);
 int					print_fd(char *error, char fd, char *name);
 int					create_command_process(t_cmd *cmd, char **env);
@@ -67,5 +67,5 @@ bool				var_char_valid(char c);
 char				*get_var(char *str);
 bool				to_expand(char *limiter);
 char				*remove_quotes(char *token);
-t_cmd 				*set_quotes(t_cmd *cmd);
+t_cmd				*set_quotes(t_cmd *cmd);
 #endif
