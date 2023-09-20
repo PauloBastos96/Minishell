@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 14:11:27 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/19 15:29:04 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/20 14:18:04 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,27 @@ bool	var_char_valid(char c)
 
 bool to_expand(char *limiter)
 {
-	if(limiter[0] == '"' && limiter[ft_strlen(limiter) - 1] == '"')
+	if((limiter[0] == '"' && limiter[ft_strlen(limiter) - 1] == '"') || (limiter[0] == '\'' && limiter[ft_strlen(limiter) - 1] == '\''))
 		return (false);
 	else
 		return (true);
+}
+
+t_cmd *set_quotes(t_cmd *cmd)
+{
+	t_redirs *tmp;
+	int i;
+
+	i = -1;
+	while(cmd->cmd[++i])
+		cmd->cmd[i] = remove_quotes(cmd->cmd[i]);
+	tmp = cmd->redirs;
+	while(cmd->redirs)
+	{
+		if(cmd->redirs->indentifier != h_doc)
+			cmd->redirs->redirection = remove_quotes(cmd->redirs->redirection);
+		cmd->redirs = cmd->redirs->next;		
+	}
+	cmd->redirs = tmp;
+	return(cmd);
 }
