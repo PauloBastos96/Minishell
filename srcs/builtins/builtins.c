@@ -6,12 +6,35 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:00:41 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/15 13:37:38 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/20 16:18:53 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/builtins.h"
 #include "../../minishell.h"
+
+/*Check if command is a builtin*/
+bool	is_builtin(t_cmd *cmd)
+{
+	cmd = set_quotes(cmd);
+	if (!cmd->cmd[0])
+		return (false);
+	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
+		return (true);
+	else if (ft_strcmp(cmd->cmd[0], "pwd") == 0)
+		return (true);
+	else if (ft_strcmp(cmd->cmd[0], "cd") == 0)
+		return (true);
+	else if (ft_strcmp(cmd->cmd[0], "env") == 0)
+		return (true);
+	else if (ft_strcmp(cmd->cmd[0], "export") == 0)
+		return (true);
+	else if (ft_strcmp(cmd->cmd[0], "unset") == 0)
+		return (true);
+	else if (ft_strcmp(cmd->cmd[0], "exit") == 0)
+		return (true);
+	return (false);
+}
 
 /*Builtin env command*/
 int	ft_env(t_shell *shell)

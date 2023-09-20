@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 12:45:36 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/20 15:57:04 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/20 16:23:07 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,6 @@ void	ft_wait(t_shell *shell)
 		shell->status = cmd->status;
 		cmd = cmd->next;
 	}
-}
-
-/*Check if command is a builtin*/
-bool	is_builtin(t_cmd *cmd)
-{
-	cmd = set_quotes(cmd);
-	if (!cmd->cmd[0])
-		return (false);
-	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
-		return (true);
-	else if (ft_strcmp(cmd->cmd[0], "pwd") == 0)
-		return (true);
-	else if (ft_strcmp(cmd->cmd[0], "cd") == 0)
-		return (true);
-	else if (ft_strcmp(cmd->cmd[0], "env") == 0)
-		return (true);
-	else if (ft_strcmp(cmd->cmd[0], "export") == 0)
-		return (true);
-	else if (ft_strcmp(cmd->cmd[0], "unset") == 0)
-		return (true);
-	else if (ft_strcmp(cmd->cmd[0], "exit") == 0)
-		return (true);
-	return (false);
 }
 
 /*Start command execution*/
@@ -89,6 +66,15 @@ void	start_exec(t_shell *shell)
 	g_using_sub_process = false;
 }
 
+/*Exit shell with ctrl+d*/
+void	exit_shell(t_shell *shell)
+{
+	printf("exit\n");
+	free_envs(shell);
+	free(shell);
+	exit(0);
+}
+
 // Main shell loop
 //! readline has memory leaks that don't have to be fixed
 void	shell_loop(t_shell *shell)
@@ -99,18 +85,12 @@ void	shell_loop(t_shell *shell)
 	while (true)
 	{
 		command = readline(PROMPT);
+		trimmed = NULL;
 		if (command)
 			trimmed = ft_strtrim(command, "\n\r\t \v");
-		else
-			trimmed = NULL;
 		free(command);
 		if (!trimmed)
-		{
-			printf("exit\n");
-			free_envs(shell);
-			free(shell);
-			exit(0);
-		}
+			exit_shell(shell);
 		if (ft_strlen(trimmed) > 0)
 		{
 			add_history(trimmed);
