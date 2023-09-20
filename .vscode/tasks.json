@@ -31,6 +31,7 @@
                 "srcs/redirections/handle_redirections.c",
                 "srcs/redirections/heredoc.c",
                 "srcs/utils/cleaner.c",
+                "srcs/utils/heredoc_utils.c",
                 "srcs/utils/paths.c",
                 "srcs/utils/pipes_utils.c",
                 "srcs/utils/redirs_utils.c",
