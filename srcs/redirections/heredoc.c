@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:10:51 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/19 15:38:06 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/21 16:31:20 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ char	*set_expansion(t_shell *shell, char *str)
 		expanded_var = ft_getenv(var + 1, &shell->env);
 		if (expanded_var)
 		{
+			printf("from: %s\n", str);
 			str = str_replace(str, var, expanded_var);
+			printf("to: %s\n", str);
 			i += ft_strlen(expanded_var) - 1;
 		}
 		else

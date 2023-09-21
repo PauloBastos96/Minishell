@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/19 15:29:11 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/21 15:21:18 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ void				handle_redir_hdoc(t_shell *shell);
 void				handle_redir_out_append(t_shell *shell);
 void				free_envs(t_shell *shell);
 void				free_all(t_shell *shell);
-char				*str_replace(char *string, const char *substr,
-						const char *replacement);
+char	*str_replace(char *string, char *substr, char *replacement);
 bool				var_char_valid(char c);
 char				*get_var(char *str);
 bool				to_expand(char *limiter);
