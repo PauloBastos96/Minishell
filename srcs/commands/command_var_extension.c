@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:14:29 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/12 15:50:25 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:26:08 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,18 @@ char	*handle_exit_code_var(char *new_token, t_shell *shell, int *j)
 }
 
 /*Check for quotes and copy start of token until it finds a var*/
-void	var_pre_processing(t_var_ext *var_ext, bool ignore_quotes)
+void	var_pre_processing(t_var_ext *var_ext, bool *ignore_quotes)
 {
-	if (!ignore_quotes && var_ext->token[var_ext->i] == '\'')
+	if (var_ext->token[var_ext->i] == '"')
+		*ignore_quotes = !(*ignore_quotes);
+	if (!(*ignore_quotes) && var_ext->token[var_ext->i] == '\'')
 		var_ext->quote = !var_ext->quote;
 	if (var_ext->token[var_ext->i] != '$')
 		var_ext->new_token[var_ext->j] = var_ext->token[var_ext->i];
 }
 
 /*Process env vars in tokens*/
-char	*process_vars(t_var_ext *var_ext, bool ignore_quotes, t_shell *shell)
+char	*process_vars(t_var_ext *var_ext, bool *ignore_quotes, t_shell *shell)
 {
 	var_ext->i = -1;
 	var_ext->j = 0;

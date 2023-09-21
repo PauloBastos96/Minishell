@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:18:12 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/20 16:07:09 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/21 16:32:28 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,20 @@ char	*add_separators(char *command, int start, int end)
 /*Add separator (\1) between special characters*/
 char	*separate_special_chars(char *command)
 {
-	int	i;
-	int	end;
+	int		i;
+	int		end;
+	bool	s_quote;
+	bool	d_quote;
 
 	i = 0;
 	end = 0;
+	s_quote = false;
+	d_quote = false;
 	while (command[i])
 	{
 		end = i;
-		if (!in_quotes(command[i]) && is_special_char(command, i, &end))
+		if (!in_quotes(command[i], &d_quote, &s_quote) 
+			&& is_special_char(command, i, &end))
 		{
 			if (command[i + 1] == '<' || command[i + 1] == '>')
 			{
@@ -72,42 +77,19 @@ char	*separate_special_chars(char *command)
 	return (command);
 }
 
-/*Check for unclosed quotes*/
-/*char	*check_unclosed_quotes(char *command)
-{
-	char	*rl_tmp;
-	char	*promt;
-	int		i;
-
-	if (in_quotes(0))
-	{
-		if (!in_quotes('"'))
-			promt = "dquote>";
-		else if (!in_quotes('\''))
-			promt = "quote>";
-		rl_tmp = readline(promt);
-		command = join_values(command, rl_tmp);
-	}
-	i = 0;
-	while (command[i])
-	{
-		in_quotes(command[i]);
-		i++;
-	}
-	if (in_quotes(0))
-		command = check_unclosed_quotes(command);
-	return (command);
-}*/
-
 /*Prepare string for token generation*/
 char	*prepare_string(char *command)
 {
 	int		i;
+	bool	s_quote;
+	bool	d_quote;
 
 	i = -1;
+	s_quote = false;
+	d_quote = false;
 	while (command[++i])
 	{
-		if (!in_quotes(command[i]))
+		if (!in_quotes(command[i], &d_quote, &s_quote))
 		{
 			if (command[i] == ' ')
 				command[i] = '\1';

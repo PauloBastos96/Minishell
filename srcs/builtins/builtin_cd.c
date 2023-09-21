@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 13:36:58 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/18 15:12:44 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/21 13:14:14 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,17 @@ int	ft_cd(t_shell *shell)
 	path = shell->cmd->cmd[1];
 	if (!path)
 		path = get_home_path(ft_strdup("~"));
+	else
+		path = ft_strdup(path);
 	if (ft_strncmp(path, "~", 1) == 0)
 		path = get_home_path(path);
 	if (chdir(path) == -1)
 	{
+		free(path);
 		perror(NULL);
 		return (1);
 	}
+	free(path);
 	update_pwd(shell);
 	return (0);
 }
