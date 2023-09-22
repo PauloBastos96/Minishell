@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/22 12:24:03 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/22 13:49:51 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	run_command(t_shell *shell)
 	if (ft_strchr(shell->cmd->cmd[0], '/'))
 		shell->cmd->path = ft_strdup(shell->cmd->cmd[0]);
 	else
-		shell->cmd->path = search_command_path(shell->cmd->cmd[0]);
+		shell->cmd->path = search_command_path(shell->cmd->cmd[0], shell);
 	if (shell->cmd->path)
 		return (create_command_process(shell->cmd, shell->env));
 	return (127);
@@ -30,7 +30,9 @@ int	run_command(t_shell *shell)
 /*Handle builtin and external commands*/
 void	handle_commands(t_shell *shell)
 {
-	shell->cmd->cmd[0] = remove_quotes(shell->cmd->cmd[0]);
+	char	*test = remove_quotes(shell->cmd->cmd[0]);
+	free(shell->cmd->cmd[0]);
+	shell->cmd->cmd[0] = test;
 	if (!shell->cmd->cmd[0] || !*(shell->cmd->cmd[0]))
 		return ;
 	if (ft_strcmp(shell->cmd->cmd[0], "echo") == 0)

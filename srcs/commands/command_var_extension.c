@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:14:29 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/21 14:26:08 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:00:26 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ char	*process_vars(t_var_ext *var_ext, bool *ignore_quotes, t_shell *shell)
 		var_pre_processing(var_ext, ignore_quotes);
 		if (var_ext->token[var_ext->i] == '$' && !var_ext->quote)
 		{
+			if (ft_strlen(var_ext->token) == 1 || ft_strcmp(var_ext->token, "\"$\"") == 0)
+			{
+				free(var_ext->new_token);
+				var_ext->new_token = ft_strdup(var_ext->token);
+				break ;
+			}
 			if (var_ext->token[++var_ext->i] != '?')
 			{
 				var_ext->new_token = replace_token_with_var(var_ext, shell);

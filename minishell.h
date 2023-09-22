@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/22 12:25:05 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/22 13:21:58 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void				close_std(t_cmd *cmd);
 char				**alloc_cmd(char *command);
 char				**fill_envs(const char **env);
 char				*get_full_path(char **paths, char *command);
-char				*search_command_path(char *command);
+char				*search_command_path(char *commandm, t_shell *shell);
 char				**create_cmd_tokens(char *command, t_shell *shell);
 char				*ft_getenv(const char *name, char ***_env);
 char				**create_cmd_tokens(char *command, t_shell *shell);
