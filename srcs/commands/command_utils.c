@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:32:32 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/22 12:31:16 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:56:31 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,7 @@ char	*extend_env_vars(char *token, t_shell *shell, bool ignore_quotes)
 	var_ext.token = ft_strdup(token);
 	free(token);
 	if (has_unclosed_quotes(var_ext.token))
-	{
-		print_fd("unclosed quotes", 2, "parsing error");
-		free(var_ext.token);
-		return (NULL);
-	}
+		return (unclosed_quotes_error(&var_ext));
 	if (ft_strchr(var_ext.token, '$'))
 	{
 		var_ext.new_token = ft_calloc(sizeof(char),
@@ -122,23 +118,4 @@ char	*handle_envs(char *token, t_shell *shell)
 	else if (env_value)
 		free(env_value);
 	return (ft_strdup(""));
-}
-
-/*Set the next command struct*/
-t_cmd	*set_next_cmd(t_cmd **command, int *j, int i, char **tokens)
-{
-	t_cmd	*tmp_cmd;
-
-	(*command)->next = create_token_cmd(tokens[i]);
-	if ((*command)->next)
-	{
-		(*command)->cmd[*j] = NULL;
-		tmp_cmd = *command;
-		*command = (*command)->next;
-		(*command)->prev = tmp_cmd;
-		*j = 0;
-		(*command)->cmd = ft_calloc(sizeof(char *),
-				get_cmd_size(&tokens[i + 1]));
-	}
-	return (*command);
 }

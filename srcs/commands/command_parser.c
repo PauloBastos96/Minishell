@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:18:12 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/21 16:32:28 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/22 15:01:01 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,12 @@ char	*add_separators(char *command, int start, int end)
 	return (new_command);
 }
 
-/*Add separator (\1) between special characters*/
-char	*separate_special_chars(char *command)
+/*Separate command with \1s*/
+char	*separate_string(char *command, int end, bool s_quote, bool d_quote)
 {
-	int		i;
-	int		end;
-	bool	s_quote;
-	bool	d_quote;
+	int	i;
 
 	i = 0;
-	end = 0;
-	s_quote = false;
-	d_quote = false;
 	while (command[i])
 	{
 		end = i;
@@ -74,6 +68,20 @@ char	*separate_special_chars(char *command)
 		}
 		i++;
 	}
+	return (command);
+}
+
+/*Add separator (\1) between special characters*/
+char	*separate_special_chars(char *command)
+{
+	int		end;
+	bool	s_quote;
+	bool	d_quote;
+
+	end = 0;
+	s_quote = false;
+	d_quote = false;
+	command = separate_string(command, end, s_quote, d_quote);
 	return (command);
 }
 

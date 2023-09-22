@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:14:29 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/22 14:00:26 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:46:49 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,22 @@ void	var_pre_processing(t_var_ext *var_ext, bool *ignore_quotes)
 		var_ext->new_token[var_ext->j] = var_ext->token[var_ext->i];
 }
 
+/*Set new_token value*/
+char	*assign_new_token(t_var_ext *var_ext, t_shell *shell, int type)
+{
+	if (type == 0)
+	{
+		free(var_ext->new_token);
+		var_ext->new_token = ft_strdup(var_ext->token);
+	}
+	else if (type == 1)
+		var_ext->new_token = replace_token_with_var(var_ext, shell);
+	else
+		var_ext->new_token = handle_exit_code_var(var_ext->new_token, 
+				shell, &var_ext->j);
+	return (var_ext->new_token);
+}
+
 /*Process env vars in tokens*/
 char	*process_vars(t_var_ext *var_ext, bool *ignore_quotes, t_shell *shell)
 {
@@ -59,23 +75,13 @@ char	*process_vars(t_var_ext *var_ext, bool *ignore_quotes, t_shell *shell)
 		var_pre_processing(var_ext, ignore_quotes);
 		if (var_ext->token[var_ext->i] == '$' && !var_ext->quote)
 		{
-			if (ft_strlen(var_ext->token) == 1 || ft_strcmp(var_ext->token, "\"$\"") == 0)
-			{
-				free(var_ext->new_token);
-				var_ext->new_token = ft_strdup(var_ext->token);
-				break ;
-			}
+			if (ft_strlen(var_ext->token) == 1 
+				|| ft_strcmp(var_ext->token, "\"$\"") == 0)
+				return (assign_new_token(var_ext, shell, 0));
 			if (var_ext->token[++var_ext->i] != '?')
-			{
-				var_ext->new_token = replace_token_with_var(var_ext, shell);
-				break ;
-			}
+				return (assign_new_token(var_ext, shell, 1));
 			else
-			{
-				var_ext->new_token = handle_exit_code_var(var_ext->new_token,
-						shell, &var_ext->j);
-				break ;
-			}
+				return (assign_new_token(var_ext, shell, 2));
 		}
 		else if (var_ext->quote)
 			var_ext->new_token[var_ext->j] = var_ext->token[var_ext->i];
