@@ -6,48 +6,28 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 14:11:27 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/20 16:14:23 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/22 12:50:41 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*str_replace(char *string, const char *substr, const char *replacement)
+char	*str_replace(char *string, char *substr, char *replacement)
 {
-	char	*tok;
-	char	*newstr;
-	char	*oldstr;
-	int		oldstr_len;
-	int		substr_len;
-	int		replacement_len;
+	char	*substr_src;
+	char	*new_str;
+	int		str_len;
 
-	tok = NULL;
-	newstr = NULL;
-	oldstr = NULL;
-	oldstr_len = 0;
-	substr_len = 0;
-	replacement_len = 0;
-	newstr = ft_strdup(string);
-	substr_len = ft_strlen(substr);
-	replacement_len = ft_strlen(replacement);
-	if (substr == NULL || replacement == NULL)
-		return (newstr);
-	while ((tok = ft_strnstr(newstr, substr, ft_strlen(newstr))))
-	{
-		oldstr = newstr;
-		oldstr_len = ft_strlen(oldstr);
-		newstr = (char *)malloc(sizeof(char) * (oldstr_len - substr_len
-					+ replacement_len + 1));
-		if (newstr == NULL)
-			return (free(oldstr), NULL);
-		ft_memcpy(newstr, oldstr, tok - oldstr);
-		ft_memcpy(newstr + (tok - oldstr), replacement, replacement_len);
-		ft_memcpy(newstr + (tok - oldstr) + replacement_len, tok + substr_len,
-			oldstr_len - substr_len - (tok - oldstr));
-		ft_memset(newstr + oldstr_len - substr_len + replacement_len, 0, 1);
-		free(oldstr);
-	}
-	return (free(string), newstr);
+	str_len = ft_strlen(string) - ft_strlen(substr) + ft_strlen(replacement);
+	new_str = (char *)ft_calloc(sizeof(char), str_len + 1);
+	if (!new_str)
+		return (NULL);
+	substr_src = ft_strnstr(string, substr, ft_strlen(string));
+	ft_strlcpy(new_str, string, substr_src - string + 1);
+	ft_strlcat(new_str, replacement, str_len + 1);
+	ft_strlcat(new_str, substr_src + ft_strlen(substr), str_len + 1);
+	free(string);
+	return (new_str);
 }
 
 bool	var_char_valid(char c)
@@ -57,8 +37,8 @@ bool	var_char_valid(char c)
 			|| c == ':' || c == '/' || c == '{' || c == '}' || c == '+'
 			|| c == '^' || c == '%' || c == '#' || c == '@' || c == '!'
 			|| c == '~' || c == '"' || c == '`' || c == '(' || c == ')'
-			|| c == '$' || c == '\1' || c == '\0'
-			|| c == '=' || c == '-' || c == '&' || c == '*'));
+			|| c == '$' || c == '\1' || c == '\0' || c == '=' || c == '-'
+			|| c == '&' || c == '*'));
 }
 
 bool	to_expand(char *limiter)

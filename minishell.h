@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/20 16:21:27 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/22 12:25:05 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,5 @@ char				**create_cmd_tokens(char *command, t_shell *shell);
 char				*handle_envs(char *command, t_shell *shell);
 char				*get_var(char *str);
 char				*remove_quotes(char *token);
-char				*str_replace(char *string, const char *substr,
-						const char *replacement);
+char				*str_replace(char *string, char *substr, char *replacement);
 #endif

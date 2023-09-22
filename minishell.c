@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/19 16:11:32 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/22 12:24:03 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	run_command(t_shell *shell)
 /*Handle builtin and external commands*/
 void	handle_commands(t_shell *shell)
 {
+	shell->cmd->cmd[0] = remove_quotes(shell->cmd->cmd[0]);
 	if (!shell->cmd->cmd[0] || !*(shell->cmd->cmd[0]))
 		return ;
 	if (ft_strcmp(shell->cmd->cmd[0], "echo") == 0)
@@ -60,7 +61,6 @@ t_cmd	*command_parser(char *cmd_line, t_shell *shell)
 	i = 0;
 	tokens = create_cmd_tokens(cmd_line, shell);
 	cmd_struct = create_cmd_list(tokens);
-	i = 0;
 	while (tokens[i])
 		free(tokens[i++]);
 	free(tokens);

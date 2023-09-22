@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 13:36:58 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/21 13:14:14 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/22 12:27:26 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	ft_cd(t_shell *shell)
 {
 	char	*path;
 
+	shell->cmd->cmd[1] = remove_quotes(shell->cmd->cmd[1]);
 	path = shell->cmd->cmd[1];
 	if (!path)
 		path = get_home_path(ft_strdup("~"));
