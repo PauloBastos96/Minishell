@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:59:38 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/15 13:42:19 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/22 15:20:02 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,18 +89,20 @@ char	*ft_getenv(const char *name, char ***_env)
 }
 
 /*Get exit code or exit due to invalid argument*/
-int	get_exit_code(char *cmd)
+int	get_exit_code(t_shell *shell)
 {
 	int	exit_code;
 
 	exit_code = 0;
-	if (cmd)
+	if (shell->cmd->cmd[1])
 	{
-		if (is_exit_code_valid(cmd))
-			exit_code = ft_atoi(cmd);
+		if (is_exit_code_valid(shell->cmd->cmd[1]))
+			exit_code = ft_atoi(shell->cmd->cmd[1]);
 		else
 		{
-			printf("minishell: exit: %s: numeric argument required\n", cmd);
+			printf("minishell: exit: %s: numeric argument required\n", 
+				shell->cmd->cmd[1]);
+			free_all(shell);
 			exit(2);
 		}
 	}

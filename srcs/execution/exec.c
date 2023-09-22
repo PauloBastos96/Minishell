@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 12:45:36 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/22 12:32:38 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/22 15:14:25 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,7 @@ void	shell_loop(t_shell *shell)
 			start_exec(shell);
 			free_cmd(shell);
 		}
+		else
+			free(trimmed);
 	}
 }

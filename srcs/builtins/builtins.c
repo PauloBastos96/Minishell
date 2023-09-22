@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:00:41 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/22 12:30:24 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/22 15:20:10 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	ft_exit(t_shell *shell)
 	print_fd("exit", 1, NULL);
 	while (shell->cmd->cmd[i])
 		i++;
-	exit_code = get_exit_code(shell->cmd->cmd[1]);
+	exit_code = get_exit_code(shell);
 	if (i > 2)
 	{
 		print_fd("too many arguments", 2, "minishell: exit");

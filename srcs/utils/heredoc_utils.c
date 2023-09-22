@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 14:11:27 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/22 12:50:41 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/22 15:52:34 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,17 @@ t_cmd	*set_quotes(t_cmd *cmd)
 	while (cmd->cmd[++i])
 	{
 		trimmed = remove_quotes(cmd->cmd[i]);
-		free(cmd->cmd[i]);
-		cmd->cmd[i] = trimmed;
+		cmd->cmd[i] = replace_string(cmd->cmd[i], trimmed);
 	}
 	tmp = cmd->redirs;
 	while (cmd->redirs)
 	{
 		if (cmd->redirs->indentifier != h_doc)
-			cmd->redirs->redirection = remove_quotes(cmd->redirs->redirection);
+		{
+			trimmed = remove_quotes(cmd->redirs->redirection);
+			cmd->redirs->redirection = 
+				replace_string(cmd->redirs->redirection, trimmed);
+		}
 		cmd->redirs = cmd->redirs->next;
 	}
 	cmd->redirs = tmp;

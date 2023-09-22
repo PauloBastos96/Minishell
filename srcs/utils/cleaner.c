@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:04:18 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/20 16:00:50 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/22 15:52:45 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,13 @@ void	free_all(t_shell *shell)
 	free_cmd(shell);
 	free_envs(shell);
 	free(shell);
+}
+
+/*Replace old value with new*/
+char	*replace_string(char *old, char *new)
+{
+	free(old);
+	old = ft_strdup(new);
+	free(new);
+	return (old);
 }

@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/22 13:21:58 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/22 15:52:11 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int					run_command(t_shell *shell);
 int					close_safe(int *fd);
 int					set_redirs(char **tokens, int *i, t_cmd *command);
 int					exec_pipes(t_shell *shell);
-int					get_exit_code(char *cmd);
+int					get_exit_code(t_shell *shell);
 void				clear_env_list(t_list **env_list);
 void				register_signals(void);
 void				free_cmd(t_shell *shell);
@@ -60,7 +60,7 @@ void				close_std(t_cmd *cmd);
 char				**alloc_cmd(char *command);
 char				**fill_envs(const char **env);
 char				*get_full_path(char **paths, char *command);
-char				*search_command_path(char *commandm, t_shell *shell);
+char				*search_command_path(char *command, t_shell *shell);
 char				**create_cmd_tokens(char *command, t_shell *shell);
 char				*ft_getenv(const char *name, char ***_env);
 char				**create_cmd_tokens(char *command, t_shell *shell);
@@ -68,4 +68,5 @@ char				*handle_envs(char *command, t_shell *shell);
 char				*get_var(char *str);
 char				*remove_quotes(char *token);
 char				*str_replace(char *string, char *substr, char *replacement);
+char				*replace_string(char *old, char *new);
 #endif
