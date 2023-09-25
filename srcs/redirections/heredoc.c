@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:10:51 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/25 15:34:39 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:53:06 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,11 @@ void	handle_redir_hdoc(t_shell *shell)
 {
 	t_cmd	*cmd;
 	char	*definer;
-	int		h_doc[2];
 
 	cmd = shell->cmd;
-	if (pipe(h_doc) == -1)
+	if (pipe(cmd->h_doc) == -1)
 		exit(1);
-	swap_fd(&cmd->std.in, h_doc[0]);
+	swap_fd(&cmd->std.in, cmd->h_doc[0]);
 	if (to_expand(cmd->redirs->redirection) == true)
 		cmd->redirs->to_expand = true;
 	cmd->redirs->redirection = remove_quotes(cmd->redirs->redirection);
@@ -99,10 +98,10 @@ void	handle_redir_hdoc(t_shell *shell)
 			break ;
 		if (cmd->redirs->to_expand == true)
 			definer = set_expansion(shell, definer);
-		write(h_doc[1], definer, ft_strlen(definer));
-		write(h_doc[1], "\n", 1);
+		write(cmd->h_doc[1], definer, ft_strlen(definer));
+		write(cmd->h_doc[1], "\n", 1);
 		free(definer);
 	}
 	signal(SIGINT, SIG_DFL);
-	close_safe(&h_doc[1]);
+	close_safe(&cmd->h_doc[1]);
 }

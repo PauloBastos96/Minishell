@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:04:18 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/25 15:47:43 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:57:59 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,12 @@ void	free_cmd(t_cmd *cmd)
 		if (cmd->path)
 			free(cmd->path);
 		free_redirs(cmd->redirs);
+		close_safe(&cmd->fd[0]);
+		close_safe(&cmd->fd[1]);
 		close_safe(&cmd->std.in);
 		close_safe(&cmd->std.out);
+		close_safe(&cmd->h_doc[0]);
+		close_safe(&cmd->h_doc[1]);
 		free(cmd->cmd);
 		temp = cmd->next;
 		free(cmd);

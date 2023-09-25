@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/25 15:46:40 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:56:04 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 	(void)shell;
 	command = ft_calloc(sizeof(t_cmd), 1);
 	command->std = (t_std){-1, -1};
+	command->h_doc[0] = -1;
+	command->h_doc[1] = -1;
 	command->cmd = ft_calloc(sizeof(char *), get_cmd_size(tokens));
 	while (tokens[i])
 	{
@@ -109,6 +111,8 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 			if (command->next)
 			{
 				command->next->std = (t_std){-1, -1};
+				command->next->h_doc[0] = -1;
+				command->next->h_doc[1] = -1;
 				command->cmd[j] = NULL;
 				tmp_cmd = command;
 				command = command->next;
