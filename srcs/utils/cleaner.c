@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaner.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:04:18 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/25 14:49:59 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/25 16:47:32 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	free_cmd(t_shell *shell)
 	int		i;
 	t_cmd	*temp;
 
+	shell->cmd = shell->start;
 	while (shell->cmd)
 	{
 		i = 0;
@@ -64,6 +65,12 @@ void	free_cmd(t_shell *shell)
 		if (shell->cmd->path)
 			free(shell->cmd->path);
 		free_redirs(shell->cmd->redirs);
+		close_safe(&shell->cmd->fd[0]);
+		close_safe(&shell->cmd->fd[1]);
+		close_safe(&shell->cmd->std.in);
+		close_safe(&shell->cmd->std.out);
+		close_safe(&shell->cmd->h_doc[0]);
+		close_safe(&shell->cmd->h_doc[1]);
 		temp = shell->cmd->next;
 		if (shell->cmd)
 			free(shell->cmd);

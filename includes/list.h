@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:54:57 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/25 14:43:47 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/25 16:36:36 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ struct					s_cmd
 	enum e_identifiers	indentifier;
 	int					fd[2];
 	int					dup_fd[2];
+	int					h_doc[2];
 	char				*path;
 	char				**cmd;
 	char				*definer;

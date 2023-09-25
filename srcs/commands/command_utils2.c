@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:47:42 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/22 14:56:27 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/25 16:37:37 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ t_cmd	*set_next_cmd(t_cmd **command, int *j, int i, char **tokens)
 	(*command)->next = create_token_cmd(tokens[i]);
 	if ((*command)->next)
 	{
+		(*command)->next->std = (t_std){-1, -1};
+		(*command)->next->h_doc[0] = -1;
+		(*command)->next->h_doc[1] = -1;
 		(*command)->cmd[*j] = NULL;
 		tmp_cmd = *command;
 		*command = (*command)->next;

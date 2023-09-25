@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/19 16:14:57 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/25 16:40:31 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,9 @@ t_cmd	*create_cmd_list(char **tokens)
 
 	j = 0;
 	command = ft_calloc(sizeof(t_cmd), 1);
+	command->std = (t_std){-1, -1};
+	command->h_doc[0] = -1;
+	command->h_doc[1] = -1;
 	command->cmd = ft_calloc(sizeof(char *), get_cmd_size(tokens));
 	if (create_cmds(tokens, &command, &j))
 		return (NULL);
