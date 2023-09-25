@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/22 14:36:04 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/25 12:36:40 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,20 @@ int	main(int argc, char **argv, const char **env)
 	t_shell	*shell;
 
 	shell = ft_calloc(sizeof(t_shell), 1);
+	if (!shell)
+	{
+		print_fd("[FATAL]: malloc error", STDERR_FILENO, NULL);
+		exit(1);
+	}
 	shell->status = 0;
 	register_signals();
 	shell->env = fill_envs(env);
+	if (!shell->env)
+	{
+		print_fd("[FATAL]: malloc error", STDERR_FILENO, NULL);
+		free(shell);
+		exit(1);
+	}
 	shell_loop(shell);
 	(void)argc;
 	(void)argv;

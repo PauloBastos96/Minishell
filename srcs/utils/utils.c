@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:59:38 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/22 15:20:02 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/25 12:30:39 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ char	**fill_envs(const char **env)
 	while (env[i])
 		i++;
 	array = ft_calloc(sizeof(array), i + 1);
+	if (!array)
+		return (NULL);
 	i = 0;
 	while (env[i])
 	{
