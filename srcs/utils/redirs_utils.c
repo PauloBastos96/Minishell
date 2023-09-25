@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirs_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 12:38:53 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/19 13:02:50 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 14:52:16 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 static t_redirs	*assign_redirs(t_redirs *redirs, char *token)
 {
 	if (token)
-		redirs->redirection = ft_strdup(token);
+		redirs->redirection = replace_string(redirs->redirection, 
+				ft_strdup(token));
 	else
 	{
 		free(redirs);

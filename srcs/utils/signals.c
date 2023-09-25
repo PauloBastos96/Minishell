@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 15:15:57 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/25 14:07:51 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:15:42 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,12 @@ void	register_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void hdoc_sighandler(int sig)
+void	hdoc_sighandler(int sig)
 {
-	t_shell *s;
+	t_shell	*s;
+
 	s = shell();
-	if(sig == SIGINT)
-		free_cmd(s->cmd);
+	if (sig == SIGINT)
+		free_all(s);
 	exit(0);
 }

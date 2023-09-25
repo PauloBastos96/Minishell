@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:54:57 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/19 12:49:49 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 14:43:47 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ struct					s_cmd
 	int					dup_fd[2];
 	char				*path;
 	char				**cmd;
+	char				*definer;
 	int					status;
 	t_redirs			*redirs;
 	t_std				std;

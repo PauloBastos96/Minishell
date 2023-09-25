@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:10:51 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/25 14:33:45 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:14:15 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,9 @@ char	*set_expansion(t_shell *shell, char *str)
 		}
 		else
 			str = str_replace(str, var, "");
+		free(var);
 	}
-	return (free(var),str);
+	return (str);
 }
 
 /*Get heredoc error message*/
@@ -71,27 +72,25 @@ void	heredoc_error_message(char *redir)
 /*Heredoc loop*/
 void	heredoc_loop(t_shell *shell, t_cmd *cmd, int h_doc[2])
 {
-	char	*definer;
-
 	while (1)
 	{
 		signal(SIGINT, hdoc_sighandler);
 		write(STDIN_FILENO, "heredoc> ", 9);
-		definer = get_next_line(STDIN_FILENO);
-		if(ft_strrchr(definer, '\n'))
-			definer[ft_strlen(definer) - 1] = '\0';
-		if (!definer)
+		cmd->definer = get_next_line(STDIN_FILENO);
+		if (ft_strrchr(cmd->definer, '\n'))
+			cmd->definer[ft_strlen(cmd->definer) - 1] = '\0';
+		if (!cmd->definer)
 		{
 			heredoc_error_message(cmd->redirs->redirection);
 			break ;
 		}
-		if (ft_strcmp(definer, cmd->redirs->redirection) == 0)
+		if (ft_strcmp(cmd->definer, cmd->redirs->redirection) == 0)
 			break ;
 		if (cmd->redirs->to_expand == true)
-			definer = set_expansion(shell, definer);
-		write(h_doc[1], definer, ft_strlen(definer));
+			cmd->definer = set_expansion(shell, cmd->definer);
+		write(h_doc[1], cmd->definer, ft_strlen(cmd->definer));
 		write(h_doc[1], "\n", 1);
-		free(definer);
+		free(cmd->definer);
 	}
 }
 
