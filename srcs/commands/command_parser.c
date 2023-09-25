@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_parser.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:18:12 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/22 15:01:01 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:48:37 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ char	*add_separators(char *command, int start, int end)
 	int		j;
 	char	*new_command;
 
-	new_command = ft_calloc(sizeof(char), ft_strlen(command) + 2);
+	new_command = ft_calloc(sizeof(char), ft_strlen(command) + 3);
+	if (!new_command)
+		return (command);
 	j = 0;
 	while (command[j] && j < start)
 	{
@@ -40,6 +42,7 @@ char	*add_separators(char *command, int start, int end)
 		j++;
 	}
 	new_command[j] = '\0';
+	free(command);
 	return (new_command);
 }
 

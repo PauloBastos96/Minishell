@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:35:52 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/22 14:56:43 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/25 16:55:58 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_var_ext
 
 char	*join_values(char *v1, char *v2);
 char	*extend_env_vars(char *token, t_shell *shell, bool ignore_quotes);
+char	*pre_extend_env_vars(char *token, t_shell *shell, bool ignore_quotes);
 char	*get_env_var(char *token, t_shell *shell, int *i, int *j);
 char	*process_vars(t_var_ext *var_ext, bool *ignore_quotes, t_shell *shell);
 char	*remove_quotes(char *token);

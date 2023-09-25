@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/25 16:40:31 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:48:28 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,10 @@ int	get_cmd_size(char **tokens)
 	{
 		if (!is_special_char(tokens[i], 0, NULL))
 			size++;
-		else
+		else if (tokens[i][0] == '|')
 			break ;
+		else
+			i++;
 		i++;
 	}
 	return (size + 1);
@@ -102,6 +104,8 @@ t_cmd	*create_cmd_list(char **tokens)
 	command->std = (t_std){-1, -1};
 	command->h_doc[0] = -1;
 	command->h_doc[1] = -1;
+	command->fd[0] = -1;
+	command->fd[1] = -1;
 	command->cmd = ft_calloc(sizeof(char *), get_cmd_size(tokens));
 	if (create_cmds(tokens, &command, &j))
 		return (NULL);

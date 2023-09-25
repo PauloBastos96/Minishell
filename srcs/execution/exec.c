@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 12:45:36 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/25 16:37:46 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:09:25 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,9 @@ void	start_exec(t_shell *shell)
 }
 
 /*Exit shell with ctrl+d*/
-void	exit_shell(t_shell *shell)
+void	exit_shell(t_shell *shell, char *cmd)
 {
+	free(cmd);
 	printf("exit\n");
 	free_envs(shell);
 	exit(0);
@@ -86,19 +87,20 @@ void	shell_loop(t_shell *shell)
 		trimmed = NULL;
 		if (command)
 			trimmed = ft_strtrim(command, "\n\r\t \v");
-		free(command);
 		if (!trimmed)
-			exit_shell(shell);
+			exit_shell(shell, command);
+		trimmed = pre_extend_env_vars(trimmed, shell, false);
 		if (ft_strlen(trimmed) > 0)
 		{
-			add_history(trimmed);
+			(add_history(command), free(command));
 			shell->cmd = command_parser(trimmed, shell);
-			if (!shell->cmd)
+			if (shell->cmd)
+			{
+				start_exec(shell);
+				free_cmd(shell);
 				continue ;
-			start_exec(shell);
-			free_cmd(shell);
+			}
 		}
-		else
-			free(trimmed);
+		(free(trimmed), free(command));
 	}
 }

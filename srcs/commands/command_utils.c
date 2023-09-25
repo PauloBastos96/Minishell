@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:32:32 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/22 14:56:31 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:04:31 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,28 @@ char	*extend_env_vars(char *token, t_shell *shell, bool ignore_quotes)
 			tmp = ft_strdup(var_ext.new_token);
 		free(var_ext.new_token);
 		var_ext.new_token = tmp;
+		return (var_ext.new_token);
+	}
+	return (var_ext.token);
+}
+
+/*Replace environment variables with their value*/
+char	*pre_extend_env_vars(char *token, t_shell *shell, bool ignore_quotes)
+{
+	t_var_ext	var_ext;
+
+	if (!token)
+		return (NULL);
+	var_ext.token = ft_strdup(token);
+	free(token);
+	if (has_unclosed_quotes(var_ext.token))
+		return (unclosed_quotes_error(&var_ext));
+	if (ft_strchr(var_ext.token, '$'))
+	{
+		var_ext.new_token = ft_calloc(sizeof(char),
+				ft_strlen(var_ext.token) + 1);
+		var_ext.new_token = process_vars(&var_ext, &ignore_quotes, shell);
+		free(var_ext.token);
 		return (var_ext.new_token);
 	}
 	return (var_ext.token);

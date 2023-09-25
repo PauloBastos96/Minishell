@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:47:42 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/25 16:37:37 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:23:42 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ t_cmd	*set_next_cmd(t_cmd **command, int *j, int i, char **tokens)
 		(*command)->next->std = (t_std){-1, -1};
 		(*command)->next->h_doc[0] = -1;
 		(*command)->next->h_doc[1] = -1;
+		(*command)->next->fd[0] = -1;
+		(*command)->next->fd[1] = -1;
 		(*command)->cmd[*j] = NULL;
 		tmp_cmd = *command;
 		*command = (*command)->next;

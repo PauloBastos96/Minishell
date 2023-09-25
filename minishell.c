@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/25 16:36:28 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:15:37 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	handle_commands(t_shell *shell)
 	trimmed = remove_quotes(shell->cmd->cmd[0]);
 	free(shell->cmd->cmd[0]);
 	shell->cmd->cmd[0] = trimmed;
-	if (!shell->cmd->cmd[0] || !*(shell->cmd->cmd[0]))
+	if (!shell->cmd->cmd[0])
 		return ;
 	if (ft_strcmp(shell->cmd->cmd[0], "echo") == 0)
 		shell->status = ft_echo(shell);

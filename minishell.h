@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/25 14:30:56 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/25 16:56:58 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ by end-of-file (wanted '"
 # include "Libft/libft.h"
 # include "includes/builtins.h"
 # include "includes/list.h"
+# include "includes/commands.h"
 # include <fcntl.h>
 # include <sys/signal.h>
 # include <sys/types.h>
