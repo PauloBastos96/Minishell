@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaner.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:04:18 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/13 15:10:43 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/25 14:16:59 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,4 @@ void	free_all(t_shell *shell)
 {
 	free_cmd(shell->cmd);
 	free_envs(shell);
-	free(shell);
 }

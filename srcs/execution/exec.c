@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 12:45:36 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/19 17:36:26 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 14:10:05 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ void	shell_loop(t_shell *shell)
 		{
 			printf("exit\n");
 			free_envs(shell); //!Double free when ctrl+D
-			free(shell);
 			exit(0);
 		}
 		if (ft_strlen(trimmed) > 0)

@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 15:15:57 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/11 14:05:35 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 14:07:51 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,13 @@ void	register_signals(void)
 {
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
+}
+
+void hdoc_sighandler(int sig)
+{
+	t_shell *s;
+	s = shell();
+	if(sig == SIGINT)
+		free_cmd(s->cmd);
+	exit(0);
 }

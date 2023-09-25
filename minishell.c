@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/19 17:30:55 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 13:56:15 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,24 @@ t_cmd	*command_parser(char *cmd_line, t_shell *shell)
 	return (cmd_struct);
 }
 
+t_shell*	shell()
+{
+	static t_shell	shell;
+
+	return (&shell);
+}
+
 // Start shell
 //! env should remain const because it should never be modified by us
 int	main(int argc, char **argv, const char **env)
 {
-	t_shell	*shell;
+	t_shell	*s;
 
-	shell = ft_calloc(sizeof(t_shell), 1);
-	shell->status = 0;
+	s = shell();
+	s->status = 0;
 	register_signals();
-	shell->env = fill_envs(env);
-	shell_loop(shell);
+	s->env = fill_envs(env);
+	shell_loop(s);
 	(void)argc;
 	(void)argv;
 	return (0);

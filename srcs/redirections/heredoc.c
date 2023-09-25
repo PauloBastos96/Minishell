@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:10:51 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/21 16:31:20 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 14:18:58 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,13 @@ char	*set_expansion(t_shell *shell, char *str)
 		expanded_var = ft_getenv(var + 1, &shell->env);
 		if (expanded_var)
 		{
-			printf("from: %s\n", str);
 			str = str_replace(str, var, expanded_var);
-			printf("to: %s\n", str);
 			i += ft_strlen(expanded_var) - 1;
 		}
 		else
 			str = str_replace(str, var, "");
 	}
-	return (str);
+	return (free(var),str);
 }
 
 /*Get heredoc error message*/
@@ -86,7 +84,11 @@ void	handle_redir_hdoc(t_shell *shell)
 	cmd->redirs->redirection = remove_quotes(cmd->redirs->redirection);
 	while (1)
 	{
-		definer = readline("heredoc> ");
+		signal(SIGINT, hdoc_sighandler);
+		write(STDIN_FILENO, "heredoc> ", 9);
+		definer = get_next_line(STDIN_FILENO);
+		if(ft_strrchr(definer, '\n'))
+			definer[ft_strlen(definer) - 1] = '\0';
 		if (!definer)
 		{
 			heredoc_error_message(cmd->redirs->redirection);
@@ -98,6 +100,7 @@ void	handle_redir_hdoc(t_shell *shell)
 			definer = set_expansion(shell, definer);
 		write(h_doc[1], definer, ft_strlen(definer));
 		write(h_doc[1], "\n", 1);
+		free(definer);
 	}
 	close_safe(&h_doc[1]);
 }

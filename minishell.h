@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/21 15:21:18 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 13:57:09 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@
 by end-of-file (wanted '"
 # define _GNU_SOURCE
 
+# define _XOPEN_SOURCE 700
+
 # include "Libft/libft.h"
 # include "includes/builtins.h"
 # include "includes/list.h"
 # include <fcntl.h>
-# include <signal.h>
+# include <sys/signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 
@@ -64,4 +66,6 @@ bool				var_char_valid(char c);
 char				*get_var(char *str);
 bool				to_expand(char *limiter);
 char				*remove_quotes(char *token);
+void				hdoc_sighandler(int sig);
+t_shell*			shell();
 #endif
