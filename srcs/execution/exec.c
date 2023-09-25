@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 12:45:36 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/22 15:14:25 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/25 14:32:03 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	exit_shell(t_shell *shell)
 {
 	printf("exit\n");
 	free_envs(shell);
-	free(shell);
 	exit(0);
 }
 

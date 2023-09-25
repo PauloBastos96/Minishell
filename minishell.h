@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/22 15:52:11 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/25 14:30:56 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ by end-of-file (wanted '"
 # include "includes/builtins.h"
 # include "includes/list.h"
 # include <fcntl.h>
-# include <signal.h>
+# include <sys/signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 
@@ -69,4 +69,6 @@ char				*get_var(char *str);
 char				*remove_quotes(char *token);
 char				*str_replace(char *string, char *substr, char *replacement);
 char				*replace_string(char *old, char *new);
+void				hdoc_sighandler(int sig);
+t_shell*			shell();
 #endif

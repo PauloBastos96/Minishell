@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:10:51 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/22 12:33:34 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/25 14:33:45 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*set_expansion(t_shell *shell, char *str)
 		else
 			str = str_replace(str, var, "");
 	}
-	return (str);
+	return (free(var),str);
 }
 
 /*Get heredoc error message*/
@@ -75,7 +75,11 @@ void	heredoc_loop(t_shell *shell, t_cmd *cmd, int h_doc[2])
 
 	while (1)
 	{
-		definer = readline("heredoc> ");
+		signal(SIGINT, hdoc_sighandler);
+		write(STDIN_FILENO, "heredoc> ", 9);
+		definer = get_next_line(STDIN_FILENO);
+		if(ft_strrchr(definer, '\n'))
+			definer[ft_strlen(definer) - 1] = '\0';
 		if (!definer)
 		{
 			heredoc_error_message(cmd->redirs->redirection);
@@ -87,6 +91,7 @@ void	heredoc_loop(t_shell *shell, t_cmd *cmd, int h_doc[2])
 			definer = set_expansion(shell, definer);
 		write(h_doc[1], definer, ft_strlen(definer));
 		write(h_doc[1], "\n", 1);
+		free(definer);
 	}
 }
 
