@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:10:51 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/25 14:18:58 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:34:39 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,9 @@ char	*set_expansion(t_shell *shell, char *str)
 		}
 		else
 			str = str_replace(str, var, "");
+		free(var);
 	}
-	return (free(var),str);
+	return (str);
 }
 
 /*Get heredoc error message*/
@@ -102,5 +103,6 @@ void	handle_redir_hdoc(t_shell *shell)
 		write(h_doc[1], "\n", 1);
 		free(definer);
 	}
+	signal(SIGINT, SIG_DFL);
 	close_safe(&h_doc[1]);
 }

@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 12:45:36 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/25 14:10:05 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:29:06 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,8 @@ bool	is_builtin(t_cmd *cmd)
 void	start_exec(t_shell *shell)
 {
 	t_cmd	*cmd;
-	t_cmd	*start;
 
-	start = shell->cmd;
+	shell->start = shell->cmd;
 	if (!shell->cmd->next && is_builtin(shell->cmd) && !shell->cmd->redirs)
 	{
 		handle_commands(shell);
@@ -75,7 +74,7 @@ void	start_exec(t_shell *shell)
 			close_safe(&cmd->fd[0]);
 		shell->cmd = shell->cmd->next;
 	}
-	shell->cmd = start;
+	shell->cmd = shell->start;
 	ft_wait(shell);
 	g_using_sub_process = false;
 }

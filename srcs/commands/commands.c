@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/19 15:16:18 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:46:40 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,16 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 	j = 0;
 	(void)shell;
 	command = ft_calloc(sizeof(t_cmd), 1);
+	command->std = (t_std){-1, -1};
 	command->cmd = ft_calloc(sizeof(char *), get_cmd_size(tokens));
 	while (tokens[i])
 	{
 		command->indentifier = (enum e_identifiers)get_cmd_type(tokens[i]);
 		if (!is_special_char(tokens[i], 0, NULL))
+		{
 			command->cmd[j++] = ft_strdup(tokens[i]);
+			printf("dupd %p\n", command->cmd[j-1]);
+		}
 		else
 		{
 			check = set_redirs(tokens, &i, command);
@@ -104,6 +108,7 @@ t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
 			command->next = create_token_cmd(tokens[i]);
 			if (command->next)
 			{
+				command->next->std = (t_std){-1, -1};
 				command->cmd[j] = NULL;
 				tmp_cmd = command;
 				command = command->next;

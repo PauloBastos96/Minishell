@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:55:45 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/01 10:57:38 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:28:50 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ struct s_shell
 {
 	char		**env;
 	int			status;
+	t_cmd		*start;
 	t_cmd		*cmd;
 };
 

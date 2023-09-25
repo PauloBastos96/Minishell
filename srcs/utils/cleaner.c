@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:04:18 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/25 14:16:59 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:47:43 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	free_cmd(t_cmd *cmd)
 		i = 0;
 		while (cmd->cmd[i])
 		{
+			printf("cleaning up %s[%p]\n", cmd->cmd[i], cmd->cmd[i]);
 			free(cmd->cmd[i]);
 			cmd->cmd[i] = NULL;
 			i++;
@@ -59,6 +60,8 @@ void	free_cmd(t_cmd *cmd)
 		if (cmd->path)
 			free(cmd->path);
 		free_redirs(cmd->redirs);
+		close_safe(&cmd->std.in);
+		close_safe(&cmd->std.out);
 		free(cmd->cmd);
 		temp = cmd->next;
 		free(cmd);
@@ -69,6 +72,6 @@ void	free_cmd(t_cmd *cmd)
 /*Free commands, envs and shell variables*/
 void	free_all(t_shell *shell)
 {
-	free_cmd(shell->cmd);
+	free_cmd(shell->start);
 	free_envs(shell);
 }
