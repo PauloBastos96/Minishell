@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 15:15:57 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/25 16:40:18 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:19:51 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	hdoc_sighandler(int sig)
 	{
 		close(STDIN_FILENO);
 		get_next_line(STDIN_FILENO);
+		free(s->cmd->definer);
 		free_all(s);
 	}
 	exit(0);

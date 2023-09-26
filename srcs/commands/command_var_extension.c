@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:14:29 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/26 13:53:28 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/26 15:46:23 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,21 @@ char	*replace_token_with_var(t_var_ext *var_ext, t_shell *shell)
 }
 
 /*Expand exit code variable*/
-char	*handle_exit_code_var(char *n_tkn, t_shell *shell, int *j)
+char	*handle_exit_code_var(t_var_ext *var_ext, t_shell *shell)
 {
-	n_tkn = join_values(n_tkn, ft_itoa(shell->status));
-	while (n_tkn[*j])
-		*j += 1;
-	return (n_tkn);
+	char	*tmp;
+	char	*status;
+
+	var_ext->n_tkn = replace_string(var_ext->n_tkn, ft_strdup(var_ext->token));
+	while (ft_strnstr(var_ext->n_tkn, "$?", ft_strlen(var_ext->n_tkn)))
+	{
+		status = ft_itoa(shell->status);
+		tmp = str_replace(ft_strdup(var_ext->n_tkn), 
+				"$?", status);
+		free(status);
+		var_ext->n_tkn = replace_string(var_ext->n_tkn, tmp);
+	}
+	return (var_ext->n_tkn);
 }
 
 /*Check for quotes and copy start of token until it finds a var*/
@@ -59,8 +68,7 @@ char	*assign_n_tkn(t_var_ext *var_ext, t_shell *shell, int type)
 	else if (type == 1)
 		var_ext->n_tkn = replace_token_with_var(var_ext, shell);
 	else
-		var_ext->n_tkn = handle_exit_code_var(var_ext->n_tkn, 
-				shell, &var_ext->j);
+		var_ext->n_tkn = handle_exit_code_var(var_ext, shell);
 	return (var_ext->n_tkn);
 }
 
@@ -75,8 +83,7 @@ char	*process_vars(t_var_ext *var_ext, bool *ignore_quotes, t_shell *shell)
 		var_pre_processing(var_ext, ignore_quotes);
 		if (var_ext->token[var_ext->i] == '$' && !var_ext->quote)
 		{
-			if (ft_strlen(var_ext->token) == 1 
-				|| ft_strcmp(var_ext->token, "\"$\"") == 0)
+			if (!var_char_valid(var_ext->token[var_ext->i + 1]))
 				return (assign_n_tkn(var_ext, shell, 0));
 			if (var_ext->token[++var_ext->i] != '?')
 				return (assign_n_tkn(var_ext, shell, 1));
