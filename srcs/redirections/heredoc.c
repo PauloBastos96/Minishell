@@ -6,24 +6,11 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:10:51 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/26 13:06:29 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:31:40 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-/*Get env variable*/
-char	*get_var(char *str)
-{
-	int		i;
-	char	*var;
-
-	i = 1;
-	while (var_char_valid(str[i]))
-		i++;
-	var = ft_substr(str, 0, i);
-	return (var);
-}
 
 /*Get expanded string*/
 char	*get_expanded(char *str, char *var, char *expanded_var, int *i)

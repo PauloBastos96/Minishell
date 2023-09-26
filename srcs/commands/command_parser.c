@@ -6,23 +6,12 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:18:12 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/26 13:02:59 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:29:58 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
-#include "../../includes/commands.h"
 #include "../../minishell.h"
-
-/*Set new command char*/
-char	set_new_command(char *command, int *j, int i)
-{
-	char	c;
-
-	c = command[i];
-	(*j)++;
-	return (c);
-}
 
 /*Copy old string and add separator between special characters*/
 char	*add_separators(char *command, int start, int end)

@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:04:18 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/26 13:06:00 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:32:02 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,20 @@ void	free_redirs(t_redirs *redirs)
 		free(redirs);
 		redirs = tmp;
 	}
+}
+
+/*Close file descriptors and free memory*/
+void	close_and_free(t_shell *shell)
+{
+	if (shell->cmd->path)
+		free(shell->cmd->path);
+	free_redirs(shell->cmd->redirs);
+	close_safe(&shell->cmd->fd[0]);
+	close_safe(&shell->cmd->fd[1]);
+	close_safe(&shell->cmd->std.in);
+	close_safe(&shell->cmd->std.out);
+	close_safe(&shell->cmd->h_doc[0]);
+	close_safe(&shell->cmd->h_doc[1]);
 }
 
 /*Free environment variables*/
@@ -62,15 +76,7 @@ void	free_cmd(t_shell *shell)
 			free(shell->cmd->cmd);
 			shell->cmd->cmd = NULL;
 		}
-		if (shell->cmd->path)
-			free(shell->cmd->path);
-		free_redirs(shell->cmd->redirs);
-		close_safe(&shell->cmd->fd[0]);
-		close_safe(&shell->cmd->fd[1]);
-		close_safe(&shell->cmd->std.in);
-		close_safe(&shell->cmd->std.out);
-		close_safe(&shell->cmd->h_doc[0]);
-		close_safe(&shell->cmd->h_doc[1]);
+		close_and_free(shell);
 		temp = shell->cmd->next;
 		if (shell->cmd)
 			free(shell->cmd);
@@ -83,14 +89,4 @@ void	free_all(t_shell *shell)
 {
 	free_cmd(shell);
 	free_envs(shell);
-}
-
-/*Replace old value with new*/
-char	*replace_string(char *old, char *new)
-{
-	if (old)
-		free(old);
-	old = ft_strdup(new);
-	free(new);
-	return (old);
 }

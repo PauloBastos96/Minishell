@@ -3,35 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:32:32 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/25 17:04:31 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:30:51 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/commands.h"
 #include "../../includes/shell.h"
 #include "../../minishell.h"
-
-/*Join multiple strings and free old ones*/
-char	*join_values(char *v1, char *v2)
-{
-	char	*value;
-
-	if (!v1 || !v2)
-	{
-		if (v1)
-			free(v1);
-		if (v2)
-			free(v2);
-		return (NULL);
-	}
-	value = ft_strjoin(v1, v2);
-	free(v1);
-	free(v2);
-	return (value);
-}
 
 /*Check if position "i" in string is a special character*/
 bool	is_special_char(char *str, int i, int *end)
