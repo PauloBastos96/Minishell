@@ -6,11 +6,12 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:38:12 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/08/24 13:57:34 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:57:02 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/list.h"
+#include "../../minishell.h"
 
 //Get home home path
 char	*get_home_path(char *path)
@@ -19,10 +20,13 @@ char	*get_home_path(char *path)
 	char	*tmp;
 
 	home_path = getenv("HOME");
-	tmp = ft_strtrim(path, "~");
-	free(path);
-	path = ft_strjoin(home_path, tmp);
-	free(tmp);
+	if (home_path)
+	{
+		tmp = ft_strtrim(path, "~");
+		free(path);
+		path = ft_strjoin(home_path, tmp);
+		free(tmp);
+	}
 	return (path);
 }
 
@@ -68,4 +72,23 @@ char	*add_quotes(char *str)
 	}
 	free(str);
 	return (new);
+}
+
+/*Check if export expression is valid*/
+bool	is_expression_valid(char **cmd)
+{
+	int		i;
+
+	i = 0;
+	while (cmd[i])
+	{
+		if ((ft_strchr(cmd[i], '=') && ft_strlen(cmd[i]) == 1)
+			|| *cmd[i] == '=')
+		{
+			print_fd("bad assignment", 2, "minishell");
+			return (false);
+		}
+		i++;
+	}
+	return (true);
 }

@@ -6,31 +6,34 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:00:41 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/13 15:38:53 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/22 15:20:10 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/list.h"
 #include "../../includes/builtins.h"
 #include "../../minishell.h"
 
-/*Builtin cd command*/
-int	ft_cd(t_shell *shell)
+/*Check if command is a builtin*/
+bool	is_builtin(t_cmd *cmd)
 {
-	char	*path;
-
-	path = shell->cmd->cmd[1];
-	if (!path)
-		return (1);
-	if (ft_strncmp(path, "~", 1) == 0)
-		path = get_home_path(path);
-	if (chdir(path) == -1)
-	{
-		perror(NULL);
-		return (1);
-	}
-	update_pwd(&shell->env);
-	return (0);
+	cmd = set_quotes(cmd);
+	if (!cmd->cmd[0])
+		return (false);
+	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
+		return (true);
+	else if (ft_strcmp(cmd->cmd[0], "pwd") == 0)
+		return (true);
+	else if (ft_strcmp(cmd->cmd[0], "cd") == 0)
+		return (true);
+	else if (ft_strcmp(cmd->cmd[0], "env") == 0)
+		return (true);
+	else if (ft_strcmp(cmd->cmd[0], "export") == 0)
+		return (true);
+	else if (ft_strcmp(cmd->cmd[0], "unset") == 0)
+		return (true);
+	else if (ft_strcmp(cmd->cmd[0], "exit") == 0)
+		return (true);
+	return (false);
 }
 
 /*Builtin env command*/
@@ -50,27 +53,6 @@ int	ft_env(t_shell *shell)
 	i = -1;
 	while (shell->env[++i])
 		print_fd(shell->env[i], STDOUT_FILENO, NULL);
-	return (0);
-}
-
-/*Builtin echo command*/
-int	ft_echo(t_shell *shell)
-{
-	int		i;
-	t_cmd	*cmd;
-
-	cmd = shell->cmd;
-	if (!cmd->cmd[1])
-		return (0);
-	i = 0 + (ft_strncmp("-n", cmd->cmd[1], 3) == 0);
-	while (cmd->cmd[++i])
-	{
-		write(1, cmd->cmd[i], ft_strlen(cmd->cmd[i]));
-		if (cmd->cmd[i + 1])
-			write(1, " ", 1);
-	}
-	if (ft_strncmp("-n", cmd->cmd[1], 3))
-		write(1, "\n", 1);
 	return (0);
 }
 
@@ -101,17 +83,17 @@ int	ft_pwd(t_shell *shell)
 int	ft_exit(t_shell *shell)
 {
 	int	exit_code;
+	int	i;
 
-	exit_code = 0;
-	if (shell->cmd->cmd[1])
+	i = 0;
+	print_fd("exit", 1, NULL);
+	while (shell->cmd->cmd[i])
+		i++;
+	exit_code = get_exit_code(shell);
+	if (i > 2)
 	{
-		if (is_exit_code_valid(shell->cmd->cmd[1]))
-			exit_code = ft_atoi(shell->cmd->cmd[1]);
-		else
-		{
-			printf("exit: %s: numeric argument required\n", shell->cmd->cmd[1]);
-			return (1);
-		}
+		print_fd("too many arguments", 2, "minishell: exit");
+		return (1);
 	}
 	free_all(shell);
 	rl_clear_history();

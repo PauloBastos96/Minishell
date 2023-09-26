@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:31:05 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/12 15:58:54 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/21 13:22:40 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,13 @@
 #include "../../minishell.h"
 
 /*Check if character is between quotes*/
-bool	in_quotes(char c)
+bool	in_quotes(char c, bool *d_quote, bool *s_quote)
 {
-	static bool	d_quote = false;
-	static bool	s_quote = false;
-
-	if (c == '"' && !s_quote)
-		d_quote = !d_quote;
-	if (c == '\'' && !d_quote)
-		s_quote = !s_quote;
-	return (d_quote || s_quote);
+	if (c == '"' && !(*s_quote))
+		(*d_quote) = !(*d_quote);
+	if (c == '\'' && !(*d_quote))
+		(*s_quote) = !(*s_quote);
+	return ((*d_quote) || (*s_quote));
 }
 
 /*Get number of quotes to ignore in token*/

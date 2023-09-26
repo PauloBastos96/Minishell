@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:18:12 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/20 13:57:38 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:48:37 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ char	*add_separators(char *command, int start, int end)
 	int		j;
 	char	*new_command;
 
-	new_command = ft_calloc(sizeof(char), ft_strlen(command) + 2);
+	new_command = ft_calloc(sizeof(char), ft_strlen(command) + 3);
+	if (!new_command)
+		return (command);
 	j = 0;
 	while (command[j] && j < start)
 	{
@@ -40,21 +42,21 @@ char	*add_separators(char *command, int start, int end)
 		j++;
 	}
 	new_command[j] = '\0';
+	free(command);
 	return (new_command);
 }
 
-/*Add separator (\1) between special characters*/
-char	*separate_special_chars(char *command)
+/*Separate command with \1s*/
+char	*separate_string(char *command, int end, bool s_quote, bool d_quote)
 {
 	int	i;
-	int	end;
 
 	i = 0;
-	end = 0;
 	while (command[i])
 	{
 		end = i;
-		if (!in_quotes(command[i]) && is_special_char(command, i, &end))
+		if (!in_quotes(command[i], &d_quote, &s_quote) 
+			&& is_special_char(command, i, &end))
 		{
 			if (command[i + 1] == '<' || command[i + 1] == '>')
 			{
@@ -72,30 +74,17 @@ char	*separate_special_chars(char *command)
 	return (command);
 }
 
-/*Check for unclosed quotes*/
-char	*check_unclosed_quotes(char *command)
+/*Add separator (\1) between special characters*/
+char	*separate_special_chars(char *command)
 {
-	char	*rl_tmp;
-	char	*promt;
-	int		i;
+	int		end;
+	bool	s_quote;
+	bool	d_quote;
 
-	if (in_quotes(0))
-	{
-		if (!in_quotes('"'))
-			promt = "dquote>";
-		else if (!in_quotes('\''))
-			promt = "quote>";
-		rl_tmp = readline(promt);
-		command = join_values(command, rl_tmp);
-	}
-	i = 0;
-	while (command[i])
-	{
-		in_quotes(command[i]);
-		i++;
-	}
-	if (in_quotes(0))
-		command = check_unclosed_quotes(command);
+	end = 0;
+	s_quote = false;
+	d_quote = false;
+	command = separate_string(command, end, s_quote, d_quote);
 	return (command);
 }
 
@@ -103,11 +92,15 @@ char	*check_unclosed_quotes(char *command)
 char	*prepare_string(char *command)
 {
 	int		i;
+	bool	s_quote;
+	bool	d_quote;
 
 	i = -1;
+	s_quote = false;
+	d_quote = false;
 	while (command[++i])
 	{
-		if (!in_quotes(command[i]))
+		if (!in_quotes(command[i], &d_quote, &s_quote))
 		{
 			if (command[i] == ' ')
 				command[i] = '\1';
@@ -115,7 +108,6 @@ char	*prepare_string(char *command)
 		else
 			continue ;
 	}
-	//command = check_unclosed_quotes(command);
 	return (command);
 }
 

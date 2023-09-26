@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:59:38 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/14 12:45:20 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/25 12:30:39 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ char	**fill_envs(const char **env)
 	while (env[i])
 		i++;
 	array = ft_calloc(sizeof(array), i + 1);
+	if (!array)
+		return (NULL);
 	i = 0;
 	while (env[i])
 	{
@@ -64,7 +66,7 @@ char	**fill_envs(const char **env)
 	return (array);
 }
 
-/*Custom getenv fucntion that searches our environment variable list*/
+/*Custom getenv function that searches our environment variable list*/
 char	*ft_getenv(const char *name, char ***_env)
 {
 	int		i;
@@ -78,9 +80,33 @@ char	*ft_getenv(const char *name, char ***_env)
 		if (ft_strncmp(env[i], name, ft_strlen(name)) == 0)
 		{
 			value = ft_strchr(env[i], '=');
-			return (value + 1);
+			if (value)
+				return (value + 1);
+			else
+				return (NULL);
 		}
 		i++;
 	}
 	return (NULL);
+}
+
+/*Get exit code or exit due to invalid argument*/
+int	get_exit_code(t_shell *shell)
+{
+	int	exit_code;
+
+	exit_code = 0;
+	if (shell->cmd->cmd[1])
+	{
+		if (is_exit_code_valid(shell->cmd->cmd[1]))
+			exit_code = ft_atoi(shell->cmd->cmd[1]);
+		else
+		{
+			printf("minishell: exit: %s: numeric argument required\n", 
+				shell->cmd->cmd[1]);
+			free_all(shell);
+			exit(2);
+		}
+	}
+	return (exit_code);
 }

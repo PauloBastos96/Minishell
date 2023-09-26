@@ -6,11 +6,19 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 12:45:36 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/20 14:35:08 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:09:25 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+/*Create sub-process for command*/
+int	create_command_process(t_cmd *cmd, char **env)
+{
+	if (execve(cmd->path, cmd->cmd, env) == -1)
+		perror("execve");
+	return (127);
+}
 
 /*Wait for sub process to complete*/
 void	ft_wait(t_shell *shell)
@@ -28,36 +36,12 @@ void	ft_wait(t_shell *shell)
 	}
 }
 
-/*Check if command is a builtin*/
-bool	is_builtin(t_cmd *cmd)
-{
-	cmd = set_quotes(cmd);
-	if (!cmd->cmd[0])
-		return (false);
-	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
-		return (true);
-	else if (ft_strcmp(cmd->cmd[0], "pwd") == 0)
-		return (true);
-	else if (ft_strcmp(cmd->cmd[0], "cd") == 0)
-		return (true);
-	else if (ft_strcmp(cmd->cmd[0], "env") == 0)
-		return (true);
-	else if (ft_strcmp(cmd->cmd[0], "export") == 0)
-		return (true);
-	else if (ft_strcmp(cmd->cmd[0], "unset") == 0)
-		return (true);
-	else if (ft_strcmp(cmd->cmd[0], "exit") == 0)
-		return (true);
-	return (false);
-}
-
 /*Start command execution*/
 void	start_exec(t_shell *shell)
 {
 	t_cmd	*cmd;
-	t_cmd	*start;
 
-	start = shell->cmd;
+	shell->start = shell->cmd;
 	if (!shell->cmd->next && is_builtin(shell->cmd) && !shell->cmd->redirs)
 	{
 		handle_commands(shell);
@@ -76,9 +60,18 @@ void	start_exec(t_shell *shell)
 			close_safe(&cmd->fd[0]);
 		shell->cmd = shell->cmd->next;
 	}
-	shell->cmd = start;
+	shell->cmd = shell->start;
 	ft_wait(shell);
 	g_using_sub_process = false;
+}
+
+/*Exit shell with ctrl+d*/
+void	exit_shell(t_shell *shell, char *cmd)
+{
+	free(cmd);
+	printf("exit\n");
+	free_envs(shell);
+	exit(0);
 }
 
 // Main shell loop
@@ -91,23 +84,23 @@ void	shell_loop(t_shell *shell)
 	while (true)
 	{
 		command = readline(PROMPT);
-		trimmed = ft_strtrim(command, "\n\r\t \v");
-		free(command);
-		if (!command || !trimmed)
-		{
-			printf("exit\n");
-			free_envs(shell); //!Double free when ctrl+D
-			free(shell);
-			exit(0);
-		}
+		trimmed = NULL;
+		if (command)
+			trimmed = ft_strtrim(command, "\n\r\t \v");
+		if (!trimmed)
+			exit_shell(shell, command);
+		trimmed = pre_extend_env_vars(trimmed, shell, false);
 		if (ft_strlen(trimmed) > 0)
 		{
-			add_history(trimmed);
+			(add_history(command), free(command));
 			shell->cmd = command_parser(trimmed, shell);
-			if (!shell->cmd)
+			if (shell->cmd)
+			{
+				start_exec(shell);
+				free_cmd(shell);
 				continue ;
-			start_exec(shell);
-			free_cmd(shell->cmd);
+			}
 		}
+		(free(trimmed), free(command));
 	}
 }

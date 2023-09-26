@@ -6,21 +6,13 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/19 15:16:18 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:48:28 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/commands.h"
 #include "../../includes/shell.h"
 #include "../../minishell.h"
-
-/*Create sub-process for command*/
-int	create_command_process(t_cmd *cmd, char **env)
-{
-	if (execve(cmd->path, cmd->cmd, env) == -1)
-		perror("execve");
-	return (127);
-}
 
 /*Get command type indentifier*/
 enum e_identifiers	get_cmd_type(char *token)
@@ -67,54 +59,56 @@ int	get_cmd_size(char **tokens)
 	{
 		if (!is_special_char(tokens[i], 0, NULL))
 			size++;
-		else
+		else if (tokens[i][0] == '|')
 			break ;
+		else
+			i++;
 		i++;
 	}
 	return (size + 1);
 }
 
-/*Create linked list of command structs*/
-t_cmd	*create_cmd_list(char **tokens, t_shell *shell)
+int	create_cmds(char **tokens, t_cmd **command, int *j)
 {
-	int		i;
-	int		j;
-	int		check;
-	t_cmd	*command;
-	t_cmd	*tmp_cmd;
+	int	i;
+	int	check;
 
 	i = 0;
-	j = 0;
-	(void)shell;
-	command = ft_calloc(sizeof(t_cmd), 1);
-	command->cmd = ft_calloc(sizeof(char *), get_cmd_size(tokens));
 	while (tokens[i])
 	{
-		command->indentifier = (enum e_identifiers)get_cmd_type(tokens[i]);
+		(*command)->indentifier = (enum e_identifiers)get_cmd_type(tokens[i]);
 		if (!is_special_char(tokens[i], 0, NULL))
-			command->cmd[j++] = ft_strdup(tokens[i]);
+			(*command)->cmd[(*j)++] = ft_strdup(tokens[i]);
 		else
 		{
-			check = set_redirs(tokens, &i, command);
+			check = set_redirs(tokens, &i, *command);
 			if (check == 1)
 				continue ;
 			else if (check == -1)
-				return (NULL);
-			command->indentifier = (enum e_identifiers)get_cmd_type(tokens[i]);
-			command->next = create_token_cmd(tokens[i]);
-			if (command->next)
-			{
-				command->cmd[j] = NULL;
-				tmp_cmd = command;
-				command = command->next;
-				command->prev = tmp_cmd;
-				j = 0;
-				command->cmd = ft_calloc(sizeof(char *), get_cmd_size(&tokens[i
-						+ 1]));
-			}
+				return (1);
+			*command = set_next_cmd(command, j, i, tokens);
 		}
 		i++;
 	}
+	return (0);
+}
+
+/*Create linked list of command structs*/
+t_cmd	*create_cmd_list(char **tokens)
+{
+	int		j;
+	t_cmd	*command;
+
+	j = 0;
+	command = ft_calloc(sizeof(t_cmd), 1);
+	command->std = (t_std){-1, -1};
+	command->h_doc[0] = -1;
+	command->h_doc[1] = -1;
+	command->fd[0] = -1;
+	command->fd[1] = -1;
+	command->cmd = ft_calloc(sizeof(char *), get_cmd_size(tokens));
+	if (create_cmds(tokens, &command, &j))
+		return (NULL);
 	command->cmd[j] = NULL;
 	while (command->prev)
 		command = command->prev;

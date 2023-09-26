@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 12:30:32 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/13 16:00:19 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:16:18 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ char	*get_full_path(char **paths, char *command)
 }
 
 /*Get command executable path*/
-char	*search_command_path(char *command)
+char	*search_command_path(char *command, t_shell *shell)
 {
 	char	*path_var;
 	char	**paths;
 	char	*full_path;
 	char	*cmd_path;
 
-	path_var = getenv("PATH");
-	if (path_var)
+	path_var = ft_getenv("PATH", &shell->env);
+	if (path_var && ft_strlen(command) > 0)
 		paths = ft_split(path_var, ':');
 	else
 		return (print_fd("Command not found", 2, command), NULL);

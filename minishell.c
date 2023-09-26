@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/19 15:22:00 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:15:37 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,21 @@ int	run_command(t_shell *shell)
 	if (ft_strchr(shell->cmd->cmd[0], '/'))
 		shell->cmd->path = ft_strdup(shell->cmd->cmd[0]);
 	else
-		shell->cmd->path = search_command_path(shell->cmd->cmd[0]);
+		shell->cmd->path = search_command_path(shell->cmd->cmd[0], shell);
 	if (shell->cmd->path)
 		return (create_command_process(shell->cmd, shell->env));
-	// Check
 	return (127);
 }
 
 /*Handle builtin and external commands*/
 void	handle_commands(t_shell *shell)
 {
-	if (!shell->cmd->cmd[0] || !*(shell->cmd->cmd[0]))
+	char	*trimmed;
+
+	trimmed = remove_quotes(shell->cmd->cmd[0]);
+	free(shell->cmd->cmd[0]);
+	shell->cmd->cmd[0] = trimmed;
+	if (!shell->cmd->cmd[0])
 		return ;
 	if (ft_strcmp(shell->cmd->cmd[0], "echo") == 0)
 		shell->status = ft_echo(shell);
@@ -60,24 +64,36 @@ t_cmd	*command_parser(char *cmd_line, t_shell *shell)
 
 	i = 0;
 	tokens = create_cmd_tokens(cmd_line, shell);
-	cmd_struct = create_cmd_list(tokens, shell);
+	cmd_struct = create_cmd_list(tokens);
 	while (tokens[i])
 		free(tokens[i++]);
 	free(tokens);
 	return (cmd_struct);
 }
 
+t_shell*	shell()
+{
+	static t_shell	shell;
+
+	return (&shell);
+}
+
 // Start shell
 //! env should remain const because it should never be modified by us
 int	main(int argc, char **argv, const char **env)
 {
-	t_shell	*shell;
+	t_shell	*s;
 
-	shell = ft_calloc(sizeof(t_shell), 1);
-	shell->status = 0;
+	s = shell();
+	s->status = 0;
 	register_signals();
-	shell->env = fill_envs(env);
-	shell_loop(shell);
+	s->env = fill_envs(env);
+	if (!s->env)
+	{
+		print_fd("[FATAL]: malloc error", STDERR_FILENO, NULL);
+		exit(1);
+	}
+	shell_loop(s);
 	(void)argc;
 	(void)argv;
 	return (0);

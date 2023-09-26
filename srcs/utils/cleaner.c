@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaner.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:04:18 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/13 15:10:43 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:24:01 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,34 +42,61 @@ void	free_envs(t_shell *shell)
 }
 
 /*Free command struct*/
-void	free_cmd(t_cmd *cmd)
+void	free_cmd(t_shell *shell)
 {
 	int		i;
 	t_cmd	*temp;
 
-	while (cmd)
+	shell->cmd = shell->start;
+	while (shell->cmd)
 	{
 		i = 0;
-		while (cmd->cmd[i])
+		if (shell->cmd->cmd)
 		{
-			free(cmd->cmd[i]);
-			cmd->cmd[i] = NULL;
-			i++;
+			while (shell->cmd->cmd[i])
+			{
+				free(shell->cmd->cmd[i]);
+				shell->cmd->cmd[i] = NULL;
+				i++;
+			}
+			free(shell->cmd->cmd);
+			shell->cmd->cmd = NULL;
 		}
-		if (cmd->path)
-			free(cmd->path);
-		free_redirs(cmd->redirs);
-		free(cmd->cmd);
-		temp = cmd->next;
-		free(cmd);
-		cmd = temp;
+		if (shell->cmd->path)
+			free(shell->cmd->path);
+		free_redirs(shell->cmd->redirs);
+		close_safe(&shell->cmd->fd[0]);
+		close_safe(&shell->cmd->fd[1]);
+		// printf("cmd->std.in: %d\n", shell->cmd->std.in);
+		// printf("cmd->std.out: %d\n", shell->cmd->std.out);
+		// printf("cmd->fd[0]: %d\n", shell->cmd->fd[0]);
+		// printf("cmd->fd[1]: %d\n", shell->cmd->fd[1]);
+		// printf("cmd->h_doc[0]: %d\n", shell->cmd->h_doc[0]);
+		// printf("cmd->h_doc[1]: %d\n", shell->cmd->h_doc[1]);
+		close_safe(&shell->cmd->std.in);
+		close_safe(&shell->cmd->std.out);
+		close_safe(&shell->cmd->h_doc[0]);
+		close_safe(&shell->cmd->h_doc[1]);
+		temp = shell->cmd->next;
+		if (shell->cmd)
+			free(shell->cmd);
+		shell->cmd = temp;
 	}
 }
 
 /*Free commands, envs and shell variables*/
 void	free_all(t_shell *shell)
 {
-	free_cmd(shell->cmd);
+	free_cmd(shell);
 	free_envs(shell);
-	free(shell);
+}
+
+/*Replace old value with new*/
+char	*replace_string(char *old, char *new)
+{
+	if (old)
+		free(old);
+	old = ft_strdup(new);
+	free(new);
+	return (old);
 }
