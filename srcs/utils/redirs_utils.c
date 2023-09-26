@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirs_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 12:38:53 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/25 16:46:12 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:57:10 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int	set_redirs(char **tokens, int *i, t_cmd *command)
 	if (check >= great && check <= h_doc)
 	{
 		redirs = ft_calloc(sizeof(t_redirs), 1);
+		if (!redirs)
+			return (-1);
 		redirs->indentifier = check;
 		redirs = assign_redirs(redirs, tokens[++(*i)]);
 		tmp = command->redirs;

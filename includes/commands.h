@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:35:52 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/26 13:29:31 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:50:02 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 typedef struct s_var_ext
 {
 	char	*token;
-	char	*new_token;
+	char	*n_tkn;
 	int		i;
 	int		j;
 	bool	quote;

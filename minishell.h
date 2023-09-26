@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/26 13:02:32 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:38:27 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ extern bool			g_using_sub_process;
 bool				var_char_valid(char c);
 bool				to_expand(char *limiter);
 bool				is_builtin(t_cmd *cmd);
-t_list				**new_env_list(char **env);
 t_cmd				*create_cmd_list(char **tokens);
 t_cmd				*command_parser(char *cmd_line, t_shell *shell);
 t_cmd				*set_quotes(t_cmd *cmd);
@@ -44,7 +43,6 @@ int					close_safe(int *fd);
 int					set_redirs(char **tokens, int *i, t_cmd *command);
 int					exec_pipes(t_shell *shell);
 int					get_exit_code(t_shell *shell);
-void				clear_env_list(t_list **env_list);
 void				register_signals(void);
 void				free_cmd(t_shell *shell);
 void				clear_paths(char **paths);

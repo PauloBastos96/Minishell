@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:38:12 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/18 14:57:02 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:39:51 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ char	*add_quotes(char *str)
 	i = 0;
 	j = 0;
 	new = ft_calloc(sizeof(char), ft_strlen(str) + 3);
+	if (!new)
+		return (NULL);
 	while (str[i])
 	{
 		if (str[i] == '=')
@@ -70,8 +72,7 @@ char	*add_quotes(char *str)
 		}
 		new[j++] = str[i++];
 	}
-	free(str);
-	return (new);
+	return (free(str), new);
 }
 
 /*Check if export expression is valid*/

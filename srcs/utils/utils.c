@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:59:38 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/25 12:30:39 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:57:21 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ char	**alloc_cmd(char *command)
 		i++;
 	}
 	cmd = ft_calloc(sizeof(cmd), size + 1);
+	if (!cmd)
+		return (NULL);
 	return (cmd);
 }
 

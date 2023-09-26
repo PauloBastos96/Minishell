@@ -6,12 +6,12 @@
 #    By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/17 11:33:18 by paulorod          #+#    #+#              #
-#    Updated: 2023/07/28 15:40:05 by paulorod         ###   ########.fr        #
+#    Updated: 2023/09/26 13:57:58 by paulorod         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror
 BONUS = ft_lstadd_back_bonus.c \
 	ft_lstadd_front_bonus.c \

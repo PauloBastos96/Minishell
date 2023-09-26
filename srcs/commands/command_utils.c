@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:32:32 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/26 13:30:51 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:55:29 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,30 +61,29 @@ bool	has_unclosed_quotes(char *str)
 /*Replace environment variables with their value*/
 char	*extend_env_vars(char *token, t_shell *shell, bool ignore_quotes)
 {
-	t_var_ext	var_ext;
-	char		*tmp;
+	t_var_ext	ext;
 
 	if (!token)
 		return (NULL);
-	var_ext.token = ft_strdup(token);
+	ext.token = ft_strdup(token);
 	free(token);
-	if (has_unclosed_quotes(var_ext.token))
-		return (unclosed_quotes_error(&var_ext));
-	if (ft_strchr(var_ext.token, '$'))
+	if (has_unclosed_quotes(ext.token))
+		return (unclosed_quotes_error(&ext));
+	if (ft_strchr(ext.token, '$'))
 	{
-		var_ext.new_token = ft_calloc(sizeof(char),
-				ft_strlen(var_ext.token) + 1);
-		var_ext.new_token = process_vars(&var_ext, &ignore_quotes, shell);
-		free(var_ext.token);
-		if (has_unclosed_quotes(var_ext.new_token))
-			tmp = remove_quotes(var_ext.new_token);
+		ext.n_tkn = ft_calloc(sizeof(char),
+				ft_strlen(ext.token) + 1);
+		if (!ext.n_tkn)
+			return (ext.token);
+		ext.n_tkn = process_vars(&ext, &ignore_quotes, shell);
+		free(ext.token);
+		if (has_unclosed_quotes(ext.n_tkn))
+			ext.n_tkn = replace_string(ext.n_tkn, remove_quotes(ext.n_tkn));
 		else
-			tmp = ft_strdup(var_ext.new_token);
-		free(var_ext.new_token);
-		var_ext.new_token = tmp;
-		return (var_ext.new_token);
+			ext.n_tkn = replace_string(ext.n_tkn, ft_strdup(ext.n_tkn));
+		return (ext.n_tkn);
 	}
-	return (var_ext.token);
+	return (ext.token);
 }
 
 /*Replace environment variables with their value*/
@@ -100,11 +99,13 @@ char	*pre_extend_env_vars(char *token, t_shell *shell, bool ignore_quotes)
 		return (unclosed_quotes_error(&var_ext));
 	if (ft_strchr(var_ext.token, '$'))
 	{
-		var_ext.new_token = ft_calloc(sizeof(char),
+		var_ext.n_tkn = ft_calloc(sizeof(char),
 				ft_strlen(var_ext.token) + 1);
-		var_ext.new_token = process_vars(&var_ext, &ignore_quotes, shell);
+		if (!var_ext.n_tkn)
+			return (var_ext.token);
+		var_ext.n_tkn = process_vars(&var_ext, &ignore_quotes, shell);
 		free(var_ext.token);
-		return (var_ext.new_token);
+		return (var_ext.n_tkn);
 	}
 	return (var_ext.token);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:16:56 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/25 17:48:28 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:56:14 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ t_cmd	*create_token_cmd(char *token)
 
 	(void)token;
 	command = ft_calloc(sizeof(t_cmd), 1);
+	if (!command)
+		return (NULL);
 	command->indentifier = unknown;
 	return (command);
 }
@@ -101,12 +103,16 @@ t_cmd	*create_cmd_list(char **tokens)
 
 	j = 0;
 	command = ft_calloc(sizeof(t_cmd), 1);
+	if (!command)
+		return (NULL);
 	command->std = (t_std){-1, -1};
 	command->h_doc[0] = -1;
 	command->h_doc[1] = -1;
 	command->fd[0] = -1;
 	command->fd[1] = -1;
 	command->cmd = ft_calloc(sizeof(char *), get_cmd_size(tokens));
+	if (!command->cmd)
+		return (NULL);
 	if (create_cmds(tokens, &command, &j))
 		return (NULL);
 	command->cmd[j] = NULL;

@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:47:42 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/26 13:30:48 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:55:48 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ t_cmd	*set_next_cmd(t_cmd **command, int *j, int i, char **tokens)
 		*j = 0;
 		(*command)->cmd = ft_calloc(sizeof(char *),
 				get_cmd_size(&tokens[i + 1]));
+		if (!(*command)->cmd)
+			return (NULL);
 	}
 	return (*command);
 }
