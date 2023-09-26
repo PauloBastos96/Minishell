@@ -3,16 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   command_parser.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:18:12 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/25 17:48:37 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:02:59 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
 #include "../../includes/commands.h"
 #include "../../minishell.h"
+
+/*Set new command char*/
+char	set_new_command(char *command, int *j, int i)
+{
+	char	c;
+
+	c = command[i];
+	(*j)++;
+	return (c);
+}
 
 /*Copy old string and add separator between special characters*/
 char	*add_separators(char *command, int start, int end)
@@ -25,22 +35,13 @@ char	*add_separators(char *command, int start, int end)
 		return (command);
 	j = 0;
 	while (command[j] && j < start)
-	{
-		new_command[j] = command[j];
-		j++;
-	}
+		new_command[j] = set_new_command(command, &j, j);
 	new_command[j++] = '\1';
 	while (j <= end + 1)
-	{
-		new_command[j] = command[j - 1];
-		j++;
-	}
+		new_command[j] = set_new_command(command, &j, j - 1);
 	new_command[j++] = '\1';
 	while (command[j - 2])
-	{
-		new_command[j] = command[j - 2];
-		j++;
-	}
+		new_command[j] = set_new_command(command, &j, j - 2);
 	new_command[j] = '\0';
 	free(command);
 	return (new_command);

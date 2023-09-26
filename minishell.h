@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/25 16:56:58 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:02:32 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,5 @@ char				*remove_quotes(char *token);
 char				*str_replace(char *string, char *substr, char *replacement);
 char				*replace_string(char *old, char *new);
 void				hdoc_sighandler(int sig);
-t_shell*			shell();
+t_shell				*shell(void);
 #endif

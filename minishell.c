@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:24 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/25 17:15:37 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:01:29 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_cmd	*command_parser(char *cmd_line, t_shell *shell)
 	return (cmd_struct);
 }
 
-t_shell*	shell()
+t_shell	*shell(void)
 {
 	static t_shell	shell;
 

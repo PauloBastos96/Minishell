@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaner.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:04:18 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/25 17:24:01 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:06:00 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,6 @@ void	free_cmd(t_shell *shell)
 		free_redirs(shell->cmd->redirs);
 		close_safe(&shell->cmd->fd[0]);
 		close_safe(&shell->cmd->fd[1]);
-		// printf("cmd->std.in: %d\n", shell->cmd->std.in);
-		// printf("cmd->std.out: %d\n", shell->cmd->std.out);
-		// printf("cmd->fd[0]: %d\n", shell->cmd->fd[0]);
-		// printf("cmd->fd[1]: %d\n", shell->cmd->fd[1]);
-		// printf("cmd->h_doc[0]: %d\n", shell->cmd->h_doc[0]);
-		// printf("cmd->h_doc[1]: %d\n", shell->cmd->h_doc[1]);
 		close_safe(&shell->cmd->std.in);
 		close_safe(&shell->cmd->std.out);
 		close_safe(&shell->cmd->h_doc[0]);
