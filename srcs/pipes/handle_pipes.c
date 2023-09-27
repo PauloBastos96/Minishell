@@ -6,7 +6,7 @@
 /*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 09:56:07 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/25 16:37:56 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/27 11:55:13 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	pipe_process(t_shell *shell)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	bind_std(shell);
+	signal(SIGINT, SIG_DFL);
 	cmd->dup_fd[0] = dup2(cmd->std.in, STDIN_FILENO);
 	cmd->dup_fd[1] = dup2(cmd->std.out, STDOUT_FILENO);
 	if (cmd->dup_fd[0] == -1 || cmd->dup_fd[1] == -1)

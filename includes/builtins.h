@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:58:53 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/18 14:50:55 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/27 13:16:45 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <readline/history.h>
 
 bool	is_exit_code_valid(char	*str);
-bool	is_expression_valid(char **cmd);
+bool	is_expression_valid(char *cmd, bool silent);
 bool	is_duplicate(char **env, char *new);
 char	*get_home_path(char *path);
 char	**sort_envs(char **envs);

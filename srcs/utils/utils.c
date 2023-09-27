@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:59:38 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/25 12:30:39 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/27 11:59:00 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ char	**alloc_cmd(char *command)
 		i++;
 	}
 	cmd = ft_calloc(sizeof(cmd), size + 1);
+	if (!cmd)
+		return (NULL);
 	return (cmd);
 }
 
@@ -77,7 +79,8 @@ char	*ft_getenv(const char *name, char ***_env)
 	env = *_env;
 	while (env[i])
 	{
-		if (ft_strncmp(env[i], name, ft_strlen(name)) == 0)
+		if (ft_strncmp(env[i], name, 
+				ft_strlen(env[i]) - ft_strlen(ft_strchr(env[i], '='))) == 0)
 		{
 			value = ft_strchr(env[i], '=');
 			if (value)

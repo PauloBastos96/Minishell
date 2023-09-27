@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:47:42 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/25 17:23:42 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:55:48 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ t_cmd	*set_next_cmd(t_cmd **command, int *j, int i, char **tokens)
 		*j = 0;
 		(*command)->cmd = ft_calloc(sizeof(char *),
 				get_cmd_size(&tokens[i + 1]));
+		if (!(*command)->cmd)
+			return (NULL);
 	}
 	return (*command);
 }
@@ -44,4 +46,43 @@ void	*unclosed_quotes_error(t_var_ext *var_ext)
 	print_fd("unclosed quotes", 2, "parsing error");
 	free(var_ext->token);
 	return (NULL);
+}
+
+/*Replace old value with new*/
+char	*replace_string(char *old, char *new)
+{
+	if (old)
+		free(old);
+	old = ft_strdup(new);
+	free(new);
+	return (old);
+}
+
+/*Set new command char*/
+char	set_new_command(char *command, int *j, int i)
+{
+	char	c;
+
+	c = command[i];
+	(*j)++;
+	return (c);
+}
+
+/*Join multiple strings and free old ones*/
+char	*join_values(char *v1, char *v2)
+{
+	char	*value;
+
+	if (!v1 || !v2)
+	{
+		if (v1)
+			free(v1);
+		if (v2)
+			free(v2);
+		return (NULL);
+	}
+	value = ft_strjoin(v1, v2);
+	free(v1);
+	free(v2);
+	return (value);
 }
