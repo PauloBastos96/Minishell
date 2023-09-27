@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:10:51 by ffilipe-          #+#    #+#             */
-/*   Updated: 2023/09/26 16:24:30 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/27 11:52:58 by ffilipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,10 @@ void	heredoc_loop(t_shell *shell, t_cmd *cmd)
 		if (ft_strrchr(cmd->definer, '\n'))
 			cmd->definer[ft_strlen(cmd->definer) - 1] = '\0';
 		if (ft_strcmp(cmd->definer, cmd->redirs->redirection) == 0)
+		{
+			free(cmd->definer);
 			break ;
+		}
 		if (cmd->redirs->to_expand == true)
 			cmd->definer = set_expansion(shell, cmd->definer);
 		write(cmd->h_doc[1], cmd->definer, ft_strlen(cmd->definer));
