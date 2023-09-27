@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:18:12 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/26 13:29:58 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/27 15:48:01 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,24 @@ char	*add_separators(char *command, int start, int end)
 	int		j;
 	char	*new_command;
 
-	new_command = ft_calloc(sizeof(char), ft_strlen(command) + 3);
+	new_command = malloc(sizeof(char) * (ft_strlen(command) + 3));
 	if (!new_command)
 		return (command);
-	j = 0;
-	while (command[j] && j < start)
-		new_command[j] = set_new_command(command, &j, j);
+	j = -1;
+	while (command[++j] && j < start)
+		new_command[j] = set_new_command(command, j);
 	new_command[j++] = '\1';
 	while (j <= end + 1)
-		new_command[j] = set_new_command(command, &j, j - 1);
+	{
+		new_command[j] = set_new_command(command, j - 1);
+		j++;
+	}
 	new_command[j++] = '\1';
 	while (command[j - 2])
-		new_command[j] = set_new_command(command, &j, j - 2);
+	{
+		new_command[j] = set_new_command(command, j - 2);
+		j++;
+	}
 	new_command[j] = '\0';
 	free(command);
 	return (new_command);

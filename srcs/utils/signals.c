@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 15:15:57 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/27 11:54:18 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/27 15:04:32 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 /*Handle SIGINT and SIGQUIT*/
 static void	signal_handler(int signum)
 {
-	printf("\n");
 	if (signum == SIGINT && !g_using_sub_process)
 	{
+		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();

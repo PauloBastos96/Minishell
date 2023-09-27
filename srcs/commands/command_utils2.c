@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:47:42 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/26 13:55:48 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/27 15:45:15 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,11 @@ char	*replace_string(char *old, char *new)
 }
 
 /*Set new command char*/
-char	set_new_command(char *command, int *j, int i)
+char	set_new_command(char *command, int i)
 {
 	char	c;
 
 	c = command[i];
-	(*j)++;
 	return (c);
 }
 

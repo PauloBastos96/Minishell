@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffilipe- <ffilipe-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:59:38 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/27 11:59:00 by ffilipe-         ###   ########.fr       */
+/*   Updated: 2023/09/27 14:47:28 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,20 +74,22 @@ char	*ft_getenv(const char *name, char ***_env)
 	int		i;
 	char	*value;
 	char	**env;
+	char	**split;
 
 	i = 0;
 	env = *_env;
 	while (env[i])
 	{
-		if (ft_strncmp(env[i], name, 
-				ft_strlen(env[i]) - ft_strlen(ft_strchr(env[i], '='))) == 0)
+		split = ft_split(env[i], '=');
+		if (ft_strcmp(split[0], name) == 0)
 		{
 			value = ft_strchr(env[i], '=');
 			if (value)
-				return (value + 1);
+				return (free_split(split), value + 1);
 			else
-				return (NULL);
+				return (free_split(split), NULL);
 		}
+		free_split(split);
 		i++;
 	}
 	return (NULL);

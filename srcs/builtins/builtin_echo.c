@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 13:05:12 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/22 12:55:33 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/27 16:01:15 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ int	ft_echo(t_shell *shell)
 
 	cmd = shell->cmd;
 	if (!cmd->cmd[1])
+	{
+		write(1, "\n", 1);
 		return (0);
+	}
 	i = 0;
 	if (is_n_arg_valid(cmd->cmd[1]))
 		i = 1;

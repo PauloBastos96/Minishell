@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 13:53:26 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/18 16:01:49 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/27 14:47:25 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,15 @@ char	*get_env_var(char *token, t_shell *shell, int *i, int *j)
 		var_value = ft_strdup("");
 	}
 	return (var_value);
+}
+
+/*Free split array*/
+void	free_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+		free(split[i++]);
+	free(split);
 }

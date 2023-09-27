@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:31:38 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/26 13:38:27 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/27 14:47:54 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int					close_safe(int *fd);
 int					set_redirs(char **tokens, int *i, t_cmd *command);
 int					exec_pipes(t_shell *shell);
 int					get_exit_code(t_shell *shell);
+void				free_split(char **split);
 void				register_signals(void);
 void				free_cmd(t_shell *shell);
 void				clear_paths(char **paths);

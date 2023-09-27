@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:35:52 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/26 13:50:02 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/27 15:45:51 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,6 @@ int		get_cmd_size(char **tokens);
 t_cmd	*set_next_cmd(t_cmd **command, int *j, int i, char **tokens);
 t_cmd	*create_token_cmd(char *token);
 void	*unclosed_quotes_error(t_var_ext *var_ext);
-char	set_new_command(char *command, int *j, int i);
+char	set_new_command(char *command, int i);
 
 #endif

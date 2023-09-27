@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:31:05 by paulorod          #+#    #+#             */
-/*   Updated: 2023/09/26 13:40:24 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/27 15:18:29 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ char	*remove_quotes(char *token)
 
 	in_quote = false;
 	in_dquote = false;
+	if (!token)
+		return (NULL);
 	new = ft_calloc(sizeof(char),
 			ft_strlen(token) - get_quote_count(token) + 1);
 	if (!new)
