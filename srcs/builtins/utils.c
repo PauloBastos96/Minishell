@@ -6,7 +6,7 @@
 /*   By: paulorod <paulorod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:38:12 by vpacheco          #+#    #+#             */
-/*   Updated: 2023/09/26 13:39:51 by paulorod         ###   ########.fr       */
+/*   Updated: 2023/09/27 13:16:31 by paulorod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,20 +76,17 @@ char	*add_quotes(char *str)
 }
 
 /*Check if export expression is valid*/
-bool	is_expression_valid(char **cmd)
+bool	is_expression_valid(char *cmd, bool silent)
 {
-	int		i;
-
-	i = 0;
-	while (cmd[i])
+	if (!ft_isalpha(*cmd))
 	{
-		if ((ft_strchr(cmd[i], '=') && ft_strlen(cmd[i]) == 1)
-			|| *cmd[i] == '=')
+		if (!silent)
 		{
-			print_fd("bad assignment", 2, "minishell");
-			return (false);
+			write(2, "minishell: export: `", 20);
+			write(2, cmd, ft_strlen(cmd));
+			write(2, "': not a valid identifier\n", 26);
 		}
-		i++;
+		return (false);
 	}
 	return (true);
 }
